@@ -1,0 +1,10 @@
+# Ignorar archivos temporales y bloqueados de Quartus
+db/
+*.rdr.flock
+*.jdi
+*.qpf~
+*.qsf~
+*.sof
+*.pof
+*.syr
+*.pdb
