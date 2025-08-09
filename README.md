@@ -1,1 +1,1 @@
-# FGonzalez_-JZheng_digital_design_lab_2025.
+# Laboratorio 1. Taller de diseño digital
