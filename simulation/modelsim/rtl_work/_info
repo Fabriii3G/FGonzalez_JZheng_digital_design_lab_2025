@@ -1,0 +1,65 @@
+m255
+K4
+z2
+!s11f vlog 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/snipe/Desktop/prueba/simulation/modelsim
+vContador
+Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
+Z2 !s110 1754779589
+!i10b 1
+!s100 lUE41Q;GWL0aAaEj=1MiY2
+Z3 !s11b Dg1SIo80bB@j0V0VzS_@n1
+IEa9Z=;RRTNaXg17<^QL::0
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+S1
+R0
+w1754779386
+8C:/Users/snipe/Desktop/prueba/Contador.sv
+FC:/Users/snipe/Desktop/prueba/Contador.sv
+!i122 0
+L0 1 16
+Z5 OV;L;2020.1;71
+r1
+!s85 0
+31
+Z6 !s108 1754779589.000000
+!s107 C:/Users/snipe/Desktop/prueba/Contador.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/snipe/Desktop/prueba|C:/Users/snipe/Desktop/prueba/Contador.sv|
+!i113 1
+Z7 o-sv -work work
+Z8 !s92 -sv -work work +incdir+C:/Users/snipe/Desktop/prueba
+Z9 tCvgOpt 0
+n@contador
+vTestbench
+R1
+R2
+!i10b 1
+!s100 h3^SB;4R4`IU0X2<45i6c2
+R3
+IfCOkLo8Pa=1c`j9@Q5lh71
+R4
+S1
+R0
+w1754779408
+8C:/Users/snipe/Desktop/prueba/Testbench.sv
+FC:/Users/snipe/Desktop/prueba/Testbench.sv
+!i122 1
+L0 1 47
+R5
+r1
+!s85 0
+31
+R6
+!s107 C:/Users/snipe/Desktop/prueba/Testbench.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/snipe/Desktop/prueba|C:/Users/snipe/Desktop/prueba/Testbench.sv|
+!i113 1
+R7
+R8
+R9
+n@testbench

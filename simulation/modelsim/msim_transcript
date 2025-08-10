@@ -1,0 +1,60 @@
+# Reading pref.tcl
+# do myFirstModule_run_msim_rtl_verilog.do
+# if {[file exists rtl_work]} {
+# 	vdel -lib rtl_work -all
+# }
+# vlib rtl_work
+# vmap work rtl_work
+# Model Technology ModelSim - Intel FPGA Edition vmap 2020.1 Lib Mapping Utility 2020.02 Feb 28 2020
+# vmap work rtl_work 
+# Copying C:/intelFPGA/20.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Modifying modelsim.ini
+# 
+# vlog -sv -work work +incdir+C:/Users/snipe/Desktop/prueba {C:/Users/snipe/Desktop/prueba/Contador.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 16:46:29 on Aug 09,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/snipe/Desktop/prueba" C:/Users/snipe/Desktop/prueba/Contador.sv 
+# -- Compiling module Contador
+# 
+# Top level modules:
+# 	Contador
+# End time: 16:46:29 on Aug 09,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vlog -sv -work work +incdir+C:/Users/snipe/Desktop/prueba {C:/Users/snipe/Desktop/prueba/Testbench.sv}
+# Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 16:46:29 on Aug 09,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/snipe/Desktop/prueba" C:/Users/snipe/Desktop/prueba/Testbench.sv 
+# -- Compiling module Testbench
+# 
+# Top level modules:
+# 	Testbench
+# End time: 16:46:29 on Aug 09,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# 
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs="+acc"  Testbench
+# vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs=""+acc"" Testbench 
+# Start time: 16:46:29 on Aug 09,2025
+# Loading sv_std.std
+# Loading work.Testbench
+# Loading work.Contador
+# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (6) for port 'out'. The port definition is at: C:/Users/snipe/Desktop/prueba/Contador.sv(5).
+#    Time: 0 ps  Iteration: 0  Instance: /Testbench/contador_2 File: C:/Users/snipe/Desktop/prueba/Testbench.sv Line: 10
+# ** Warning: (vsim-3015) [PCDPC] - Port size (4) does not match connection size (6) for port 'out'. The port definition is at: C:/Users/snipe/Desktop/prueba/Contador.sv(5).
+#    Time: 0 ps  Iteration: 0  Instance: /Testbench/contador_4 File: C:/Users/snipe/Desktop/prueba/Testbench.sv Line: 11
+# 
+# add wave *
+# view structure
+# .main_pane.structure.interior.cs.body.struct
+# view signals
+# .main_pane.objects.interior.cs.body.tree
+# run -all
+# Contador 2 bits: zzzz01
+# Contador 4 bits: zz0101
+# Contador 6 bits: 000101
+# ** Note: $finish    : C:/Users/snipe/Desktop/prueba/Testbench.sv(45)
+#    Time: 210 ps  Iteration: 0  Instance: /Testbench
+# 1
+# Break in Module Testbench at C:/Users/snipe/Desktop/prueba/Testbench.sv line 45
+# End time: 16:49:24 on Aug 09,2025, Elapsed time: 0:02:55
+# Errors: 0, Warnings: 2
