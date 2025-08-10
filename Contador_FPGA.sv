@@ -2,8 +2,8 @@ module Contador_FPGA (
     input wire clk,
     input wire reset_sw,
     input wire increment_btn,  // BTN0 - Incremento normal
-    input wire izquierda_btn,  // BTN1 - Ajuste display izquierdo (decenas)
-    input wire derecha_btn,    // BTN2 - Ajuste display derecho (unidades)
+    input wire izquierda_btn,  // BTN1 - Ajuste decenas (0-6)
+    input wire derecha_btn,    // BTN2 - Ajuste unidades (0-9)
     input wire preset_en_btn,  // BTN3 - Modo configuración
     output wire [6:0] seg1, seg2,
     output wire [3:0] anodes,
@@ -19,18 +19,15 @@ module Contador_FPGA (
     // Señales internas
     reg estado = MODO_CONTEO;
     reg [5:0] contador = 0;
-    reg [5:0] preset_temp = 0;
+    reg [3:0] preset_unidades = 0;  // Almacena unidades (0-9) independientemente
+    reg [2:0] preset_decenas = 0;   // Almacena decenas (0-6) independientemente
     
     wire increment_pulse;
     wire izquierda_pulse;
     wire derecha_pulse;
     wire config_pulse;
     
-    // Variables temporales para cálculo de decenas/unidades
-    reg [2:0] decenas;
-    reg [3:0] unidades;
-    
-    // Debouncing
+    // Debouncers para los botones
     debouncer debounce_inc (
         .clk(clk),
         .btn_in(increment_btn),
@@ -80,71 +77,61 @@ module Contador_FPGA (
         .rising_edge(config_pulse)
     );
     
-    // Lógica principal con control de decenas (0-6) sin acarreo
+    // Lógica principal del contador - Versión Simplificada
     always @(posedge clk or posedge reset_sw) begin
         if (reset_sw) begin
             contador <= 6'd0;
-            preset_temp <= 6'd0;
+            preset_unidades <= 4'd0;
+            preset_decenas <= 3'd0;
             estado <= MODO_CONTEO;
         end else begin
-            // Calcular decenas y unidades
-            decenas = preset_temp / 10;
-            unidades = preset_temp % 10;
-            
             case (estado)
                 MODO_CONTEO: begin
                     if (config_pulse) begin
+                        // Entrar en modo configuración
                         estado <= MODO_CONFIG;
-                        preset_temp <= contador;
+                        // Cargar el valor actual (separar decenas y unidades)
+                        preset_unidades <= contador % 10;
+                        preset_decenas <= contador / 10;
                     end else if (increment_pulse) begin
+                        // Incremento normal
                         contador <= (contador == 6'd63) ? 6'd0 : contador + 1;
                     end
                 end
                 
                 MODO_CONFIG: begin
                     if (config_pulse) begin
+                        // Salir del modo configuración
                         estado <= MODO_CONTEO;
-                        contador <= preset_temp;
+                        // Combinar decenas y unidades (sin verificación de acarreo)
+                        contador <= (preset_decenas * 10) + preset_unidades;
                     end else if (izquierda_pulse) begin
-                        // Control de DECENAS (0-6) sin afectar unidades
-                        if (decenas == 3'd6)
-                            preset_temp <= unidades; // Solo unidades
-                        else
-                            preset_temp <= (preset_temp + 10) % 64; // Incrementa decenas
+                        // Solo modifica decenas (0-6)
+                        preset_decenas <= (preset_decenas == 3'd6) ? 3'd0 : preset_decenas + 1;
                     end else if (derecha_pulse) begin
-                        // Control de UNIDADES (0-9) sin afectar decenas
-                        if (unidades == 4'd9)
-                            preset_temp <= preset_temp - 9; // Mantiene decenas
-                        else
-                            preset_temp <= preset_temp + 1; // Incrementa unidades
+                        // Solo modifica unidades (0-9)
+                        preset_unidades <= (preset_unidades == 4'd9) ? 4'd0 : preset_unidades + 1;
                     end
                 end
             endcase
         end
     end
     
-    // Conversión a BCD con control de rango
-    wire [3:0] bcd_unidades, bcd_decenas;
-    wire [5:0] display_value = (estado == MODO_CONFIG) ? 
-                              ((preset_temp > 6'd63) ? 6'd0 : preset_temp) : 
-                              contador;
+    // Mostrar valores directamente de los registros independientes en modo configuración
+    wire [3:0] display_unidades = (estado == MODO_CONFIG) ? preset_unidades : contador % 10;
+    wire [3:0] display_decenas = (estado == MODO_CONFIG) ? preset_decenas : contador / 10;
     
-    binary_to_bcd bcd_conv (
-        .binary(display_value),
-        .bcd0(bcd_unidades),
-        .bcd1(bcd_decenas)
-    );
-    
-    // Control de displays con orden corregido
+    // Control de displays (implementación directa)
     display_controller display (
         .clk(clk),
-        .digit1(bcd_unidades),   // Display der (unidades)
-        .digit2(bcd_decenas),     // Display izq (decenas)
+        .digit1(display_unidades),   // Display derecho (unidades)
+        .digit2(display_decenas),    // Display izquierdo (decenas)
         .seg1(seg1),
         .seg2(seg2),
         .anodes(anodes)
     );
     
+    // LED indicador de modo configuración
     assign config_led = (estado == MODO_CONFIG);
 
-endmodule 
+endmodule

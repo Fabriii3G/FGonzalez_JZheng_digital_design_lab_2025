@@ -3,11 +3,11 @@ module edge_detector (
     input wire signal_in,
     output wire rising_edge
 );
-    reg [1:0] sync_reg;
+    reg [1:0] sync;
     
     always @(posedge clk) begin
-        sync_reg <= {sync_reg[0], signal_in};
+        sync <= {sync[0], signal_in};
     end
     
-    assign rising_edge = (sync_reg == 2'b01);
-endmodule
+    assign rising_edge = (sync == 2'b01);
+endmodule 
