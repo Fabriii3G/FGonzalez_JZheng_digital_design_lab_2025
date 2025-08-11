@@ -11,12 +11,12 @@ cModel Technology
 Z0 dC:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/simulation/modelsim
 vcontador_parametrizable
 Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
-!s110 1754871826
+Z2 !s110 1754872634
 !i10b 1
 !s100 E3fGS`GP[8VA^FLei]3T;2
-Z2 !s11b Dg1SIo80bB@j0V0VzS_@n1
+Z3 !s11b Dg1SIo80bB@j0V0VzS_@n1
 IJgz66hS9S5=Mlgok^T;ek1
-Z3 VDg1SIo80bB@j0V0VzS_@n1
+Z4 VDg1SIo80bB@j0V0VzS_@n1
 S1
 R0
 w1754871630
@@ -24,25 +24,25 @@ w1754871630
 FC:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/contador_parametrizable.sv
 !i122 0
 L0 1 18
-Z4 OV;L;2020.1;71
+Z5 OV;L;2020.1;71
 r1
 !s85 0
 31
-Z5 !s108 1754871826.000000
+Z6 !s108 1754872634.000000
 !s107 C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/contador_parametrizable.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025|C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/contador_parametrizable.sv|
 !i113 1
-Z6 o-sv -work work
-Z7 !s92 -sv -work work +incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025
-Z8 tCvgOpt 0
+Z7 o-sv -work work
+Z8 !s92 -sv -work work +incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025
+Z9 tCvgOpt 0
 vtestbench_contador_parametrizable
 R1
-!s110 1754871827
+R2
 !i10b 1
 !s100 L?WC6IE<:KA`Y]h4Tmm9i0
-R2
-IdaM;HKT?Iiml[f<cQkd_A2
 R3
+IdaM;HKT?Iiml[f<cQkd_A2
+R4
 S1
 R0
 w1754871647
@@ -50,14 +50,14 @@ w1754871647
 FC:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/testbench_contador_parametrizable.sv
 !i122 1
 L0 1 93
-R4
+R5
 r1
 !s85 0
 31
-R5
+R6
 !s107 C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/testbench_contador_parametrizable.sv|
 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025|C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/testbench_contador_parametrizable.sv|
 !i113 1
-R6
 R7
 R8
+R9

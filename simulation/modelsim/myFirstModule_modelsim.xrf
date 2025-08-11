@@ -1,11 +1,10 @@
 vendor_name = ModelSim
-source_file = 1, C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Contador.sv
+source_file = 1, Contador.sv
 source_file = 1, C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Contador_FPGA.sv
 source_file = 1, C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/debouncer.sv
 source_file = 1, C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/edge_detector.sv
 source_file = 1, C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/binary_to_bcd.sv
 source_file = 1, C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/display_controller.sv
-source_file = 1, C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/tb_Contador_FPGA.sv
 source_file = 1, C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/contador_parametrizable.sv
 source_file = 1, C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/testbench_contador_parametrizable.sv
 source_file = 1, c:/intelfpga_lite/20.1/quartus/libraries/megafunctions/lpm_divide.tdf
