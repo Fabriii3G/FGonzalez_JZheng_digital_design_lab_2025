@@ -134,4 +134,4 @@ module Contador_FPGA (
     // LED indicador de modo configuración
     assign config_led = (estado == MODO_CONFIG);
 
-endmodule
+endmodule 

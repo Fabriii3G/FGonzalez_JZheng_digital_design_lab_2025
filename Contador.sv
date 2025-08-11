@@ -1,16 +1,16 @@
 module Contador #(parameter N = 4) (
-    input wire clk,        // Reloj
-    input wire reset,      // Reset asíncrono
-    input wire enable,     // Habilitar el contador
-    output reg [N-1:0] out // Salida del contador
+    input wire clk,          // Reloj
+    input wire reset,        // Reset asincrónico
+    input wire increment,    // Señal de incremento
+    output reg [N-1:0] count // Salida: contador de N bits
 );
 
-    // Reset asíncrono
     always @(posedge clk or posedge reset) begin
-        if (reset)
-            out <= 0;
-        else if (enable)
-            out <= out + 1;
+        if (reset) begin
+            count <= 0; // Reset asincrónico
+        end else if (increment) begin
+            count <= count + 1; // Incrementar el contador
+        end
     end
 
 endmodule
