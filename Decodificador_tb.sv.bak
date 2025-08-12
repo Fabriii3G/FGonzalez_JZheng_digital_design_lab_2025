@@ -1,0 +1,47 @@
+module Decodificador_tb;
+
+// Señales de entrada y salida
+reg [3:0] binario;          // Entrada binaria de 4 bits
+wire [6:0] display1;        // Primer display de 7 segmentos
+wire [6:0] display2;        // Segundo display de 7 segmentos
+
+// Instanciar el módulo Decodificador
+Decodificador uut (
+    .binario(binario), 
+    .display1(display1), 
+    .display2(display2)
+);
+
+// Bloque inicial para aplicar estímulos
+initial begin
+    // Inicializar la señal de entrada
+    binario = 4'b0000;  // Empezar con 0 (decimal)
+    #10;                // Esperar 10 unidades de tiempo
+
+    // Probar los valores del 1 al 15 (todos los valores posibles de 4 bits)
+    binario = 4'b0001;  #10;
+    binario = 4'b0010;  #10;
+    binario = 4'b0011;  #10;
+    binario = 4'b0100;  #10;
+    binario = 4'b0101;  #10;
+    binario = 4'b0110;  #10;
+    binario = 4'b0111;  #10;
+    binario = 4'b1000;  #10;
+    binario = 4'b1001;  #10;
+    binario = 4'b1010;  #10;
+    binario = 4'b1011;  #10;
+    binario = 4'b1100;  #10;
+    binario = 4'b1101;  #10;
+    binario = 4'b1110;  #10;
+    binario = 4'b1111;  #10;
+
+    // Terminar simulación
+    $stop;
+end
+
+// Monitorear los valores de los displays
+initial begin
+    $monitor("Binario = %b, Display1 = %b, Display2 = %b", binario, display1, display2);
+end
+
+endmodule
