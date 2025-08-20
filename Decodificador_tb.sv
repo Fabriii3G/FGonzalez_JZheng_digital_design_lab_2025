@@ -11,7 +11,7 @@ module Decodificador_tb;
         // Inicializar entradas
         binario = 0;
         
-        // Monitorear cambios
+        // Ver los cambios
         $monitor("Binario = %b, Gray = %b", binario, gray_code);
         
         // Probar todos los valores posibles

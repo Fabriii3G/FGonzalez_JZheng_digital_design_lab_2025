@@ -1,5 +1,5 @@
 Flow report for Problema1
-Mon Aug 11 18:09:05 2025
+Wed Aug 20 10:59:40 2025
 Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 
 
@@ -41,7 +41,7 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------------------------------------+
 ; Flow Summary                                                              ;
 +-----------------------------+---------------------------------------------+
-; Flow Status                 ; Successful - Mon Aug 11 18:09:05 2025       ;
+; Flow Status                 ; Successful - Wed Aug 20 10:59:40 2025       ;
 ; Quartus Prime Version       ; 20.1.0 Build 711 06/05/2020 SJ Lite Edition ;
 ; Revision Name               ; Problema1                                   ;
 ; Top-level Entity Name       ; Decodificador                               ;
@@ -63,7 +63,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 08/11/2025 18:09:00 ;
+; Start date & time ; 08/20/2025 10:59:34 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; Problema1           ;
 +-------------------+---------------------+
@@ -74,7 +74,7 @@ https://fpgasoftware.intel.com/eula.
 +--------------------------------------+----------------------------------------+---------------+---------------+-----------------------------------+
 ; Assignment Name                      ; Value                                  ; Default Value ; Entity Name   ; Section Id                        ;
 +--------------------------------------+----------------------------------------+---------------+---------------+-----------------------------------+
-; COMPILER_SIGNATURE_ID                ; 27214214654806.175495734000164         ; --            ; --            ; --                                ;
+; COMPILER_SIGNATURE_ID                ; 136714587155274.175570917409832        ; --            ; --            ; --                                ;
 ; EDA_DESIGN_INSTANCE_NAME             ; NA                                     ; --            ; --            ; Decodificador_tb                  ;
 ; EDA_GENERATE_FUNCTIONAL_NETLIST      ; Off                                    ; --            ; --            ; eda_board_design_timing           ;
 ; EDA_GENERATE_FUNCTIONAL_NETLIST      ; Off                                    ; --            ; --            ; eda_board_design_boundary_scan    ;
@@ -105,8 +105,8 @@ https://fpgasoftware.intel.com/eula.
 +------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name            ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Elaboration ; 00:00:05     ; 1.0                     ; 4767 MB             ; 00:00:14                           ;
-; Total                  ; 00:00:05     ; --                      ; --                  ; 00:00:14                           ;
+; Analysis & Elaboration ; 00:00:06     ; 1.0                     ; 4775 MB             ; 00:00:14                           ;
+; Total                  ; 00:00:06     ; --                      ; --                  ; 00:00:14                           ;
 +------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -115,7 +115,7 @@ https://fpgasoftware.intel.com/eula.
 +------------------------+------------------+------------+------------+----------------+
 ; Module Name            ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
 +------------------------+------------------+------------+------------+----------------+
-; Analysis & Elaboration ; DESKTOP-SB7LDHS  ; Windows 10 ; 10.0       ; x86_64         ;
+; Analysis & Elaboration ; LAPTOP-SB4TRKQC  ; Windows 10 ; 10.0       ; x86_64         ;
 +------------------------+------------------+------------+------------+----------------+
 
 
