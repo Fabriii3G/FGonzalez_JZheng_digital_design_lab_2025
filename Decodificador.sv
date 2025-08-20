@@ -62,7 +62,7 @@ function [6:0] decodificar_7segmentos(input [3:0] num);
     end
 endfunction
 
-// Asignación de salidas
+// Asignacion de salidas
 assign display1 = decodificar_7segmentos(unidades);
 assign display2 = (decenas != 0) ? decodificar_7segmentos(decenas) : 7'b1111111;
 

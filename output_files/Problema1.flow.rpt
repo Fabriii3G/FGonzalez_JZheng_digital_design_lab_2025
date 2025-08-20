@@ -1,5 +1,5 @@
 Flow report for Problema1
-Wed Aug 20 10:59:40 2025
+Wed Aug 20 11:01:00 2025
 Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 
 
@@ -41,7 +41,7 @@ https://fpgasoftware.intel.com/eula.
 +---------------------------------------------------------------------------+
 ; Flow Summary                                                              ;
 +-----------------------------+---------------------------------------------+
-; Flow Status                 ; Successful - Wed Aug 20 10:59:40 2025       ;
+; Flow Status                 ; Successful - Wed Aug 20 11:01:00 2025       ;
 ; Quartus Prime Version       ; 20.1.0 Build 711 06/05/2020 SJ Lite Edition ;
 ; Revision Name               ; Problema1                                   ;
 ; Top-level Entity Name       ; Decodificador                               ;
@@ -63,7 +63,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 08/20/2025 10:59:34 ;
+; Start date & time ; 08/20/2025 11:00:54 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; Problema1           ;
 +-------------------+---------------------+
@@ -74,7 +74,7 @@ https://fpgasoftware.intel.com/eula.
 +--------------------------------------+----------------------------------------+---------------+---------------+-----------------------------------+
 ; Assignment Name                      ; Value                                  ; Default Value ; Entity Name   ; Section Id                        ;
 +--------------------------------------+----------------------------------------+---------------+---------------+-----------------------------------+
-; COMPILER_SIGNATURE_ID                ; 136714587155274.175570917409832        ; --            ; --            ; --                                ;
+; COMPILER_SIGNATURE_ID                ; 136714587155274.175570925409412        ; --            ; --            ; --                                ;
 ; EDA_DESIGN_INSTANCE_NAME             ; NA                                     ; --            ; --            ; Decodificador_tb                  ;
 ; EDA_GENERATE_FUNCTIONAL_NETLIST      ; Off                                    ; --            ; --            ; eda_board_design_timing           ;
 ; EDA_GENERATE_FUNCTIONAL_NETLIST      ; Off                                    ; --            ; --            ; eda_board_design_boundary_scan    ;
