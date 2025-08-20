@@ -4,9 +4,9 @@ module testbench_contador_parametrizable;
     reg clk;
     reg reset_sw;
     reg increment_btn;
-    wire [6:0] contador_2bits;  // 2 bits
-    wire [7:0] contador_4bits;  // 4 bits
-    wire [9:0] contador_6bits;  // 6 bits
+    wire [1:0] contador_2bits;  // 2 bits
+    wire [3:0] contador_4bits;  // 4 bits
+    wire [5:0] contador_6bits;  // 6 bits
 
     // Instanciación del contador para 2 bits
     contador_parametrizable #(.N(2)) contador_2 (

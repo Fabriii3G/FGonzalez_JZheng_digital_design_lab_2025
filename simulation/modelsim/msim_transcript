@@ -7,43 +7,37 @@
 # vmap work rtl_work
 # Model Technology ModelSim - Intel FPGA Edition vmap 2020.1 Lib Mapping Utility 2020.02 Feb 28 2020
 # vmap work rtl_work 
-# Copying C:/intelFPGA/20.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Copying C:/intelFPGA_lite/20.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
 # Modifying modelsim.ini
 # 
-# vlog -sv -work work +incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025 {C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/contador_parametrizable.sv}
+# vlog -sv -work work +incdir+C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025 {C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/contador_parametrizable.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
-# Start time: 18:37:14 on Aug 10,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025" C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/contador_parametrizable.sv 
+# Start time: 10:54:05 on Aug 20,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025" C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/contador_parametrizable.sv 
 # -- Compiling module contador_parametrizable
 # 
 # Top level modules:
 # 	contador_parametrizable
-# End time: 18:37:14 on Aug 10,2025, Elapsed time: 0:00:00
+# End time: 10:54:05 on Aug 20,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
-# vlog -sv -work work +incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025 {C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/testbench_contador_parametrizable.sv}
+# vlog -sv -work work +incdir+C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025 {C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/testbench_contador_parametrizable.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
-# Start time: 18:37:14 on Aug 10,2025
-# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025" C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/testbench_contador_parametrizable.sv 
+# Start time: 10:54:05 on Aug 20,2025
+# vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025" C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/testbench_contador_parametrizable.sv 
 # -- Compiling module testbench_contador_parametrizable
 # 
 # Top level modules:
 # 	testbench_contador_parametrizable
-# End time: 18:37:14 on Aug 10,2025, Elapsed time: 0:00:00
+# End time: 10:54:05 on Aug 20,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs="+acc"  testbench_contador_parametrizable
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs=""+acc"" testbench_contador_parametrizable 
-# Start time: 18:37:15 on Aug 10,2025
+# Start time: 10:54:06 on Aug 20,2025
 # Loading sv_std.std
 # Loading work.testbench_contador_parametrizable
 # Loading work.contador_parametrizable
-# ** Warning: (vsim-3015) [PCDPC] - Port size (2) does not match connection size (7) for port 'contador'. The port definition is at: C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/contador_parametrizable.sv(7).
-#    Time: 0 ps  Iteration: 0  Instance: /testbench_contador_parametrizable/contador_2 File: C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/testbench_contador_parametrizable.sv Line: 12
-# ** Warning: (vsim-3015) [PCDPC] - Port size (4) does not match connection size (8) for port 'contador'. The port definition is at: C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/contador_parametrizable.sv(7).
-#    Time: 0 ps  Iteration: 0  Instance: /testbench_contador_parametrizable/contador_4 File: C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/testbench_contador_parametrizable.sv Line: 20
-# ** Warning: (vsim-3015) [PCDPC] - Port size (6) does not match connection size (10) for port 'contador'. The port definition is at: C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/contador_parametrizable.sv(7).
-#    Time: 0 ps  Iteration: 0  Instance: /testbench_contador_parametrizable/contador_6 File: C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/testbench_contador_parametrizable.sv Line: 28
 # 
 # add wave *
 # view structure
@@ -52,271 +46,271 @@
 # .main_pane.objects.interior.cs.body.tree
 # run -all
 # Inicio de simulación para 2 bits
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz0000
-# Contador de 6 bits: zzzz000000
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz0001
-# Contador de 6 bits: zzzz000001
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz0010
-# Contador de 6 bits: zzzz000010
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz0011
-# Contador de 6 bits: zzzz000011
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz0100
-# Contador de 6 bits: zzzz000100
+# Contador de 2 bits: 00
+# Contador de 4 bits: 0000
+# Contador de 6 bits: 000000
+# Contador de 2 bits: 01
+# Contador de 4 bits: 0001
+# Contador de 6 bits: 000001
+# Contador de 2 bits: 10
+# Contador de 4 bits: 0010
+# Contador de 6 bits: 000010
+# Contador de 2 bits: 11
+# Contador de 4 bits: 0011
+# Contador de 6 bits: 000011
+# Contador de 2 bits: 00
+# Contador de 4 bits: 0100
+# Contador de 6 bits: 000100
 # Inicio de simulación para 4 bits
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz0000
-# Contador de 6 bits: zzzz000000
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz0001
-# Contador de 6 bits: zzzz000001
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz0010
-# Contador de 6 bits: zzzz000010
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz0011
-# Contador de 6 bits: zzzz000011
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz0100
-# Contador de 6 bits: zzzz000100
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz0101
-# Contador de 6 bits: zzzz000101
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz0110
-# Contador de 6 bits: zzzz000110
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz0111
-# Contador de 6 bits: zzzz000111
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz1000
-# Contador de 6 bits: zzzz001000
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz1001
-# Contador de 6 bits: zzzz001001
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz1010
-# Contador de 6 bits: zzzz001010
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz1011
-# Contador de 6 bits: zzzz001011
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz1100
-# Contador de 6 bits: zzzz001100
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz1101
-# Contador de 6 bits: zzzz001101
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz1110
-# Contador de 6 bits: zzzz001110
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz1111
-# Contador de 6 bits: zzzz001111
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz0000
-# Contador de 6 bits: zzzz010000
+# Contador de 2 bits: 00
+# Contador de 4 bits: 0000
+# Contador de 6 bits: 000000
+# Contador de 2 bits: 01
+# Contador de 4 bits: 0001
+# Contador de 6 bits: 000001
+# Contador de 2 bits: 10
+# Contador de 4 bits: 0010
+# Contador de 6 bits: 000010
+# Contador de 2 bits: 11
+# Contador de 4 bits: 0011
+# Contador de 6 bits: 000011
+# Contador de 2 bits: 00
+# Contador de 4 bits: 0100
+# Contador de 6 bits: 000100
+# Contador de 2 bits: 01
+# Contador de 4 bits: 0101
+# Contador de 6 bits: 000101
+# Contador de 2 bits: 10
+# Contador de 4 bits: 0110
+# Contador de 6 bits: 000110
+# Contador de 2 bits: 11
+# Contador de 4 bits: 0111
+# Contador de 6 bits: 000111
+# Contador de 2 bits: 00
+# Contador de 4 bits: 1000
+# Contador de 6 bits: 001000
+# Contador de 2 bits: 01
+# Contador de 4 bits: 1001
+# Contador de 6 bits: 001001
+# Contador de 2 bits: 10
+# Contador de 4 bits: 1010
+# Contador de 6 bits: 001010
+# Contador de 2 bits: 11
+# Contador de 4 bits: 1011
+# Contador de 6 bits: 001011
+# Contador de 2 bits: 00
+# Contador de 4 bits: 1100
+# Contador de 6 bits: 001100
+# Contador de 2 bits: 01
+# Contador de 4 bits: 1101
+# Contador de 6 bits: 001101
+# Contador de 2 bits: 10
+# Contador de 4 bits: 1110
+# Contador de 6 bits: 001110
+# Contador de 2 bits: 11
+# Contador de 4 bits: 1111
+# Contador de 6 bits: 001111
+# Contador de 2 bits: 00
+# Contador de 4 bits: 0000
+# Contador de 6 bits: 010000
 # Inicio de simulación para 6 bits
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz0000
-# Contador de 6 bits: zzzz000000
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz0001
-# Contador de 6 bits: zzzz000001
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz0010
-# Contador de 6 bits: zzzz000010
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz0011
-# Contador de 6 bits: zzzz000011
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz0100
-# Contador de 6 bits: zzzz000100
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz0101
-# Contador de 6 bits: zzzz000101
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz0110
-# Contador de 6 bits: zzzz000110
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz0111
-# Contador de 6 bits: zzzz000111
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz1000
-# Contador de 6 bits: zzzz001000
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz1001
-# Contador de 6 bits: zzzz001001
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz1010
-# Contador de 6 bits: zzzz001010
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz1011
-# Contador de 6 bits: zzzz001011
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz1100
-# Contador de 6 bits: zzzz001100
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz1101
-# Contador de 6 bits: zzzz001101
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz1110
-# Contador de 6 bits: zzzz001110
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz1111
-# Contador de 6 bits: zzzz001111
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz0000
-# Contador de 6 bits: zzzz010000
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz0001
-# Contador de 6 bits: zzzz010001
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz0010
-# Contador de 6 bits: zzzz010010
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz0011
-# Contador de 6 bits: zzzz010011
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz0100
-# Contador de 6 bits: zzzz010100
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz0101
-# Contador de 6 bits: zzzz010101
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz0110
-# Contador de 6 bits: zzzz010110
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz0111
-# Contador de 6 bits: zzzz010111
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz1000
-# Contador de 6 bits: zzzz011000
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz1001
-# Contador de 6 bits: zzzz011001
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz1010
-# Contador de 6 bits: zzzz011010
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz1011
-# Contador de 6 bits: zzzz011011
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz1100
-# Contador de 6 bits: zzzz011100
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz1101
-# Contador de 6 bits: zzzz011101
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz1110
-# Contador de 6 bits: zzzz011110
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz1111
-# Contador de 6 bits: zzzz011111
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz0000
-# Contador de 6 bits: zzzz100000
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz0001
-# Contador de 6 bits: zzzz100001
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz0010
-# Contador de 6 bits: zzzz100010
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz0011
-# Contador de 6 bits: zzzz100011
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz0100
-# Contador de 6 bits: zzzz100100
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz0101
-# Contador de 6 bits: zzzz100101
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz0110
-# Contador de 6 bits: zzzz100110
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz0111
-# Contador de 6 bits: zzzz100111
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz1000
-# Contador de 6 bits: zzzz101000
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz1001
-# Contador de 6 bits: zzzz101001
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz1010
-# Contador de 6 bits: zzzz101010
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz1011
-# Contador de 6 bits: zzzz101011
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz1100
-# Contador de 6 bits: zzzz101100
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz1101
-# Contador de 6 bits: zzzz101101
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz1110
-# Contador de 6 bits: zzzz101110
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz1111
-# Contador de 6 bits: zzzz101111
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz0000
-# Contador de 6 bits: zzzz110000
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz0001
-# Contador de 6 bits: zzzz110001
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz0010
-# Contador de 6 bits: zzzz110010
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz0011
-# Contador de 6 bits: zzzz110011
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz0100
-# Contador de 6 bits: zzzz110100
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz0101
-# Contador de 6 bits: zzzz110101
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz0110
-# Contador de 6 bits: zzzz110110
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz0111
-# Contador de 6 bits: zzzz110111
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz1000
-# Contador de 6 bits: zzzz111000
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz1001
-# Contador de 6 bits: zzzz111001
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz1010
-# Contador de 6 bits: zzzz111010
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz1011
-# Contador de 6 bits: zzzz111011
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz1100
-# Contador de 6 bits: zzzz111100
-# Contador de 2 bits: zzzzz01
-# Contador de 4 bits: zzzz1101
-# Contador de 6 bits: zzzz111101
-# Contador de 2 bits: zzzzz10
-# Contador de 4 bits: zzzz1110
-# Contador de 6 bits: zzzz111110
-# Contador de 2 bits: zzzzz11
-# Contador de 4 bits: zzzz1111
-# Contador de 6 bits: zzzz111111
-# Contador de 2 bits: zzzzz00
-# Contador de 4 bits: zzzz0000
-# Contador de 6 bits: zzzz000000
-# ** Note: $stop    : C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/testbench_contador_parametrizable.sv(83)
+# Contador de 2 bits: 00
+# Contador de 4 bits: 0000
+# Contador de 6 bits: 000000
+# Contador de 2 bits: 01
+# Contador de 4 bits: 0001
+# Contador de 6 bits: 000001
+# Contador de 2 bits: 10
+# Contador de 4 bits: 0010
+# Contador de 6 bits: 000010
+# Contador de 2 bits: 11
+# Contador de 4 bits: 0011
+# Contador de 6 bits: 000011
+# Contador de 2 bits: 00
+# Contador de 4 bits: 0100
+# Contador de 6 bits: 000100
+# Contador de 2 bits: 01
+# Contador de 4 bits: 0101
+# Contador de 6 bits: 000101
+# Contador de 2 bits: 10
+# Contador de 4 bits: 0110
+# Contador de 6 bits: 000110
+# Contador de 2 bits: 11
+# Contador de 4 bits: 0111
+# Contador de 6 bits: 000111
+# Contador de 2 bits: 00
+# Contador de 4 bits: 1000
+# Contador de 6 bits: 001000
+# Contador de 2 bits: 01
+# Contador de 4 bits: 1001
+# Contador de 6 bits: 001001
+# Contador de 2 bits: 10
+# Contador de 4 bits: 1010
+# Contador de 6 bits: 001010
+# Contador de 2 bits: 11
+# Contador de 4 bits: 1011
+# Contador de 6 bits: 001011
+# Contador de 2 bits: 00
+# Contador de 4 bits: 1100
+# Contador de 6 bits: 001100
+# Contador de 2 bits: 01
+# Contador de 4 bits: 1101
+# Contador de 6 bits: 001101
+# Contador de 2 bits: 10
+# Contador de 4 bits: 1110
+# Contador de 6 bits: 001110
+# Contador de 2 bits: 11
+# Contador de 4 bits: 1111
+# Contador de 6 bits: 001111
+# Contador de 2 bits: 00
+# Contador de 4 bits: 0000
+# Contador de 6 bits: 010000
+# Contador de 2 bits: 01
+# Contador de 4 bits: 0001
+# Contador de 6 bits: 010001
+# Contador de 2 bits: 10
+# Contador de 4 bits: 0010
+# Contador de 6 bits: 010010
+# Contador de 2 bits: 11
+# Contador de 4 bits: 0011
+# Contador de 6 bits: 010011
+# Contador de 2 bits: 00
+# Contador de 4 bits: 0100
+# Contador de 6 bits: 010100
+# Contador de 2 bits: 01
+# Contador de 4 bits: 0101
+# Contador de 6 bits: 010101
+# Contador de 2 bits: 10
+# Contador de 4 bits: 0110
+# Contador de 6 bits: 010110
+# Contador de 2 bits: 11
+# Contador de 4 bits: 0111
+# Contador de 6 bits: 010111
+# Contador de 2 bits: 00
+# Contador de 4 bits: 1000
+# Contador de 6 bits: 011000
+# Contador de 2 bits: 01
+# Contador de 4 bits: 1001
+# Contador de 6 bits: 011001
+# Contador de 2 bits: 10
+# Contador de 4 bits: 1010
+# Contador de 6 bits: 011010
+# Contador de 2 bits: 11
+# Contador de 4 bits: 1011
+# Contador de 6 bits: 011011
+# Contador de 2 bits: 00
+# Contador de 4 bits: 1100
+# Contador de 6 bits: 011100
+# Contador de 2 bits: 01
+# Contador de 4 bits: 1101
+# Contador de 6 bits: 011101
+# Contador de 2 bits: 10
+# Contador de 4 bits: 1110
+# Contador de 6 bits: 011110
+# Contador de 2 bits: 11
+# Contador de 4 bits: 1111
+# Contador de 6 bits: 011111
+# Contador de 2 bits: 00
+# Contador de 4 bits: 0000
+# Contador de 6 bits: 100000
+# Contador de 2 bits: 01
+# Contador de 4 bits: 0001
+# Contador de 6 bits: 100001
+# Contador de 2 bits: 10
+# Contador de 4 bits: 0010
+# Contador de 6 bits: 100010
+# Contador de 2 bits: 11
+# Contador de 4 bits: 0011
+# Contador de 6 bits: 100011
+# Contador de 2 bits: 00
+# Contador de 4 bits: 0100
+# Contador de 6 bits: 100100
+# Contador de 2 bits: 01
+# Contador de 4 bits: 0101
+# Contador de 6 bits: 100101
+# Contador de 2 bits: 10
+# Contador de 4 bits: 0110
+# Contador de 6 bits: 100110
+# Contador de 2 bits: 11
+# Contador de 4 bits: 0111
+# Contador de 6 bits: 100111
+# Contador de 2 bits: 00
+# Contador de 4 bits: 1000
+# Contador de 6 bits: 101000
+# Contador de 2 bits: 01
+# Contador de 4 bits: 1001
+# Contador de 6 bits: 101001
+# Contador de 2 bits: 10
+# Contador de 4 bits: 1010
+# Contador de 6 bits: 101010
+# Contador de 2 bits: 11
+# Contador de 4 bits: 1011
+# Contador de 6 bits: 101011
+# Contador de 2 bits: 00
+# Contador de 4 bits: 1100
+# Contador de 6 bits: 101100
+# Contador de 2 bits: 01
+# Contador de 4 bits: 1101
+# Contador de 6 bits: 101101
+# Contador de 2 bits: 10
+# Contador de 4 bits: 1110
+# Contador de 6 bits: 101110
+# Contador de 2 bits: 11
+# Contador de 4 bits: 1111
+# Contador de 6 bits: 101111
+# Contador de 2 bits: 00
+# Contador de 4 bits: 0000
+# Contador de 6 bits: 110000
+# Contador de 2 bits: 01
+# Contador de 4 bits: 0001
+# Contador de 6 bits: 110001
+# Contador de 2 bits: 10
+# Contador de 4 bits: 0010
+# Contador de 6 bits: 110010
+# Contador de 2 bits: 11
+# Contador de 4 bits: 0011
+# Contador de 6 bits: 110011
+# Contador de 2 bits: 00
+# Contador de 4 bits: 0100
+# Contador de 6 bits: 110100
+# Contador de 2 bits: 01
+# Contador de 4 bits: 0101
+# Contador de 6 bits: 110101
+# Contador de 2 bits: 10
+# Contador de 4 bits: 0110
+# Contador de 6 bits: 110110
+# Contador de 2 bits: 11
+# Contador de 4 bits: 0111
+# Contador de 6 bits: 110111
+# Contador de 2 bits: 00
+# Contador de 4 bits: 1000
+# Contador de 6 bits: 111000
+# Contador de 2 bits: 01
+# Contador de 4 bits: 1001
+# Contador de 6 bits: 111001
+# Contador de 2 bits: 10
+# Contador de 4 bits: 1010
+# Contador de 6 bits: 111010
+# Contador de 2 bits: 11
+# Contador de 4 bits: 1011
+# Contador de 6 bits: 111011
+# Contador de 2 bits: 00
+# Contador de 4 bits: 1100
+# Contador de 6 bits: 111100
+# Contador de 2 bits: 01
+# Contador de 4 bits: 1101
+# Contador de 6 bits: 111101
+# Contador de 2 bits: 10
+# Contador de 4 bits: 1110
+# Contador de 6 bits: 111110
+# Contador de 2 bits: 11
+# Contador de 4 bits: 1111
+# Contador de 6 bits: 111111
+# Contador de 2 bits: 00
+# Contador de 4 bits: 0000
+# Contador de 6 bits: 000000
+# ** Note: $stop    : C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/testbench_contador_parametrizable.sv(83)
 #    Time: 1710 ps  Iteration: 0  Instance: /testbench_contador_parametrizable
-# Break in Module testbench_contador_parametrizable at C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/testbench_contador_parametrizable.sv line 83
-# End time: 18:37:54 on Aug 10,2025, Elapsed time: 0:00:39
-# Errors: 0, Warnings: 3
+# Break in Module testbench_contador_parametrizable at C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/testbench_contador_parametrizable.sv line 83
+# End time: 10:54:53 on Aug 20,2025, Elapsed time: 0:00:47
+# Errors: 0, Warnings: 0
