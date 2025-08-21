@@ -1,0 +1,31 @@
+|Decodificador
+binario[0] => gray_code.IN0
+binario[1] => gray_code.IN0
+binario[1] => gray_code.IN1
+binario[2] => gray_code.IN0
+binario[2] => gray_code.IN1
+binario[3] => valor_gray[2].IN1
+binario[3] => gray_code.IN1
+binario[3] => Mod0.IN4
+binario[3] => Div0.IN4
+binario[3] => gray_code[3].DATAIN
+gray_code[0] <= gray_code.DB_MAX_OUTPUT_PORT_TYPE
+gray_code[1] <= gray_code.DB_MAX_OUTPUT_PORT_TYPE
+gray_code[2] <= gray_code.DB_MAX_OUTPUT_PORT_TYPE
+gray_code[3] <= binario[3].DB_MAX_OUTPUT_PORT_TYPE
+display1[0] <= WideOr6.DB_MAX_OUTPUT_PORT_TYPE
+display1[1] <= WideOr5.DB_MAX_OUTPUT_PORT_TYPE
+display1[2] <= WideOr4.DB_MAX_OUTPUT_PORT_TYPE
+display1[3] <= WideOr3.DB_MAX_OUTPUT_PORT_TYPE
+display1[4] <= WideOr2.DB_MAX_OUTPUT_PORT_TYPE
+display1[5] <= WideOr1.DB_MAX_OUTPUT_PORT_TYPE
+display1[6] <= WideOr0.DB_MAX_OUTPUT_PORT_TYPE
+display2[0] <= display2.DB_MAX_OUTPUT_PORT_TYPE
+display2[1] <= display2.DB_MAX_OUTPUT_PORT_TYPE
+display2[2] <= display2.DB_MAX_OUTPUT_PORT_TYPE
+display2[3] <= display2.DB_MAX_OUTPUT_PORT_TYPE
+display2[4] <= display2.DB_MAX_OUTPUT_PORT_TYPE
+display2[5] <= display2.DB_MAX_OUTPUT_PORT_TYPE
+display2[6] <= display2.DB_MAX_OUTPUT_PORT_TYPE
+
+
