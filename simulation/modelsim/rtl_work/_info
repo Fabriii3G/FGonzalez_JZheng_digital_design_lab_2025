@@ -8,127 +8,170 @@ z2
 !i10e 25
 !i10f 100
 cModel Technology
-Z0 dD:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/simulation/modelsim
+Z0 dC:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/simulation/modelsim
+Efpga
+Z1 w1755810640
+Z2 DPx4 ieee 11 numeric_std 0 22 aU^R8eGcicLcUFIaBQSL>3
+Z3 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z4 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
+!i122 2
+R0
+Z5 8C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd
+Z6 FC:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd
+l0
+L5 1
+V7Y7@lGU1Bh;TizEQj;daO1
+!s100 dU`O4UCiCk76mDmX?dbfC1
+Z7 OV;C;2020.1;71
+31
+Z8 !s110 1755810784
+!i10b 1
+Z9 !s108 1755810784.000000
+Z10 !s90 -reportprogress|300|-93|-work|work|C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd|
+Z11 !s107 C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd|
+!i113 1
+Z12 o-93 -work work
+Z13 tExplicit 1 CvgOpt 0
+Astructural
+R2
+R3
+R4
+DEx4 work 4 fpga 0 22 7Y7@lGU1Bh;TizEQj;daO1
+!i122 2
+l32
+L13 66
+V_Yc@m>G1Xk]Q^domjJnIc1
+!s100 :hlb]OhQ;3LmQAM8;4[:00
+R7
+31
+R8
+!i10b 1
+R9
+R10
+R11
+!i113 1
+R12
+R13
 Efullsub
-Z1 w1755478941
-Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
-Z3 DPx4 ieee 14 std_logic_1164 0 22 cVAk:aDinOX8^VGI1ekP<3
+R1
+R3
+R4
 !i122 0
 R0
-Z4 8D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub.vhd
-Z5 FD:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub.vhd
+Z14 8C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub.vhd
+Z15 FC:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub.vhd
 l0
 L4 1
 Vf>>IBzGf=ITnVohZFN6K_2
 !s100 XMjjJ;0^U:]2d[Jd^kf911
-Z6 OV;C;2020.1;71
+R7
 31
-Z7 !s110 1755492590
+R8
 !i10b 1
-Z8 !s108 1755492589.000000
-Z9 !s90 -reportprogress|300|-93|-work|work|D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub.vhd|
-Z10 !s107 D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub.vhd|
+R9
+Z16 !s90 -reportprogress|300|-93|-work|work|C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub.vhd|
+Z17 !s107 C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub.vhd|
 !i113 1
-Z11 o-93 -work work
-Z12 tExplicit 1 CvgOpt 0
+R12
+R13
 Astructural
-R2
 R3
+R4
 DEx4 work 7 fullsub 0 22 f>>IBzGf=ITnVohZFN6K_2
 !i122 0
 l15
 L11 21
 VehQalFPl^fMcKPdFEWj:Q3
 !s100 ;f9IR<:`9T:gSJFPbab`b3
-R6
-31
 R7
-!i10b 1
+31
 R8
+!i10b 1
 R9
-R10
+R16
+R17
 !i113 1
-R11
 R12
+R13
 Efullsub_4bits
-Z13 w1755486733
-R2
+R1
 R3
+R4
 !i122 1
 R0
-Z14 8D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd
-Z15 FD:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd
+Z18 8C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd
+Z19 FC:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd
 l0
 L4 1
 VU>?AFbzkcOfR_e<V1A?b43
 !s100 98oJWjej9U<19Q:FOK:SR0
-R6
-31
 R7
+31
+R8
 !i10b 1
-Z16 !s108 1755492590.000000
-Z17 !s90 -reportprogress|300|-93|-work|work|D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd|
-Z18 !s107 D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd|
+R9
+Z20 !s90 -reportprogress|300|-93|-work|work|C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd|
+Z21 !s107 C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd|
 !i113 1
-R11
 R12
+R13
 Astructural
-R2
 R3
+R4
 DEx4 work 13 fullsub_4bits 0 22 U>?AFbzkcOfR_e<V1A?b43
 !i122 1
 l25
 L13 50
 V[_n9gFi1iU3<mQX2Vm[HK2
 !s100 :Y`B6@_9onB=VkQGX9zhN2
-R6
-31
 R7
+31
+R8
 !i10b 1
-R16
-R17
-R18
+R9
+R20
+R21
 !i113 1
-R11
 R12
+R13
 Efullsub_4bits_tb
-Z19 w1755490243
-R2
+R1
 R3
-!i122 2
+R4
+!i122 3
 R0
-Z20 8D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits_TB.vhd
-Z21 FD:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits_TB.vhd
+Z22 8C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits_TB.vhd
+Z23 FC:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits_TB.vhd
 l0
 L4 1
 VhYSaUHZleg8^On[8oRSWF3
 !s100 [[U7ARhOi[3VR`o5<XcH;2
-R6
-31
 R7
+31
+R8
 !i10b 1
-R16
-Z22 !s90 -reportprogress|300|-93|-work|work|D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits_TB.vhd|
-!s107 D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits_TB.vhd|
+R9
+Z24 !s90 -reportprogress|300|-93|-work|work|C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits_TB.vhd|
+!s107 C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits_TB.vhd|
 !i113 1
-R11
 R12
+R13
 Astructural
-R2
 R3
+R4
 DEx4 work 16 fullsub_4bits_tb 0 22 hYSaUHZleg8^On[8oRSWF3
-!i122 2
-l25
-L7 47
-VIP=a0LCUO9^BHZBIV<@RW1
-!s100 >Da>:;D>:kmKi:[QZF=?S3
-R6
-31
+!i122 3
+l24
+L7 45
+VFfcVEKZ75ELCKoM<eP4;J2
+!s100 Aed6W7GZD0jnFW3ZgIKDI2
 R7
+31
+R8
 !i10b 1
-R16
-R22
-Z23 !s107 D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits_TB.vhd|
+R9
+R24
+Z25 !s107 C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits_TB.vhd|
 !i113 1
-R11
 R12
+R13

@@ -7,47 +7,59 @@
 # vmap work rtl_work
 # Model Technology ModelSim - Intel FPGA Edition vmap 2020.1 Lib Mapping Utility 2020.02 Feb 28 2020
 # vmap work rtl_work 
-# Copying D:/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
+# Copying C:/intelFPGA_lite/20.1/modelsim_ase/win32aloem/../modelsim.ini to modelsim.ini
 # Modifying modelsim.ini
 # 
-# vcom -93 -work work {D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub.vhd}
+# vcom -93 -work work {C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub.vhd}
 # Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
-# Start time: 22:49:49 on Aug 17,2025
-# vcom -reportprogress 300 -93 -work work D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub.vhd 
+# Start time: 15:13:04 on Aug 21,2025
+# vcom -reportprogress 300 -93 -work work C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub.vhd 
 # -- Loading package STANDARD
 # -- Loading package TEXTIO
 # -- Loading package std_logic_1164
 # -- Compiling entity FullSub
 # -- Compiling architecture Structural of FullSub
-# End time: 22:49:50 on Aug 17,2025, Elapsed time: 0:00:01
+# End time: 15:13:04 on Aug 21,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vcom -93 -work work {D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd}
+# vcom -93 -work work {C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd}
 # Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
-# Start time: 22:49:50 on Aug 17,2025
-# vcom -reportprogress 300 -93 -work work D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd 
+# Start time: 15:13:04 on Aug 21,2025
+# vcom -reportprogress 300 -93 -work work C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd 
 # -- Loading package STANDARD
 # -- Loading package TEXTIO
 # -- Loading package std_logic_1164
 # -- Compiling entity Fullsub_4bits
 # -- Compiling architecture Structural of Fullsub_4bits
-# End time: 22:49:50 on Aug 17,2025, Elapsed time: 0:00:00
+# End time: 15:13:04 on Aug 21,2025, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vcom -93 -work work {C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd}
+# Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
+# Start time: 15:13:04 on Aug 21,2025
+# vcom -reportprogress 300 -93 -work work C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd 
+# -- Loading package STANDARD
+# -- Loading package TEXTIO
+# -- Loading package std_logic_1164
+# -- Loading package NUMERIC_STD
+# -- Compiling entity FPGA
+# -- Compiling architecture Structural of FPGA
+# End time: 15:13:04 on Aug 21,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
-# vcom -93 -work work {D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits_TB.vhd}
+# vcom -93 -work work {C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits_TB.vhd}
 # Model Technology ModelSim - Intel FPGA Edition vcom 2020.1 Compiler 2020.02 Feb 28 2020
-# Start time: 22:49:50 on Aug 17,2025
-# vcom -reportprogress 300 -93 -work work D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits_TB.vhd 
+# Start time: 15:13:04 on Aug 21,2025
+# vcom -reportprogress 300 -93 -work work C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits_TB.vhd 
 # -- Loading package STANDARD
 # -- Loading package TEXTIO
 # -- Loading package std_logic_1164
 # -- Compiling entity Fullsub_4bits_TB
 # -- Compiling architecture Structural of Fullsub_4bits_TB
-# End time: 22:49:50 on Aug 17,2025, Elapsed time: 0:00:00
+# End time: 15:13:04 on Aug 21,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vsim -t 1ps -L altera -L lpm -L sgate -L altera_mf -L altera_lnsim -L cyclonev -L rtl_work -L work -voptargs="+acc"  Fullsub_4bits_TB
 # vsim -t 1ps -L altera -L lpm -L sgate -L altera_mf -L altera_lnsim -L cyclonev -L rtl_work -L work -voptargs=""+acc"" Fullsub_4bits_TB 
-# Start time: 22:49:50 on Aug 17,2025
+# Start time: 15:13:04 on Aug 21,2025
 # Loading std.standard
 # Loading std.textio(body)
 # Loading ieee.std_logic_1164(body)
@@ -61,5 +73,9 @@
 # view signals
 # .main_pane.objects.interior.cs.body.tree
 # run -all
-# End time: 23:02:05 on Aug 17,2025, Elapsed time: 0:12:15
+
+
+run 20ns
+
+# End time: 15:19:33 on Aug 21,2025, Elapsed time: 0:06:29
 # Errors: 0, Warnings: 0

@@ -1,5 +1,5 @@
 Analysis & Synthesis report for Problema2
-Mon Aug 18 16:25:10 2025
+Thu Aug 21 15:26:38 2025
 Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 
 
@@ -44,7 +44,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                  ;
 +---------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status     ; Successful - Mon Aug 18 16:25:10 2025       ;
+; Analysis & Synthesis Status     ; Successful - Thu Aug 21 15:26:38 2025       ;
 ; Quartus Prime Version           ; 20.1.0 Build 711 06/05/2020 SJ Lite Edition ;
 ; Revision Name                   ; Problema2                                   ;
 ; Top-level Entity Name           ; FPGA                                        ;
@@ -156,8 +156,8 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------+-------------+
 ; Processors                 ; Number      ;
 +----------------------------+-------------+
-; Number detected on machine ; 4           ;
-; Maximum allowed            ; 4           ;
+; Number detected on machine ; 12          ;
+; Maximum allowed            ; 8           ;
 ;                            ;             ;
 ; Average used               ; 1.00        ;
 ; Maximum used               ; 1           ;
@@ -167,15 +167,15 @@ https://fpgasoftware.intel.com/eula.
 +----------------------------+-------------+
 
 
-+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                        ;
-+----------------------------------+-----------------+-----------------+------------------------------------------------------------------------------+---------+
-; File Name with User-Entered Path ; Used in Netlist ; File Type       ; File Name with Absolute Path                                                 ; Library ;
-+----------------------------------+-----------------+-----------------+------------------------------------------------------------------------------+---------+
-; Fullsub.vhd                      ; yes             ; User VHDL File  ; D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub.vhd       ;         ;
-; Fullsub_4bits.vhd                ; yes             ; User VHDL File  ; D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd ;         ;
-; FPGA.vhd                         ; yes             ; User VHDL File  ; D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd          ;         ;
-+----------------------------------+-----------------+-----------------+------------------------------------------------------------------------------+---------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                      ;
++----------------------------------+-----------------+-----------------+--------------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type       ; File Name with Absolute Path                                                               ; Library ;
++----------------------------------+-----------------+-----------------+--------------------------------------------------------------------------------------------+---------+
+; Fullsub.vhd                      ; yes             ; User VHDL File  ; C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub.vhd       ;         ;
+; Fullsub_4bits.vhd                ; yes             ; User VHDL File  ; C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd ;         ;
+; FPGA.vhd                         ; yes             ; User VHDL File  ; C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd          ;         ;
++----------------------------------+-----------------+-----------------+--------------------------------------------------------------------------------------------+---------+
 
 
 +------------------------------------------------------------+
@@ -281,47 +281,47 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
-    Info: Processing started: Mon Aug 18 16:24:59 2025
+    Info: Processing started: Thu Aug 21 15:26:31 2025
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off Problema2 -c Problema2
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
-Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
+Info (20030): Parallel compilation is enabled and will use 8 of the 8 processors detected
 Info (12021): Found 2 design units, including 1 entities, in source file fullsub.vhd
-    Info (12022): Found design unit 1: FullSub-Structural File: D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub.vhd Line: 11
-    Info (12023): Found entity 1: FullSub File: D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub.vhd Line: 4
+    Info (12022): Found design unit 1: FullSub-Structural File: C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub.vhd Line: 11
+    Info (12023): Found entity 1: FullSub File: C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub.vhd Line: 4
 Info (12021): Found 2 design units, including 1 entities, in source file fullsub_tb.vhd
-    Info (12022): Found design unit 1: Fullsub_TB-Structural File: D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_TB.vhd Line: 7
-    Info (12023): Found entity 1: Fullsub_TB File: D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_TB.vhd Line: 4
+    Info (12022): Found design unit 1: Fullsub_TB-Structural File: C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_TB.vhd Line: 7
+    Info (12023): Found entity 1: Fullsub_TB File: C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_TB.vhd Line: 4
 Info (12021): Found 2 design units, including 1 entities, in source file fullsub_4bits.vhd
-    Info (12022): Found design unit 1: Fullsub_4bits-Structural File: D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd Line: 13
-    Info (12023): Found entity 1: Fullsub_4bits File: D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd Line: 4
+    Info (12022): Found design unit 1: Fullsub_4bits-Structural File: C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd Line: 13
+    Info (12023): Found entity 1: Fullsub_4bits File: C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd Line: 4
 Info (12021): Found 2 design units, including 1 entities, in source file fullsub_4bits_tb.vhd
-    Info (12022): Found design unit 1: Fullsub_4bits_TB-Structural File: D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits_TB.vhd Line: 7
-    Info (12023): Found entity 1: Fullsub_4bits_TB File: D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits_TB.vhd Line: 4
+    Info (12022): Found design unit 1: Fullsub_4bits_TB-Structural File: C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits_TB.vhd Line: 7
+    Info (12023): Found entity 1: Fullsub_4bits_TB File: C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits_TB.vhd Line: 4
 Info (12021): Found 2 design units, including 1 entities, in source file fpga.vhd
-    Info (12022): Found design unit 1: FPGA-Structural File: D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 13
-    Info (12023): Found entity 1: FPGA File: D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 5
+    Info (12022): Found design unit 1: FPGA-Structural File: C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 13
+    Info (12023): Found entity 1: FPGA File: C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 5
 Info (12127): Elaborating entity "FPGA" for the top level hierarchy
-Warning (10540): VHDL Signal Declaration warning at FPGA.vhd(17): used explicit default value for signal "Cin" because signal was never assigned a value File: D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 17
-Warning (10036): Verilog HDL or VHDL warning at FPGA.vhd(18): object "Cout" assigned a value but never read File: D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 18
-Info (12128): Elaborating entity "Fullsub_4bits" for hierarchy "Fullsub_4bits:U1" File: D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 39
-Info (12128): Elaborating entity "FullSub" for hierarchy "Fullsub_4bits:U1|FullSub:FS0" File: D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd Line: 27
+Warning (10540): VHDL Signal Declaration warning at FPGA.vhd(17): used explicit default value for signal "Cin" because signal was never assigned a value File: C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 17
+Warning (10036): Verilog HDL or VHDL warning at FPGA.vhd(18): object "Cout" assigned a value but never read File: C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 18
+Info (12128): Elaborating entity "Fullsub_4bits" for hierarchy "Fullsub_4bits:U1" File: C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 39
+Info (12128): Elaborating entity "FullSub" for hierarchy "Fullsub_4bits:U1|FullSub:FS0" File: C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Fullsub_4bits.vhd Line: 27
 Info (286030): Timing-Driven Synthesis is running
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
 Warning (21074): Design contains 5 input pin(s) that do not drive logic
-    Warning (15610): No output dependent on input pin "SW[0]" File: D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 7
-    Warning (15610): No output dependent on input pin "SW[1]" File: D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 7
-    Warning (15610): No output dependent on input pin "KEY[0]" File: D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 8
-    Warning (15610): No output dependent on input pin "KEY[1]" File: D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 8
-    Warning (15610): No output dependent on input pin "KEY[2]" File: D:/Lab1.Digitales/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 8
+    Warning (15610): No output dependent on input pin "SW[0]" File: C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 7
+    Warning (15610): No output dependent on input pin "SW[1]" File: C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 7
+    Warning (15610): No output dependent on input pin "KEY[0]" File: C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 8
+    Warning (15610): No output dependent on input pin "KEY[1]" File: C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 8
+    Warning (15610): No output dependent on input pin "KEY[2]" File: C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/FPGA.vhd Line: 8
 Info (21057): Implemented 33 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 14 input pins
     Info (21059): Implemented 7 output pins
     Info (21061): Implemented 12 logic cells
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 9 warnings
-    Info: Peak virtual memory: 4858 megabytes
-    Info: Processing ended: Mon Aug 18 16:25:10 2025
-    Info: Elapsed time: 00:00:11
-    Info: Total CPU time (on all processors): 00:00:21
+    Info: Peak virtual memory: 4866 megabytes
+    Info: Processing ended: Thu Aug 21 15:26:38 2025
+    Info: Elapsed time: 00:00:07
+    Info: Total CPU time (on all processors): 00:00:14
 
 

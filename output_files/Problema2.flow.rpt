@@ -1,5 +1,5 @@
 Flow report for Problema2
-Mon Aug 18 16:26:07 2025
+Thu Aug 21 15:27:13 2025
 Quartus Prime Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 
 
@@ -41,7 +41,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------------------------------------------------------------------+
 ; Flow Summary                                                                  ;
 +---------------------------------+---------------------------------------------+
-; Flow Status                     ; Successful - Mon Aug 18 16:26:07 2025       ;
+; Flow Status                     ; Successful - Thu Aug 21 15:27:13 2025       ;
 ; Quartus Prime Version           ; 20.1.0 Build 711 06/05/2020 SJ Lite Edition ;
 ; Revision Name                   ; Problema2                                   ;
 ; Top-level Entity Name           ; FPGA                                        ;
@@ -68,7 +68,7 @@ https://fpgasoftware.intel.com/eula.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 08/18/2025 16:25:00 ;
+; Start date & time ; 08/21/2025 15:26:31 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; Problema2           ;
 +-------------------+---------------------+
@@ -79,7 +79,7 @@ https://fpgasoftware.intel.com/eula.
 +--------------------------------------+----------------------------------------+---------------+-------------+-----------------------------------+
 ; Assignment Name                      ; Value                                  ; Default Value ; Entity Name ; Section Id                        ;
 +--------------------------------------+----------------------------------------+---------------+-------------+-----------------------------------+
-; COMPILER_SIGNATURE_ID                ; 10995770589199.175555590012956         ; --            ; --          ; --                                ;
+; COMPILER_SIGNATURE_ID                ; 136714587155274.175581159114848        ; --            ; --          ; --                                ;
 ; EDA_DESIGN_INSTANCE_NAME             ; NA                                     ; --            ; --          ; Fullsub_4bits_TB                  ;
 ; EDA_DESIGN_INSTANCE_NAME             ; NA                                     ; --            ; --          ; Fullsub_TB                        ;
 ; EDA_GENERATE_FUNCTIONAL_NETLIST      ; Off                                    ; --            ; --          ; eda_board_design_timing           ;
@@ -114,12 +114,12 @@ https://fpgasoftware.intel.com/eula.
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:11     ; 1.0                     ; 4858 MB             ; 00:00:21                           ;
-; Fitter               ; 00:00:37     ; 1.0                     ; 6518 MB             ; 00:00:51                           ;
-; Assembler            ; 00:00:08     ; 1.0                     ; 4834 MB             ; 00:00:07                           ;
-; Timing Analyzer      ; 00:00:06     ; 1.0                     ; 5114 MB             ; 00:00:05                           ;
-; EDA Netlist Writer   ; 00:00:01     ; 1.0                     ; 4723 MB             ; 00:00:01                           ;
-; Total                ; 00:01:03     ; --                      ; --                  ; 00:01:25                           ;
+; Analysis & Synthesis ; 00:00:07     ; 1.0                     ; 4866 MB             ; 00:00:13                           ;
+; Fitter               ; 00:00:25     ; 1.0                     ; 6934 MB             ; 00:01:24                           ;
+; Assembler            ; 00:00:03     ; 1.0                     ; 4842 MB             ; 00:00:04                           ;
+; Timing Analyzer      ; 00:00:03     ; 1.1                     ; 5169 MB             ; 00:00:03                           ;
+; EDA Netlist Writer   ; 00:00:01     ; 1.0                     ; 4729 MB             ; 00:00:01                           ;
+; Total                ; 00:00:39     ; --                      ; --                  ; 00:01:45                           ;
 +----------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -128,11 +128,11 @@ https://fpgasoftware.intel.com/eula.
 +----------------------+------------------+------------+------------+----------------+
 ; Module Name          ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
 +----------------------+------------------+------------+------------+----------------+
-; Analysis & Synthesis ; PC-Fabri         ; Windows 10 ; 10.0       ; x86_64         ;
-; Fitter               ; PC-Fabri         ; Windows 10 ; 10.0       ; x86_64         ;
-; Assembler            ; PC-Fabri         ; Windows 10 ; 10.0       ; x86_64         ;
-; Timing Analyzer      ; PC-Fabri         ; Windows 10 ; 10.0       ; x86_64         ;
-; EDA Netlist Writer   ; PC-Fabri         ; Windows 10 ; 10.0       ; x86_64         ;
+; Analysis & Synthesis ; LAPTOP-SB4TRKQC  ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter               ; LAPTOP-SB4TRKQC  ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler            ; LAPTOP-SB4TRKQC  ; Windows 10 ; 10.0       ; x86_64         ;
+; Timing Analyzer      ; LAPTOP-SB4TRKQC  ; Windows 10 ; 10.0       ; x86_64         ;
+; EDA Netlist Writer   ; LAPTOP-SB4TRKQC  ; Windows 10 ; 10.0       ; x86_64         ;
 +----------------------+------------------+------------+------------+----------------+
 
 

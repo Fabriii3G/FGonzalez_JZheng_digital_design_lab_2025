@@ -17,7 +17,7 @@
 // PROGRAM "Quartus Prime"
 // VERSION "Version 20.1.0 Build 711 06/05/2020 SJ Lite Edition"
 
-// DATE "08/18/2025 16:26:07"
+// DATE "08/21/2025 15:27:13"
 
 // 
 // Device: Altera 5CSXFC6D6F31C6 Package FBGA896
@@ -532,7 +532,7 @@ defparam \Y_latched[0] .power_up = "low";
 // Location: LABCELL_X83_Y16_N57
 cyclonev_lcell_comb \Mux6~0 (
 // Equation(s):
-// \Mux6~0_combout  = ( Y_latched[0] & ( (!Y_latched[2] & (!Y_latched[3] $ (Y_latched[1]))) ) ) # ( !Y_latched[0] & ( (!Y_latched[3] & (!Y_latched[1] & Y_latched[2])) ) )
+// \Mux6~0_combout  = ( Y_latched[0] & ( (!Y_latched[3] & (!Y_latched[1] & !Y_latched[2])) # (Y_latched[3] & (!Y_latched[1] $ (!Y_latched[2]))) ) ) # ( !Y_latched[0] & ( (!Y_latched[3] & (!Y_latched[1] & Y_latched[2])) ) )
 
 	.dataa(!Y_latched[3]),
 	.datab(!Y_latched[1]),
@@ -549,14 +549,14 @@ cyclonev_lcell_comb \Mux6~0 (
 	.shareout());
 // synopsys translate_off
 defparam \Mux6~0 .extended_lut = "off";
-defparam \Mux6~0 .lut_mask = 64'h0808080890909090;
+defparam \Mux6~0 .lut_mask = 64'h0808080894949494;
 defparam \Mux6~0 .shared_arith = "off";
 // synopsys translate_on
 
 // Location: LABCELL_X83_Y16_N3
 cyclonev_lcell_comb \Mux5~0 (
 // Equation(s):
-// \Mux5~0_combout  = ( Y_latched[0] & ( (!Y_latched[1] & ((Y_latched[2]))) # (Y_latched[1] & (Y_latched[3])) ) ) # ( !Y_latched[0] & ( (Y_latched[2] & ((Y_latched[1]) # (Y_latched[3]))) ) )
+// \Mux5~0_combout  = ( Y_latched[0] & ( (!Y_latched[3] & (!Y_latched[1] & Y_latched[2])) # (Y_latched[3] & (Y_latched[1])) ) ) # ( !Y_latched[0] & ( (Y_latched[2] & ((Y_latched[1]) # (Y_latched[3]))) ) )
 
 	.dataa(!Y_latched[3]),
 	.datab(!Y_latched[1]),
@@ -573,7 +573,7 @@ cyclonev_lcell_comb \Mux5~0 (
 	.shareout());
 // synopsys translate_off
 defparam \Mux5~0 .extended_lut = "off";
-defparam \Mux5~0 .lut_mask = 64'h070707071D1D1D1D;
+defparam \Mux5~0 .lut_mask = 64'h0707070719191919;
 defparam \Mux5~0 .shared_arith = "off";
 // synopsys translate_on
 
@@ -652,7 +652,7 @@ defparam \Mux2~0 .shared_arith = "off";
 // Location: LABCELL_X83_Y16_N15
 cyclonev_lcell_comb \Mux1~0 (
 // Equation(s):
-// \Mux1~0_combout  = ( Y_latched[0] & ( (!Y_latched[3] & ((!Y_latched[2]) # (Y_latched[1]))) ) ) # ( !Y_latched[0] & ( (!Y_latched[3] & (Y_latched[1] & !Y_latched[2])) ) )
+// \Mux1~0_combout  = ( Y_latched[0] & ( !Y_latched[3] $ (((!Y_latched[1] & Y_latched[2]))) ) ) # ( !Y_latched[0] & ( (!Y_latched[3] & (Y_latched[1] & !Y_latched[2])) ) )
 
 	.dataa(!Y_latched[3]),
 	.datab(!Y_latched[1]),
@@ -669,14 +669,14 @@ cyclonev_lcell_comb \Mux1~0 (
 	.shareout());
 // synopsys translate_off
 defparam \Mux1~0 .extended_lut = "off";
-defparam \Mux1~0 .lut_mask = 64'h20202020A2A2A2A2;
+defparam \Mux1~0 .lut_mask = 64'h20202020A6A6A6A6;
 defparam \Mux1~0 .shared_arith = "off";
 // synopsys translate_on
 
 // Location: LABCELL_X83_Y16_N48
 cyclonev_lcell_comb \Mux0~0 (
 // Equation(s):
-// \Mux0~0_combout  = ( Y_latched[0] & ( (!Y_latched[2] & ((Y_latched[1]) # (Y_latched[3]))) # (Y_latched[2] & (!Y_latched[3] $ (Y_latched[1]))) ) ) # ( !Y_latched[0] & ( (!Y_latched[2] $ (!Y_latched[3])) # (Y_latched[1]) ) )
+// \Mux0~0_combout  = ( Y_latched[0] & ( (!Y_latched[2] $ (!Y_latched[1])) # (Y_latched[3]) ) ) # ( !Y_latched[0] & ( (!Y_latched[2] $ (!Y_latched[3])) # (Y_latched[1]) ) )
 
 	.dataa(gnd),
 	.datab(!Y_latched[2]),
@@ -693,7 +693,7 @@ cyclonev_lcell_comb \Mux0~0 (
 	.shareout());
 // synopsys translate_off
 defparam \Mux0~0 .extended_lut = "off";
-defparam \Mux0~0 .lut_mask = 64'h3CFF3CFF3CCF3CCF;
+defparam \Mux0~0 .lut_mask = 64'h3CFF3CFF3FCF3FCF;
 defparam \Mux0~0 .shared_arith = "off";
 // synopsys translate_on
 
