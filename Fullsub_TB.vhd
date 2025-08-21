@@ -5,7 +5,6 @@ entity Fullsub_TB is
 end Fullsub_TB;
 
 architecture Structural of Fullsub_TB is
-    -- Declaración del componente bajo prueba
     component FullSub
         port(
             A, B, Cin : in std_logic;
@@ -27,7 +26,6 @@ begin
         Y    => Y_sig
     );
 
-    -- Estímulos
     A_sig   <= '0' after 20 ns,
                '1' after 40 ns,
                '0' after 60 ns;
@@ -36,8 +34,8 @@ begin
                '0' after 40 ns,
                '1' after 60 ns;
 
-    Cin_sig <= '1' after 20 ns,
-               '1' after 40 ns,
-               '1' after 60 ns;
+    Cin_sig <= '0' after 20 ns,
+               '0' after 40 ns,
+               '0' after 60 ns;
 
 end Structural;

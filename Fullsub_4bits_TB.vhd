@@ -5,7 +5,6 @@ entity Fullsub_4bits_TB is
 end Fullsub_4bits_TB;
 
 architecture Structural of Fullsub_4bits_TB is
-    -- Declaración del componente bajo prueba
     component Fullsub_4bits
         port (
             A1, B1 : in  std_logic_vector(3 downto 0);
@@ -31,23 +30,22 @@ begin
         Y1    => Y1
     );
 
-    -- Estímulos concurrentes con after (modelo estructural)
     A1 <= "0000",
           "1010" after 20 ns,
-          "1010" after 40 ns,
-          "0000" after 60 ns,
-          "0000" after 80 ns;
+          "1110" after 40 ns,
+          "1011" after 60 ns,
+          "1110" after 80 ns;
 
     B1 <= "0000",
           "1000" after 20 ns,
           "1000" after 40 ns,
-          "1110" after 60 ns,
-          "1111" after 80 ns;
+          "1001" after 60 ns,
+          "1011" after 80 ns;
 
     Cin1 <= '0',
             '0' after 20 ns,
-            '1' after 40 ns,
-            '1' after 60 ns,
-            '1' after 80 ns;
+            '0' after 40 ns,
+            '0' after 60 ns,
+            '0' after 80 ns;
 
 end Structural;
