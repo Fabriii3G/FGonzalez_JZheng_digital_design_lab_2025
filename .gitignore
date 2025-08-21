@@ -1,0 +1,11 @@
+# Ignorar archivos temporales y bloqueados de Quartus
+db/
+incremental_db/
+output_files/
+*.qpf~
+*.qsf~
+*.sof
+*.pof
+*.rpt
+*.bak
+*.sv~
