@@ -1,0 +1,100 @@
+|FPGA
+SW[0] => ~NO_FANOUT~
+SW[1] => ~NO_FANOUT~
+SW[2] => Fullsub_4bits:U1.B1[0]
+SW[3] => Fullsub_4bits:U1.B1[1]
+SW[4] => Fullsub_4bits:U1.B1[2]
+SW[5] => Fullsub_4bits:U1.B1[3]
+SW[6] => Fullsub_4bits:U1.A1[0]
+SW[7] => Fullsub_4bits:U1.A1[1]
+SW[8] => Fullsub_4bits:U1.A1[2]
+SW[9] => Fullsub_4bits:U1.A1[3]
+KEY[0] => ~NO_FANOUT~
+KEY[1] => ~NO_FANOUT~
+KEY[2] => ~NO_FANOUT~
+KEY[3] => Y_latched[0].CLK
+KEY[3] => Y_latched[1].CLK
+KEY[3] => Y_latched[2].CLK
+KEY[3] => Y_latched[3].CLK
+HEX0[0] <= Mux6.DB_MAX_OUTPUT_PORT_TYPE
+HEX0[1] <= Mux5.DB_MAX_OUTPUT_PORT_TYPE
+HEX0[2] <= Mux4.DB_MAX_OUTPUT_PORT_TYPE
+HEX0[3] <= Mux3.DB_MAX_OUTPUT_PORT_TYPE
+HEX0[4] <= Mux2.DB_MAX_OUTPUT_PORT_TYPE
+HEX0[5] <= Mux1.DB_MAX_OUTPUT_PORT_TYPE
+HEX0[6] <= Mux0.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|FPGA|Fullsub_4bits:U1
+A1[0] => FullSub:FS0.A
+A1[1] => FullSub:FS1.A
+A1[2] => FullSub:FS2.A
+A1[3] => FullSub:FS3.A
+B1[0] => FullSub:FS0.B
+B1[1] => FullSub:FS1.B
+B1[2] => FullSub:FS2.B
+B1[3] => FullSub:FS3.B
+Cin1 => FullSub:FS0.Cin
+Cout1 <= FullSub:FS3.Cout
+Y1[0] <= FullSub:FS0.Y
+Y1[1] <= FullSub:FS1.Y
+Y1[2] <= FullSub:FS2.Y
+Y1[3] <= FullSub:FS3.Y
+
+
+|FPGA|Fullsub_4bits:U1|FullSub:FS0
+A => AxorB.IN0
+A => term1.IN0
+A => term2.IN0
+B => AxorB.IN1
+B => term1.IN1
+B => term3.IN0
+Cin => Y.IN1
+Cin => term2.IN1
+Cin => term3.IN1
+Cout <= Cout.DB_MAX_OUTPUT_PORT_TYPE
+Y <= Y.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|FPGA|Fullsub_4bits:U1|FullSub:FS1
+A => AxorB.IN0
+A => term1.IN0
+A => term2.IN0
+B => AxorB.IN1
+B => term1.IN1
+B => term3.IN0
+Cin => Y.IN1
+Cin => term2.IN1
+Cin => term3.IN1
+Cout <= Cout.DB_MAX_OUTPUT_PORT_TYPE
+Y <= Y.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|FPGA|Fullsub_4bits:U1|FullSub:FS2
+A => AxorB.IN0
+A => term1.IN0
+A => term2.IN0
+B => AxorB.IN1
+B => term1.IN1
+B => term3.IN0
+Cin => Y.IN1
+Cin => term2.IN1
+Cin => term3.IN1
+Cout <= Cout.DB_MAX_OUTPUT_PORT_TYPE
+Y <= Y.DB_MAX_OUTPUT_PORT_TYPE
+
+
+|FPGA|Fullsub_4bits:U1|FullSub:FS3
+A => AxorB.IN0
+A => term1.IN0
+A => term2.IN0
+B => AxorB.IN1
+B => term1.IN1
+B => term3.IN0
+Cin => Y.IN1
+Cin => term2.IN1
+Cin => term3.IN1
+Cout <= Cout.DB_MAX_OUTPUT_PORT_TYPE
+Y <= Y.DB_MAX_OUTPUT_PORT_TYPE
+
+
