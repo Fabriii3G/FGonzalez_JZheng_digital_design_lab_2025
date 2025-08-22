@@ -5,8 +5,9 @@ use IEEE.NUMERIC_STD.ALL;
 entity FPGA is
     port(
         SW    : in  std_logic_vector(9 downto 0);   -- switches (A y B)
-        KEY   : in  std_logic_vector(3 downto 0);   -- botones (KEY3 es la señal de resta)
-        HEX0  : out std_logic_vector(6 downto 0)    -- display de 7 segmentos
+        KEY   : in  std_logic;   -- boton 
+        HEX0  : out std_logic_vector(6 downto 0);   -- display de 7 segmentos
+        LED0  : out std_logic                      -- un solo LED
     );
 end FPGA;
 
@@ -18,6 +19,7 @@ architecture Structural of FPGA is
     signal Cout : std_logic;
     signal Y    : std_logic_vector(3 downto 0);
     signal Y_latched : std_logic_vector(3 downto 0);
+    signal Cout_latched : std_logic;
 
     -- Instancia del restador de 4 bits
     component Fullsub_4bits
@@ -44,13 +46,18 @@ begin
         Y1   => Y
     );
 
-    -- El botón KEY3 sirve para "capturar" el resultado
-    process(KEY(3))
+    -- El botón KEY3 sirve para "capturar" el resultado y el Cout
+    process(KEY)
     begin
-        if falling_edge(KEY(3)) then
-            Y_latched <= Y;  -- almacena el resultado cuando presiono el botón
+        if falling_edge(KEY) then
+            Y_latched    <= Y;     -- almacena el resultado
+            Cout_latched <= Cout;  -- almacena el acarreo
         end if;
     end process;
+
+    -- LED encendido si Cout latched = '1'
+    LED0 <= Cout_latched;
+
     -- Decoder 7 segmentos (HEX0)
     process(Y_latched)
     begin
