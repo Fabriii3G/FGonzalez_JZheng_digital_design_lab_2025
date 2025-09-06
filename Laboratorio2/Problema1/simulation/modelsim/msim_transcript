@@ -12,7 +12,7 @@
 # 
 # vlog -sv -work work +incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1 {C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/alu_pkg.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
-# Start time: 17:14:44 on Sep 06,2025
+# Start time: 17:35:45 on Sep 06,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1" C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/alu_pkg.sv 
 # -- Compiling package alu_pkg
 # -- Compiling module half_adder
@@ -23,11 +23,11 @@
 # 	half_adder
 # 	full_adder
 # 	full_subtractor
-# End time: 17:14:44 on Sep 06,2025, Elapsed time: 0:00:00
+# End time: 17:35:45 on Sep 06,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1 {C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/alu.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
-# Start time: 17:14:45 on Sep 06,2025
+# Start time: 17:35:45 on Sep 06,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1" C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/alu.sv 
 # -- Compiling package alu_sv_unit
 # -- Importing package alu_pkg
@@ -35,11 +35,11 @@
 # 
 # Top level modules:
 # 	alu
-# End time: 17:14:45 on Sep 06,2025, Elapsed time: 0:00:00
+# End time: 17:35:45 on Sep 06,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # vlog -sv -work work +incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1 {C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/top_alu_fpga.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
-# Start time: 17:14:45 on Sep 06,2025
+# Start time: 17:35:46 on Sep 06,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1" C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/top_alu_fpga.sv 
 # -- Compiling package top_alu_fpga_sv_unit
 # -- Importing package alu_pkg
@@ -50,12 +50,12 @@
 # 
 # Top level modules:
 # 	top_alu_fpga
-# End time: 17:14:45 on Sep 06,2025, Elapsed time: 0:00:00
+# End time: 17:35:46 on Sep 06,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vlog -sv -work work +incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1 {C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/tb_alu.sv}
 # Model Technology ModelSim - Intel FPGA Edition vlog 2020.1 Compiler 2020.02 Feb 28 2020
-# Start time: 17:14:45 on Sep 06,2025
+# Start time: 17:35:46 on Sep 06,2025
 # vlog -reportprogress 300 -sv -work work "+incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1" C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/tb_alu.sv 
 # -- Compiling package tb_alu_sv_unit
 # -- Importing package alu_pkg
@@ -63,12 +63,12 @@
 # 
 # Top level modules:
 # 	tb_alu
-# End time: 17:14:45 on Sep 06,2025, Elapsed time: 0:00:00
+# End time: 17:35:46 on Sep 06,2025, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
 # 
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs="+acc"  tb_alu
 # vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs=""+acc"" tb_alu 
-# Start time: 17:14:45 on Sep 06,2025
+# Start time: 17:35:46 on Sep 06,2025
 # Loading sv_std.std
 # Loading work.alu_pkg
 # Loading work.tb_alu_sv_unit
@@ -79,36 +79,20 @@
 # add wave *
 # ** Warning: (vsim-WLF-5000) WLF file currently in use: vsim.wlf
 #           File in use by: snipe  Hostname: DESKTOP-SB7LDHS  ProcessID: 16652
-#           Attempting to use alternate WLF file "./wlftbj81e5".
+#           Attempting to use alternate WLF file "./wlft1fbdqf".
 # ** Warning: (vsim-WLF-5001) Could not open WLF file: vsim.wlf
-#           Using alternate file: ./wlftbj81e5
+#           Using alternate file: ./wlft1fbdqf
 # view structure
 # .main_pane.structure.interior.cs.body.struct
 # view signals
 # .main_pane.objects.interior.cs.body.tree
 # run -all
-# === TB ALU N=4 (Y truncado a 4 bits; MUL unsigned) ===
-# ADD 3+5     A=0011  B=0101  OP=0  |  Y=1000  {N,Z,C,V}={1,0,0,1}
-# ADD 9+9     A=1001  B=1001  OP=0  |  Y=0010  {N,Z,C,V}={0,0,1,1}
-# SUB 7-2     A=0111  B=0010  OP=1  |  Y=0101  {N,Z,C,V}={0,0,1,0}
-# SUB 2-7     A=0010  B=0111  OP=1  |  Y=1011  {N,Z,C,V}={1,0,0,0}
-# MUL 3*5    A=0011  B=0101  OP=2  |  Y=1111  {N,Z,C,V}={0,0,0,0}
-# MUL 15*15  A=1111  B=1111  OP=2  |  Y=0001  {N,Z,C,V}={0,0,1,1}
-# DIV 9/3     A=1001  B=0011  OP=3  |  Y=0011  {N,Z,C,V}={0,0,0,0}
-# DIV 7/2     A=0111  B=0010  OP=3  |  Y=0011  {N,Z,C,V}={0,0,0,0}
-# MOD 7%3     A=0111  B=0011  OP=4  |  Y=0001  {N,Z,C,V}={0,0,0,0}
-# MOD 9%4     A=1001  B=0100  OP=4  |  Y=0001  {N,Z,C,V}={0,0,0,0}
-# AND A&B     A=1010  B=0101  OP=5  |  Y=0000  {N,Z,C,V}={0,1,0,0}
-# OR  A|B     A=1010  B=0101  OP=6  |  Y=1111  {N,Z,C,V}={0,0,0,0}
-# XOR A^B     A=1010  B=0101  OP=7  |  Y=1111  {N,Z,C,V}={0,0,0,0}
-# SLL 0011<<1  A=0011  B=0000  OP=8  |  Y=0110  {N,Z,C,V}={0,0,0,0}
-# SLL 1001<<1  A=1001  B=0000  OP=8  |  Y=0010  {N,Z,C,V}={0,0,1,1}
-# SRL 1000>>1  A=1000  B=0000  OP=9  |  Y=0100  {N,Z,C,V}={0,0,0,0}
-# SRL 0001>>1  A=0001  B=0000  OP=9  |  Y=0000  {N,Z,C,V}={0,1,1,0}
-# === FIN TB ===
-# ** Note: $finish    : C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/tb_alu.sv(57)
-#    Time: 17 ns  Iteration: 0  Instance: /tb_alu
+# === TB ALU N=4 (self-check con asserts) ===
+# === TODO OK: 18 tests, 0 fails ===
+# ** Note: $finish    : C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/tb_alu.sv(186)
+#    Time: 19 ns  Iteration: 0  Instance: /tb_alu
 # 1
-# Break in Module tb_alu at C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/tb_alu.sv line 57
-# End time: 17:15:32 on Sep 06,2025, Elapsed time: 0:00:47
+# Break in Module tb_alu at C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/tb_alu.sv line 186
+# WARNING: No extended dataflow license exists
+# End time: 17:40:17 on Sep 06,2025, Elapsed time: 0:04:31
 # Errors: 0, Warnings: 2
