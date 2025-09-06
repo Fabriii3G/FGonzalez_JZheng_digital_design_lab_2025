@@ -39,7 +39,7 @@
 
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSXFC6D6F31C6
-set_global_assignment -name TOP_LEVEL_ENTITY alu
+set_global_assignment -name TOP_LEVEL_ENTITY top_alu_fpga
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 20.1.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "12:22:30  SEPTEMBER 06, 2025"
 set_global_assignment -name LAST_QUARTUS_VERSION "20.1.0 Lite Edition"
@@ -65,8 +65,44 @@ set_global_assignment -name EDA_TEST_BENCH_NAME tb_alu -section_id eda_simulatio
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id tb_alu
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME tb_alu -section_id tb_alu
 set_global_assignment -name EDA_TEST_BENCH_FILE tb_alu.sv -section_id tb_alu
+set_global_assignment -name SYSTEMVERILOG_FILE tb_alu.sv
+set_global_assignment -name SYSTEMVERILOG_FILE top_alu_fpga.sv
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
-set_global_assignment -name SYSTEMVERILOG_FILE tb_alu.sv
+set_location_assignment PIN_AF14 -to CLOCK_50
+set_location_assignment PIN_AB30 -to SW[0]
+set_location_assignment PIN_Y27 -to SW[1]
+set_location_assignment PIN_AB28 -to SW[2]
+set_location_assignment PIN_AC30 -to SW[3]
+set_location_assignment PIN_V25 -to SW[4]
+set_location_assignment PIN_AC28 -to SW[5]
+set_location_assignment PIN_AD30 -to SW[6]
+set_location_assignment PIN_AC29 -to SW[7]
+set_location_assignment PIN_AA24 -to LEDR[0]
+set_location_assignment PIN_AB23 -to LEDR[1]
+set_location_assignment PIN_AC23 -to LEDR[2]
+set_location_assignment PIN_AD24 -to LEDR[3]
+set_location_assignment PIN_AJ4 -to KEY[0]
+set_location_assignment PIN_AF16 -to HEX1[0]
+set_location_assignment PIN_V16 -to HEX1[1]
+set_location_assignment PIN_AE16 -to HEX1[2]
+set_location_assignment PIN_AD17 -to HEX1[3]
+set_location_assignment PIN_AE18 -to HEX1[4]
+set_location_assignment PIN_AE17 -to HEX1[5]
+set_location_assignment PIN_V17 -to HEX1[6]
+set_location_assignment PIN_W17 -to HEX0[0]
+set_location_assignment PIN_AH18 -to HEX0[6]
+set_location_assignment PIN_AG18 -to HEX0[5]
+set_location_assignment PIN_AH17 -to HEX0[4]
+set_location_assignment PIN_AG16 -to HEX0[3]
+set_location_assignment PIN_AG17 -to HEX0[2]
+set_location_assignment PIN_V18 -to HEX0[1]
+set_location_assignment PIN_Y19 -to HEX2[0]
+set_location_assignment PIN_W19 -to HEX2[1]
+set_location_assignment PIN_AD19 -to HEX2[2]
+set_location_assignment PIN_AA20 -to HEX2[3]
+set_location_assignment PIN_AC20 -to HEX2[4]
+set_location_assignment PIN_AA19 -to HEX2[5]
+set_location_assignment PIN_AD20 -to HEX2[6]
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
