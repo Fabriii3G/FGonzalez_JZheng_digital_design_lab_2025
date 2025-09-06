@@ -127,7 +127,7 @@ module alu #(
       alu_pkg::OP_ADD: Cf = add_cout;
       // En resta, interpretamos borrow como "no hubo préstamo" => C = ~borrow (estilo 6502),
       // o si prefieres C = borrow, cámbialo aquí.
-      alu_pkg::OP_SUB: Cf = ~sub_bout;
+      alu_pkg::OP_SUB: Cf = sub_bout;
       alu_pkg::OP_SLL: Cf = A[N-1];     // bit que se pierde al desplazar
       alu_pkg::OP_SRL: Cf = A[0];       // bit expulsado
       default:         Cf = 1'b0;
