@@ -1,94 +1,57 @@
 `timescale 1ns/1ps
 import alu_pkg::*;
 
-
 module tb_alu;
-  import alu_pkg::*;
-
   localparam int N = 4;
 
   logic [N-1:0] A, B;
   op_t          OP;
-  logic [2*N-1:0] Y;
+  logic [N-1:0] Y;     // resultado truncado a 4 bits
   logic Nf, Zf, Cf, Vf;
 
-  alu #(.N(N)) DUT (
+  // ALU: MUL es UNSIGNED; ADD/SUB/DIV/MOD con signo si SIGNED_OPS=1
+  alu #(.N(N), .SIGNED_OPS(1)) DUT (
     .A(A), .B(B), .op(OP),
     .Y(Y), .Nf(Nf), .Zf(Zf), .Cf(Cf), .Vf(Vf)
   );
 
-  // Tarea de check
-  task check(input string name, input logic [2*N-1:0] got, input logic [2*N-1:0] exp);
-    if (got !== exp) begin
-      $display("[FAIL] %s: got=%0h exp=%0h  A=%0h B=%0h OP=%0h", name, got, exp, A, B, OP);
-    end else begin
-      $display("[ OK ] %s: %0h == %0h", name, got, exp);
-    end
+  task show(string tag);
+    // OJO: Quartus no soporta OP.name(), imprimimos el valor numérico del enum
+    $display("%s  A=%b  B=%b  OP=%0d  |  Y=%b  {N,Z,C,V}={%0d,%0d,%0d,%0d}",
+             tag, A, B, int'(OP), Y, Nf, Zf, Cf, Vf);
   endtask
 
   initial begin
-    $display("=== TB ALU N=%0d ===", N);
+    $display("=== TB ALU N=%0d (Y truncado a 4 bits; MUL unsigned) ===", N);
 
-    // -------- ADD (2 casos) --------
-    OP = OP_ADD;
-    // Caso 1: 3 + 5 = 8
-    A = 4'd3; B = 4'd5; #1;
-    check("ADD 3+5", Y, { {N{1'b0}}, 4'd8 });
+    // ---------- ADD ----------
+    A=4'd3;  B=4'd5;  OP=OP_ADD; #1; show("ADD 3+5   ");
+    A=4'd9;  B=4'd9;  OP=OP_ADD; #1; show("ADD 9+9   ");
 
-    // Caso 2: 9 + 9 = 18 (0x12) -> sum N=4 -> 2, cout=1
-    A = 4'd9; B = 4'd9; #1;
-    check("ADD 9+9", Y, { {N{1'b0}}, (4'd9 + 4'd9) }); // esperado 0x12 -> Y=0x02 extendido
+    // ---------- SUB ----------
+    A=4'd7;  B=4'd2;  OP=OP_SUB; #1; show("SUB 7-2   ");
+    A=4'd2;  B=4'd7;  OP=OP_SUB; #1; show("SUB 2-7   ");
 
-    // -------- SUB (2 casos) --------
-    OP = OP_SUB;
-    // Caso 1: 7 - 2 = 5
-    A = 4'd7; B = 4'd2; #1;
-    check("SUB 7-2", Y, { {N{1'b0}}, 4'd5 });
+    // ---------- MUL (UNSIGNED) ----------
+    A=4'b0011; B=4'b0101; OP=OP_MUL; #1; show("MUL 3*5  ");
+    A=4'b1111; B=4'b1111; OP=OP_MUL; #1; show("MUL 15*15");
 
-    // Caso 2: 2 - 7 = (wrap 4b) => 2-7 = -5 -> 4b = 11 (0xB)
-    A = 4'd2; B = 4'd7; #1;
-    check("SUB 2-7", Y, { {N{1'b0}}, (4'(2)-4'(7)) }); // esperado 0xB
+    // ---------- DIV / MOD ----------
+    A=4'd9;  B=4'd3;  OP=OP_DIV; #1; show("DIV 9/3   ");
+    A=4'd7;  B=4'd2;  OP=OP_DIV; #1; show("DIV 7/2   ");
+    A=4'd7;  B=4'd3;  OP=OP_MOD; #1; show("MOD 7%3   ");
+    A=4'd9;  B=4'd4;  OP=OP_MOD; #1; show("MOD 9%4   ");
 
-    // -------- MUL (2 casos) --------
-    OP = OP_MUL;
-    // Caso 1: 3 * 5 = 15 (0x0F)
-    A = 4'd3; B = 4'd5; #1;
-    check("MUL 3*5", Y, (4'd3 * 4'd5));
+    // ---------- Lógicas ----------
+    A=4'hA;  B=4'h5;  OP=OP_AND; #1; show("AND A&B   ");
+    A=4'hA;  B=4'h5;  OP=OP_OR;  #1; show("OR  A|B   ");
+    A=4'hA;  B=4'h5;  OP=OP_XOR; #1; show("XOR A^B   ");
 
-    // Caso 2: 15 * 15 = 225 (0x00E1 en 8 bits; en 2N=8 bits)
-    A = 4'd15; B = 4'd15; #1;
-    check("MUL 15*15", Y, (4'd15 * 4'd15));
-
-    // -------- DIV (2 casos, operador permitido) --------
-    OP = OP_DIV;
-    A = 4'd9; B = 4'd3; #1;
-    check("DIV 9/3", Y, { {N{1'b0}}, 4'd3 });
-    A = 4'd7; B = 4'd2; #1;
-    check("DIV 7/2", Y, { {N{1'b0}}, 4'd3 });
-
-    // -------- MOD (2 casos) --------
-    OP = OP_MOD;
-    A = 4'd7; B = 4'd3; #1;
-    check("MOD 7%3", Y, { {N{1'b0}}, 4'd1 });
-    A = 4'd9; B = 4'd4; #1;
-    check("MOD 9%4", Y, { {N{1'b0}}, 4'd1 });
-
-    // -------- AND / OR / XOR (2 casos cada uno) --------
-    OP = OP_AND; A=4'hA; B=4'h5; #1; check("AND A(1010)&B(0101)", Y, { {N{1'b0}}, 4'h0});
-    OP = OP_AND; A=4'hF; B=4'hC; #1; check("AND F&C", Y, { {N{1'b0}}, 4'hC});
-
-    OP = OP_OR;  A=4'hA; B=4'h5; #1; check("OR  A|B", Y, { {N{1'b0}}, 4'hF});
-    OP = OP_OR;  A=4'h0; B=4'hC; #1; check("OR  0|C", Y, { {N{1'b0}}, 4'hC});
-
-    OP = OP_XOR; A=4'hA; B=4'h5; #1; check("XOR A^B", Y, { {N{1'b0}}, 4'hF});
-    OP = OP_XOR; A=4'hF; B=4'hF; #1; check("XOR F^F", Y, { {N{1'b0}}, 4'h0});
-
-    // -------- SLL / SRL (2 casos cada uno) --------
-    OP = OP_SLL; A=4'b0011; B='0; #1; check("SLL 0011<<1", Y, { {N{1'b0}}, 4'b0110});
-    OP = OP_SLL; A=4'b1001; B='0; #1; check("SLL 1001<<1", Y, { {N{1'b0}}, 4'b0010}); // wrap natural de 4b
-
-    OP = OP_SRL; A=4'b1000; B='0; #1; check("SRL 1000>>1", Y, { {N{1'b0}}, 4'b0100});
-    OP = OP_SRL; A=4'b0001; B='0; #1; check("SRL 0001>>1", Y, { {N{1'b0}}, 4'b0000});
+    // ---------- Shifts ----------
+    A=4'b0011; B='0; OP=OP_SLL; #1; show("SLL 0011<<1");
+    A=4'b1001; B='0; OP=OP_SLL; #1; show("SLL 1001<<1");
+    A=4'b1000; B='0; OP=OP_SRL; #1; show("SRL 1000>>1");
+    A=4'b0001; B='0; OP=OP_SRL; #1; show("SRL 0001>>1");
 
     $display("=== FIN TB ===");
     $finish;

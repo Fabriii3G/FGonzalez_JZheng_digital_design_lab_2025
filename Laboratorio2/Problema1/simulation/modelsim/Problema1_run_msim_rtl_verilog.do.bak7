@@ -6,6 +6,7 @@ vlib rtl_work
 vmap work rtl_work
 
 vlog -sv -work work +incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1 {C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/alu_pkg.sv}
+vlog -sv -work work +incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1 {C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/sum_res_mul.sv}
 vlog -sv -work work +incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1 {C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/alu.sv}
 vlog -sv -work work +incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1 {C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/top_alu_fpga.sv}
 

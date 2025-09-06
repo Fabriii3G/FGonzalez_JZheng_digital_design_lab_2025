@@ -1,10 +1,11 @@
 // ======================================================
-// Top para FPGA: ALU N=4 con switches y botón que cicla ops
+// Top para FPGA: ALU N=4 con botón para ciclar operaciones
 // - SW[7:4] = A, SW[3:0] = B
 // - KEY[0]  = botón (activo en bajo) para avanzar operación
-// - HEX2    = índice de operación (siempre visible, 0..9)
-// - HEX1:HEX0 = resultado Y (8 bits) en HEX
-// - LEDR[3:0] = {Vf,Cf,Zf,Nf}; resto de LEDs en 0
+// - HEX2    = índice de operación (0..9)
+// - HEX1    = 0 fijo
+// - HEX0    = Y (resultado truncado a 4 bits)
+// - LEDR[3:0] = {Vf, Cf, Zf, Nf_visible}  <-- Nf solo en ADD/SUB/SLL
 // ======================================================
 `timescale 1ns/1ps
 import alu_pkg::*;
@@ -12,8 +13,9 @@ import alu_pkg::*;
 module top_alu_fpga #(
   parameter int N = 4,
   parameter int F_CLK_HZ = 50_000_000,
-  parameter bit ACTIVE_LOW_BTNS = 1,   // KEY activos en bajo en placas Intel
-  parameter bit ACTIVE_LOW_7SEG = 1    // HEX activos en bajo en placas Intel
+  parameter bit ACTIVE_LOW_BTNS = 1,   // KEY activos en bajo (Intel DE boards)
+  parameter bit ACTIVE_LOW_7SEG = 1,   // 7seg activos en bajo
+  parameter bit SIGNED_OPS = 1         // pasa a la ALU (ADD/SUB/SLL con signo)
 )(
   input  logic        CLOCK_50,
   input  logic [7:0]  SW,          // SW[7:4]=A, SW[3:0]=B
@@ -25,13 +27,9 @@ module top_alu_fpga #(
 );
 
   // ---------- Entradas ----------
-  wire btn_raw;
-  assign btn_raw = (ACTIVE_LOW_BTNS) ? ~KEY[0] : KEY[0]; // botón activo en alto
-
-  wire [N-1:0] A;
-  wire [N-1:0] B;
-  assign A = SW[7:4];
-  assign B = SW[3:0];
+  wire btn_raw = (ACTIVE_LOW_BTNS) ? ~KEY[0] : KEY[0]; // botón activo en alto
+  wire [N-1:0] A = SW[7:4];
+  wire [N-1:0] B = SW[3:0];
 
   // ---------- Debounce + pulso único ----------
   logic btn_deb, btn_pulse;
@@ -42,9 +40,7 @@ module top_alu_fpga #(
   // Mapa: 0=ADD,1=SUB,2=MUL,3=DIV,4=MOD,5=AND,6=OR,7=XOR,8=SLL,9=SRL
   logic [3:0] op_idx = 4'd0;
   always_ff @(posedge CLOCK_50) begin
-    if (btn_pulse) begin
-      op_idx <= (op_idx == 4'd9) ? 4'd0 : op_idx + 4'd1;
-    end
+    if (btn_pulse) op_idx <= (op_idx == 4'd9) ? 4'd0 : op_idx + 4'd1;
   end
 
   op_t OP;
@@ -65,37 +61,36 @@ module top_alu_fpga #(
   end
 
   // ---------- ALU ----------
-  logic [2*N-1:0] Y;
+  logic [N-1:0] Y;
   logic Nf, Zf, Cf, Vf;
 
-  alu #(.N(N)) U_ALU (
+  alu #(.N(N), .SIGNED_OPS(SIGNED_OPS)) U_ALU (
     .A(A), .B(B), .op(OP),
     .Y(Y), .Nf(Nf), .Zf(Zf), .Cf(Cf), .Vf(Vf)
   );
 
+  // ---------- Nf visible solo donde aplica (ADD/SUB/SLL) ----------
+  wire Nf_visible = (SIGNED_OPS && (OP==OP_ADD || OP==OP_SUB || OP==OP_SLL)) ? Nf : 1'b0;
+
   // ---------- Displays ----------
-  // Resultado en HEX (dos nibbles)
-  logic [6:0] seg0_res, seg1_res;
-  hex7seg u_hex0_res (.val(Y[3:0]),       .seg(seg0_res));
-  hex7seg u_hex1_res (.val(Y[2*N-1:N]),   .seg(seg1_res));
+  logic [6:0] seg0_res, seg1_zero, seg2_idx;
+  hex7seg u_hex0_res (.val(Y[3:0]),      .seg(seg0_res));
+  hex7seg u_hex1_zero(.val(4'h0),        .seg(seg1_zero));
+  hex7seg u_hex2_idx (.val(op_idx[3:0]), .seg(seg2_idx));
 
-  // Índice de operación (0..9) fijo en HEX2
-  logic [6:0] seg2_idx;
-  hex7seg u_hex2_idx (.val(op_idx[3:0]),  .seg(seg2_idx));
+  // Polaridad
+  assign HEX0 = (ACTIVE_LOW_7SEG) ? seg0_res  : ~seg0_res;
+  assign HEX1 = (ACTIVE_LOW_7SEG) ? seg1_zero : ~seg1_zero;
+  assign HEX2 = (ACTIVE_LOW_7SEG) ? seg2_idx  : ~seg2_idx;
 
-  // Ajuste de polaridad (activo en bajo típico Intel)
-  assign HEX0 = (ACTIVE_LOW_7SEG) ? seg0_res : ~seg0_res;
-  assign HEX1 = (ACTIVE_LOW_7SEG) ? seg1_res : ~seg1_res;
-  assign HEX2 = (ACTIVE_LOW_7SEG) ? seg2_idx : ~seg2_idx;
-
-  // ---------- LEDs de apoyo ----------
-  assign LEDR[3:0] = {Vf, Cf, Zf, Nf}; // flags
-  assign LEDR[9:4] = 6'b0;             // sin uso
+  // ---------- LEDs ----------
+  assign LEDR[3:0] = {Vf, Cf, Zf, Nf_visible}; // {V,C,Z,N}
+  assign LEDR[9:4] = '0;
 
 endmodule
 
 // ======================================================
-// Debouncer simple (retarda MS milisegundos)
+// Debouncer (retardo ~MS milisegundos)
 // ======================================================
 module debounce #(
   parameter int F_CLK_HZ = 50_000_000,
@@ -126,7 +121,7 @@ module debounce #(
 endmodule
 
 // ======================================================
-// Generador de pulso 1 ciclo en flanco de subida
+// Generador de pulso (1 ciclo) en flanco de subida
 // ======================================================
 module one_pulse(
   input  logic clk,
@@ -145,7 +140,7 @@ endmodule
 // ======================================================
 module hex7seg(
   input  logic [3:0] val,
-  output logic [6:0] seg   // g f e d c b a
+  output logic [6:0] seg
 );
   always_comb begin
     unique case (val)
@@ -165,7 +160,7 @@ module hex7seg(
       4'hD: seg = 7'b0100001;
       4'hE: seg = 7'b0000110;
       4'hF: seg = 7'b0001110;
-      default: seg = 7'b1111111; // apagado
+      default: seg = 7'b1111111;
     endcase
   end
 endmodule

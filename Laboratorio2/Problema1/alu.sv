@@ -1,148 +1,113 @@
 import alu_pkg::*;
 
-
 module alu #(
-  parameter int N = 4
+  parameter int N = 4,
+  // Si =1, ADD/SUB usan aritmética con signo (2's complement).
+  // MUL, DIV y MOD se fuerzan a UNSIGNED (como pediste).
+  parameter bit SIGNED_OPS = 1'b1
 )(
   input  logic [N-1:0] A, B,
-  input  alu_pkg::op_t op,
-  output logic [2*N-1:0] Y,     // salida ancha para MUL
-  output logic Nf, Zf, Cf, Vf   // flags: Negativo, Cero, Carry, Overflow
+  input  op_t          op,
+  output logic [N-1:0] Y,      // resultado truncado a N bits (LSB)
+  output logic         Nf, Zf, Cf, Vf
 );
-  // --- Instancias "modelo 1" ---
-  // ADD (RCA)
-  logic [N-1:0] add_s;
-  logic         add_cout;
-  rca_adder #(.N(N)) u_add (
-    .a   (A), .b(B), .cin(1'b0),
-    .sum (add_s), .cout(add_cout)
-  );
 
-  // SUB (Ripple-Borrow)
-  logic [N-1:0] sub_d;
-  logic         sub_bout;
-  ripple_subtractor #(.N(N)) u_sub (
-    .a   (A), .b(B), .bin(1'b0),
-    .diff(sub_d), .bout(sub_bout)
-  );
+  // Temporales (sin inicializar en la declaración)
+  logic [N-1:0]   yN;
+  logic           cf, vf;
+  logic [2*N-1:0] wide;
+  logic [N:0]     sum_u, diff_u;
+  logic [N-1:0]   sh_tmp;
 
-  // MUL (Array)
-  logic [2*N-1:0] mul_p;
-  array_multiplier #(.N(N)) u_mul (
-    .a (A), .b(B), .p(mul_p)
-  );
-
-	  // --- Resto de operaciones (permitido por enunciado)
-	logic [N-1:0] div_q;
-	logic [N-1:0] mod_r;
-	logic [N-1:0] and_r;
-	logic [N-1:0] or_r;
-	logic [N-1:0] xor_r;
-	logic [N-1:0] sll_r;
-	logic [N-1:0] srl_r;
-
-	assign div_q = (B != 0) ? (A / B) : '0;
-	assign mod_r = (B != 0) ? (A % B) : '0;
-	assign and_r = A & B;
-	assign or_r  = A | B;
-	assign xor_r = A ^ B;
-	assign sll_r = A << 1;   // si quieres parametrizar el shift, lo cambiamos luego
-	assign srl_r = A >> 1;
-
-
-  // --- Selección de resultado ---
-  logic [N-1:0] yN;   // resultado N-bit "base" (para flags C/V en ADD/SUB)
   always_comb begin
-    // default
-    Y  = '0;
-    yN = '0;
+    // Defaults
+    yN     = '0;
+    cf     = 1'b0;
+    vf     = 1'b0;
+    wide   = '0;
+    sum_u  = '0;
+    diff_u = '0;
+    sh_tmp = '0;
 
     unique case (op)
-      alu_pkg::OP_ADD: begin
-        yN = add_s;
-        Y  = { {N{1'b0}}, add_s }; // extender a 2N
+      // ===================== ADD =====================
+      OP_ADD: begin
+        sum_u = {1'b0, A} + {1'b0, B};
+        yN    = sum_u[N-1:0];            // truncado a N bits
+        cf    = sum_u[N];                // carry-out (unsigned)
+        if (SIGNED_OPS)  vf = (A[N-1]==B[N-1]) && (yN[N-1]!=A[N-1]); // overflow con signo
+        else             vf = cf;        // overflow unsigned ≡ carry
       end
 
-      alu_pkg::OP_SUB: begin
-        yN = sub_d;
-        Y  = { {N{1'b0}}, sub_d };
+      // ===================== SUB (A - B) =====================
+      OP_SUB: begin
+        // A + (~B + 1)
+        diff_u = {1'b0, A} + {1'b0, ~B} + 1'b1;
+        yN     = diff_u[N-1:0];
+        cf     = diff_u[N];  // 1 = no borrow, 0 = borrow
+        if (SIGNED_OPS)  vf = (A[N-1]!=B[N-1]) && (yN[N-1]!=A[N-1]);
+        else             vf = ~cf;       // opcional: reportar borrow como overflow en unsigned
       end
 
-      alu_pkg::OP_MUL: begin
-        yN = mul_p[N-1:0]; // para evaluar V con base N si se desea
-        Y  = mul_p;
+      // ===================== MUL (SIEMPRE UNSIGNED) =====================
+      OP_MUL: begin
+        wide = {{N{1'b0}}, A} * {{N{1'b0}}, B}; // UNSIGNED
+        yN   = wide[N-1:0];                     // truncado a N bits (LSB)
+        vf   = |wide[2*N-1:N];                  // overflow si hubo bits altos
+        cf   = vf;                              // opcional: reflejar overflow en CF
       end
 
-      alu_pkg::OP_DIV: begin
-        yN = div_q;
-        Y  = { {N{1'b0}}, div_q };
+      // ===================== DIV (SIEMPRE UNSIGNED) =====================
+      OP_DIV: begin
+        if (B == '0) begin
+          yN='0; cf=1'b0; vf=1'b1;             // división por cero
+        end else begin
+          yN = A / B;                           // cociente 0..(2^N-1)
+          cf = 1'b0; vf = 1'b0;
+        end
       end
 
-      alu_pkg::OP_MOD: begin
-        yN = mod_r;
-        Y  = { {N{1'b0}}, mod_r };
+      // ===================== MOD (SIEMPRE UNSIGNED) =====================
+      OP_MOD: begin
+        if (B == '0) begin
+          yN='0; cf=1'b0; vf=1'b1;             // módulo por cero
+        end else begin
+          yN = A % B;                           // resto 0..B-1
+          cf = 1'b0; vf = 1'b0;
+        end
       end
 
-      alu_pkg::OP_AND: begin
-        yN = and_r;
-        Y  = { {N{1'b0}}, and_r };
-      end
+      // ===================== Lógicas =====================
+      OP_AND: begin yN = A & B; cf=1'b0; vf=1'b0; end
+      OP_OR : begin yN = A | B; cf=1'b0; vf=1'b0; end
+      OP_XOR: begin yN = A ^ B; cf=1'b0; vf=1'b0; end
 
-      alu_pkg::OP_OR: begin
-        yN = or_r;
-        Y  = { {N{1'b0}}, or_r };
+      // ===================== Shifts =====================
+      // Nota: desplazo 1 bit. Si quieres usar B como cantidad, cambia <<1 / >>1 por <<B / >>B.
+      OP_SLL: begin
+        sh_tmp = (A << 1);
+        yN = sh_tmp;
+        cf = A[N-1];                          // bit expulsado
+        vf = SIGNED_OPS ? (yN[N-1]!=A[N-1]) : 1'b0; // cambio de signo = overflow (si con signo)
       end
-
-      alu_pkg::OP_XOR: begin
-        yN = xor_r;
-        Y  = { {N{1'b0}}, xor_r };
-      end
-
-      alu_pkg::OP_SLL: begin
-        yN = sll_r;
-        Y  = { {N{1'b0}}, sll_r };
-      end
-
-      alu_pkg::OP_SRL: begin
-        yN = srl_r;
-        Y  = { {N{1'b0}}, srl_r };
+      OP_SRL: begin
+        sh_tmp = (A >> 1);
+        yN = sh_tmp;
+        cf = A[0];                             // bit expulsado
+        vf = 1'b0;
       end
 
       default: begin
-        yN = '0;
-        Y  = '0;
+        yN='0; cf=1'b0; vf=1'b0;
       end
     endcase
   end
 
-  // --- Flags ---
-  // Z y N sobre la salida ancha Y (como tu "calculadora" de 7-seg)
-  assign Zf = (Y == '0);
-  assign Nf = Y[2*N-1];
-
-  // C y V relevantes sobre ADD/SUB (N bits). Para otras, definimos criterio simple.
-  // Carry (Cf):
-  always_comb begin
-    unique case (op)
-      alu_pkg::OP_ADD: Cf = add_cout;
-      // En resta, interpretamos borrow como "no hubo préstamo" => C = ~borrow (estilo 6502),
-      // o si prefieres C = borrow, cámbialo aquí.
-      alu_pkg::OP_SUB: Cf = sub_bout;
-      alu_pkg::OP_SLL: Cf = A[N-1];     // bit que se pierde al desplazar
-      alu_pkg::OP_SRL: Cf = A[0];       // bit expulsado
-      default:         Cf = 1'b0;
-    endcase
-  end
-
-  // Overflow (V) solo en suma/resta con signo (N bits)
-  // V_add = (~(A[N-1]^B[N-1]) & (A[N-1]^sum[N-1]))
-  // V_sub = ( (A[N-1]^B[N-1]) & (A[N-1]^diff[N-1]) )
-  always_comb begin
-    unique case (op)
-      alu_pkg::OP_ADD: Vf = (~(A[N-1]^B[N-1])) & (A[N-1]^yN[N-1]);
-      alu_pkg::OP_SUB: Vf = ( (A[N-1]^B[N-1]) ) & (A[N-1]^yN[N-1]);
-      default:         Vf = 1'b0;
-    endcase
-  end
+  // Salidas finales
+  assign Y  = yN;              // siempre N bits (truncado)
+  assign Zf = (yN == '0);
+  assign Nf = (SIGNED_OPS && (op==OP_ADD || op==OP_SUB || op==OP_SLL)) ? yN[N-1] : 1'b0;
+  assign Cf = cf;
+  assign Vf = vf;
 
 endmodule
