@@ -13,7 +13,7 @@ valu
 Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
 Z2 DXx4 work 7 alu_pkg 0 22 AEE3TKD:UmPDcICEOG4Pn3
 DXx4 work 11 alu_sv_unit 0 22 _V]S5;T^MBkF5aa2Uo03@1
-Z3 !s110 1757201745
+Z3 !s110 1757379959
 Z4 VDg1SIo80bB@j0V0VzS_@n1
 r1
 !s85 0
@@ -30,7 +30,7 @@ Z7 FC:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2
 L0 3 111
 Z8 OV;L;2020.1;71
 31
-Z9 !s108 1757201745.000000
+Z9 !s108 1757379959.000000
 Z10 !s107 C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/alu.sv|
 Z11 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1|C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/alu.sv|
 !i113 1
@@ -90,30 +90,57 @@ R11
 R12
 R13
 R14
-vdebounce
+valu_timing
 R1
 R2
-Z21 DXx4 work 20 top_alu_fpga_sv_unit 0 22 :]bA<]JShHTO4ihR>[6VO1
-Z22 !s110 1757201746
+DXx4 work 18 alu_timing_sv_unit 0 22 >f3z4z02TgVGU0kISY``Z3
+Z21 !s110 1757379960
 R4
 r1
 !s85 0
 !i10b 1
-!s100 60AlLGo9PN0mJHiCGOceo2
-IUK[0eZI]B:n]F^H`TcX2G3
-Z23 !s105 top_alu_fpga_sv_unit
+!s100 FHl1WKf@7^z;]UD37I_^n2
+InT3Ci@Q3oUMbzHGa2n4Pa0
+!s105 alu_timing_sv_unit
 S1
 R0
-Z24 w1757201151
-Z25 8C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/top_alu_fpga.sv
-Z26 FC:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/top_alu_fpga.sv
+Z22 w1757378642
+Z23 8C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/alu_timing.sv
+Z24 FC:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/alu_timing.sv
 !i122 2
-L0 95 27
+L0 4 29
 R8
 31
-Z27 !s108 1757201746.000000
-Z28 !s107 C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/top_alu_fpga.sv|
-Z29 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1|C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/top_alu_fpga.sv|
+R9
+Z25 !s107 C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/alu_timing.sv|
+Z26 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1|C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/alu_timing.sv|
+!i113 1
+R12
+R13
+R14
+Xalu_timing_sv_unit
+R1
+R2
+R21
+V>f3z4z02TgVGU0kISY``Z3
+r1
+!s85 0
+!i10b 1
+!s100 FjnE7LjgJN2jV5XM;hl_c0
+I>f3z4z02TgVGU0kISY``Z3
+!i103 1
+S1
+R0
+R22
+R23
+R24
+!i122 2
+Z27 L0 2 0
+R8
+31
+R9
+R25
+R26
 !i113 1
 R12
 R13
@@ -196,169 +223,117 @@ R20
 R12
 R13
 R14
-vhex7seg
+vtop_N2
+R1
+R2
+DXx4 work 14 top_N2_sv_unit 0 22 >z6N>VVMJ;X?Q_>kKDfmO2
+R21
+R4
+r1
+!s85 0
+!i10b 1
+!s100 oEFHjlMX:Yz7lc287<5l10
+II7YcClh;[]>0:[O6^kUV;3
+!s105 top_N2_sv_unit
+S1
+R0
+Z28 w1757378903
+Z29 8C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/top_N2.sv
+Z30 FC:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/top_N2.sv
+!i122 4
+Z31 L0 3 15
+R8
+31
+Z32 !s108 1757379960.000000
+!s107 C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/top_N2.sv|
+Z33 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1|C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/top_N2.sv|
+!i113 1
+R12
+R13
+R14
+ntop_@n2
+Xtop_N2_sv_unit
 R1
 R2
 R21
-R22
-R4
+V>z6N>VVMJ;X?Q_>kKDfmO2
 r1
 !s85 0
 !i10b 1
-!s100 7XCnZ]_;oMiSSL^eAV:C03
-I13zPdjOn_0@kWW[1<R]?e3
-R23
-S1
-R0
-R24
-R25
-R26
-!i122 2
-L0 141 26
-R8
-31
-R27
-R28
-R29
-!i113 1
-R12
-R13
-R14
-vone_pulse
-R1
-R2
-R21
-R22
-R4
-r1
-!s85 0
-!i10b 1
-!s100 GUN?M8MWcGamAY_zK7=L60
-INgmhBi@`gf1IHKhd3V_=B0
-R23
-S1
-R0
-R24
-R25
-R26
-!i122 2
-L0 126 11
-R8
-31
-R27
-R28
-R29
-!i113 1
-R12
-R13
-R14
-vtb_alu
-R1
-R2
-DXx4 work 14 tb_alu_sv_unit 0 22 1fV=kVnBWXGGQbUEKViZV1
-R22
-R4
-r1
-!s85 0
-!i10b 1
-!s100 CW?CUz@E[gB:HjKb9jKV>1
-IgP[S5G5cJBi5A1>FI3`:W3
-!s105 tb_alu_sv_unit
-S1
-R0
-Z30 w1757201729
-Z31 8C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/tb_alu.sv
-Z32 FC:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/tb_alu.sv
-!i122 3
-L0 4 185
-R8
-31
-R27
-!s107 C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/tb_alu.sv|
-Z33 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1|C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/tb_alu.sv|
-!i113 1
-R12
-R13
-R14
-Xtb_alu_sv_unit
-R1
-R2
-R22
-V1fV=kVnBWXGGQbUEKViZV1
-r1
-!s85 0
-!i10b 1
-!s100 6Ua2jXCNO5G^NJK5KW?8O2
-I1fV=kVnBWXGGQbUEKViZV1
+!s100 A36cTb^16z`;8HkZ[KcgG1
+I>z6N>VVMJ;X?Q_>kKDfmO2
 !i103 1
 S1
 R0
+R28
+R29
 R30
-R31
-R32
-!i122 3
-L0 2 0
+!i122 4
+R27
 R8
 31
-R27
-Z34 !s107 C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/tb_alu.sv|
+R32
+Z34 !s107 C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/top_N2.sv|
 R33
 !i113 1
 R12
 R13
 R14
-vtop_alu_fpga
+ntop_@n2_sv_unit
+vtop_N4
 R1
 R2
+DXx4 work 14 top_N4_sv_unit 0 22 DF]Don1Z9=>BH]]EK@7`b0
 R21
-R22
 R4
 r1
 !s85 0
 !i10b 1
-!s100 e_^K`c<`:zBRJa79R3jC80
-IeJc``N_j4VE:@M<:EXF;81
-R23
+!s100 b<I20aSEc^Pd[e>DRkL4P1
+Il5UdlZ7a1>2n4ZdLBeN@B1
+!s105 top_N4_sv_unit
 S1
 R0
-R24
-R25
-R26
-!i122 2
-L0 13 78
+Z35 w1757379911
+Z36 8C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/top_N4.sv
+Z37 FC:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/top_N4.sv
+!i122 3
+R31
 R8
 31
-R27
-R28
-R29
+R32
+Z38 !s107 C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/top_N4.sv|
+Z39 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1|C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/top_N4.sv|
 !i113 1
 R12
 R13
 R14
-Xtop_alu_fpga_sv_unit
+ntop_@n4
+Xtop_N4_sv_unit
 R1
 R2
-R22
-V:]bA<]JShHTO4ihR>[6VO1
+R21
+VDF]Don1Z9=>BH]]EK@7`b0
 r1
 !s85 0
 !i10b 1
-!s100 XAlC49foCJaY9T=o]MXz@2
-I:]bA<]JShHTO4ihR>[6VO1
+!s100 ?bY_`<VJdg8FmS>Y1^cd]2
+IDF]Don1Z9=>BH]]EK@7`b0
 !i103 1
 S1
 R0
-R24
-R25
-R26
-!i122 2
-L0 11 0
+R35
+R36
+R37
+!i122 3
+R27
 R8
 31
-R27
-R28
-R29
+R32
+R38
+R39
 !i113 1
 R12
 R13
 R14
+ntop_@n4_sv_unit

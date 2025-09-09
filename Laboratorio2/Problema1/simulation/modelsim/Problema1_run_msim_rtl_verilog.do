@@ -7,11 +7,12 @@ vmap work rtl_work
 
 vlog -sv -work work +incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1 {C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/alu_pkg.sv}
 vlog -sv -work work +incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1 {C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/alu.sv}
-vlog -sv -work work +incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1 {C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/top_alu_fpga.sv}
+vlog -sv -work work +incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1 {C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/alu_timing.sv}
+vlog -sv -work work +incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1 {C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/top_N4.sv}
 
-vlog -sv -work work +incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1 {C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/tb_alu.sv}
+vlog -sv -work work +incdir+C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1 {C:/Users/snipe/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio2/Problema1/top_N2.sv}
 
-vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs="+acc"  tb_alu
+vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs="+acc"  top_N2
 
 add wave *
 view structure
