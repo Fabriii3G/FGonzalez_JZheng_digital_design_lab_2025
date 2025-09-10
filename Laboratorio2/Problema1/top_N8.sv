@@ -1,4 +1,3 @@
-// top_N8.sv
 import alu_pkg::*;
 module top_N8 (
   input  logic        clk,

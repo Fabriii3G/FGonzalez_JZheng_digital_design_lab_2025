@@ -107,7 +107,7 @@ module array_multiplier #(
   logic           carry [N-1:0];
 
   assign acc[0]   = term[0];
-  assign carry[0] = 1'b0; // opcional/no usado
+  assign carry[0] = 1'b0; 
 
   generate
     for (i = 1; i < N; i++) begin : GEN_ACC
@@ -124,7 +124,7 @@ module array_multiplier #(
       );
 
       assign acc[i]   = sum_i;
-      assign carry[i] = cout_i; // solo informativo
+      assign carry[i] = cout_i; 
     end
   endgenerate
 

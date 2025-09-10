@@ -1,4 +1,3 @@
-// top_N32.sv
 import alu_pkg::*;
 module top_N32 (
   input  logic         clk,

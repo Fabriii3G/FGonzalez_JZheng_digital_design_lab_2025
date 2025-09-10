@@ -3,7 +3,7 @@ import alu_pkg::*;
 module alu #(
   parameter int N = 4,
   // Si =1, ADD/SUB usan aritmética con signo (2's complement).
-  // MUL, DIV y MOD se fuerzan a UNSIGNED (como pediste).
+  // MUL, DIV y MOD se fuerzan a UNSIGNED.
   parameter bit SIGNED_OPS = 1'b1
 )(
   input  logic [N-1:0] A, B,
@@ -12,7 +12,7 @@ module alu #(
   output logic         Nf, Zf, Cf, Vf
 );
 
-  // Temporales (sin inicializar en la declaración)
+  // Temporales 
   logic [N-1:0]   yN;
   logic           cf, vf;
   logic [2*N-1:0] wide;

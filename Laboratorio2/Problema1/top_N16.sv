@@ -1,4 +1,3 @@
-// top_N16.sv
 import alu_pkg::*;
 module top_N16 (
   input  logic         clk,

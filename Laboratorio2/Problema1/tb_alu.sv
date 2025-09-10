@@ -3,7 +3,7 @@ import alu_pkg::*;
 
 module tb_alu;
   localparam int N = 4;
-  localparam bit SIGNED_OPS = 1'b1;   // debe coincidir con la instancia de la ALU
+  localparam bit SIGNED_OPS = 1'b1;   
 
   // DUT
   logic [N-1:0] A, B;
@@ -57,20 +57,20 @@ module tb_alu;
       OP_SUB: begin
         diff_u = {1'b0, ai} + {1'b0, ~bi} + 1'b1;
         eY     = diff_u[N-1:0];
-        eC     = diff_u[N]; // 1=no borrow
+        eC     = diff_u[N];
         eV     = SIGNED_OPS ? ((ai[N-1]!=bi[N-1]) && (eY[N-1]!=ai[N-1])) : ~eC;
       end
       OP_MUL: begin
-        wide = {{N{1'b0}}, ai} * {{N{1'b0}}, bi}; // UNSIGNED
+        wide = {{N{1'b0}}, ai} * {{N{1'b0}}, bi}; 
         eY   = wide[N-1:0];
         eV   = |wide[2*N-1:N];
-        eC   = eV; // como en tu ALU
+        eC   = eV; 
       end
       OP_DIV: begin
         if (bi=='0) begin
           eY='0; eC=1'b0; eV=1'b1;
         end else begin
-          eY = ai / bi; // UNSIGNED
+          eY = ai / bi; 
           eC=1'b0; eV=1'b0;
         end
       end
@@ -78,7 +78,7 @@ module tb_alu;
         if (bi=='0) begin
           eY='0; eC=1'b0; eV=1'b1;
         end else begin
-          eY = ai % bi; // UNSIGNED
+          eY = ai % bi; 
           eC=1'b0; eV=1'b0;
         end
       end
@@ -100,7 +100,7 @@ module tb_alu;
       default: begin eY='0; eC=1'b0; eV=1'b0; end
     endcase
 
-    // Flags finales (mismas reglas que en tu ALU)
+    // Flags finales
     eZ = (eY == '0);
     eN = (SIGNED_OPS && (opi==OP_ADD || opi==OP_SUB || opi==OP_SLL)) ? eY[N-1] : 1'b0;
   endtask
@@ -153,11 +153,11 @@ module tb_alu;
     apply_and_check("SUB 7-2   ", OP_SUB, 4'd7,  4'd2);
     apply_and_check("SUB 2-7   ", OP_SUB, 4'd2,  4'd7);
 
-    // MUL (unsigned)
+    // MUL 
     apply_and_check("MUL 3*5   ", OP_MUL, 4'b0011, 4'b0101);
     apply_and_check("MUL 15*15 ", OP_MUL, 4'b1111, 4'b1111);
 
-    // DIV / MOD (unsigned)
+    // DIV / MOD 
     apply_and_check("DIV 9/3   ", OP_DIV, 4'd9,  4'd3);
     apply_and_check("DIV 7/2   ", OP_DIV, 4'd7,  4'd2);
     apply_and_check("MOD 7%3   ", OP_MOD, 4'd7,  4'd3);
