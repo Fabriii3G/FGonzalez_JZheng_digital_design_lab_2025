@@ -1,36 +1,42 @@
-// videoGen.sv — Fondo + UNA carta (sin latches, sin drivers múltiples)
+// videoGen.sv — Tablero 4×4 con 8 pares usando vga_cards
+import lab3_params::*;
+
 module videoGen(
   input  logic [9:0] x,
   input  logic [9:0] y,
+  input  logic       visible,   // pásale blank_b del controlador
   output logic [7:0] r,
   output logic [7:0] g,
   output logic [7:0] b
 );
-  // fondo
-  localparam logic [7:0] BG_R = 8'd0, BG_G = 8'd90, BG_B = 8'd0;
+  // Arreglos del tablero
+  card_state_e state     [15:0];
+  logic [3:0]  symbol_id [15:0];
+  logic [3:0]  hi;
 
-  // Instancia de UNA carta
-  logic hit;
-  logic [7:0] Rc, Gc, Bc;
-
-  vga_card #(
-    .X0(260), .Y0(140),
-    .W (120), .H (160)
-  ) u_card (
-    .x(x), .y(y),
-    .face_up (1'b1),     // carta boca arriba
-    .highlight(1'b1),    // borde amarillo
-    .suit_id (2'd0),     // 0=diamante
-    .hit(hit), .R(Rc), .G(Gc), .B(Bc)
-  );
-
-  // ÚNICO driver de r,g,b (sin latches)
+  // Config demo: todas UP; símbolos en pares 0,0,1,1,...,7,7; highlight=0
   always_comb begin
-    // fondo por defecto siempre asignado
-    r = BG_R; g = BG_G; b = BG_B;
-    // si cae dentro de la carta, sobreescribe
-    if (hit) begin
-      r = Rc; g = Gc; b = Bc;
+    for (int i = 0; i < 16; i++) begin
+      state[i]     = CARD_UP;
+      symbol_id[i] = ((i >> 1) & 4'd15);
+      // Alternativas equivalentes:
+      // symbol_id[i] = logic [3:0]'(i >> 1);
+      // symbol_id[i] = (i >> 1) & 4'hF;
     end
+    hi = 4'd0;
   end
+
+  // ÚNICO driver de r,g,b: la instancia de vga_cards
+  vga_cards u_cards (
+    .clk          (1'b0),    // no usado internamente
+    .x            (x),
+    .y            (y),
+    .visible      (visible), // blank_b
+    .state        (state),
+    .symbol_id    (symbol_id),
+    .highlight_idx(hi),
+    .R            (r),
+    .G            (g),
+    .B            (b)
+  );
 endmodule
