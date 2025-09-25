@@ -4,7 +4,7 @@
 import lab3_params::*;
 
 module vga_cards(
-  input  logic                clk,           // píxel clock (vgaclk)
+  input  logic                clk,           // píxel clock (vgaclk) - no usado aquí
   input  logic [9:0]          x, y,          // coordenadas VGA
   input  logic                visible,       // 1 dentro de 640x480 (blank_b)
   input  card_state_e         state [15:0],  // estados por carta
@@ -105,77 +105,87 @@ module vga_cards(
   // -------------------------------------------------------------------
   // 5) Pintado final
   // -------------------------------------------------------------------
-// --- declara FUERA del always_comb si quieres —o al inicio del bloque—, pero no dos veces
-	logic in_border;
+  logic in_border;
 
-	// Colores por píxel
-	logic [7:0] r_pix, g_pix, b_pix;
+  // Colores por píxel
+  logic [7:0] r_pix, g_pix, b_pix;
 
-	// Variables que usaremos dentro del always_comb (declaradas al inicio)
-	card_state_e cs;
-	int sx, sy;
-	logic sym_on;
-	int sid;
+  // Variables internas
+  card_state_e  cs;
+  int           sx, sy;
+  logic         sym_on;
+  logic  [3:0]  sid_logic;
 
-	always_comb begin
-	  // Fondo por defecto
-	  r_pix = C_BG_R; g_pix = C_BG_G; b_pix = C_BG_B;
+  // helper para círculo
+  function automatic int sq(input int v); sq = v*v; endfunction
 
-	  // Por si no entramos al tablero, inicializa por defecto
-	  cs      = CARD_DOWN;
-	  in_border = 1'b0;
-	  sx      = 0;
-	  sy      = 0;
-	  sym_on  = 1'b0;
-	  sid     = 0;
+  always_comb begin
+    // Fondo por defecto
+    r_pix = C_BG_R; g_pix = C_BG_G; b_pix = C_BG_B;
 
-	  if (in_board) begin
-		 // Estados de la carta en (row,col)
-		 cs = state[idx];
+    // Defaults seguros
+    cs        = CARD_DOWN;
+    in_border = 1'b0;
+    sx        = 0;
+    sy        = 0;
+    sym_on    = 1'b0;
+    sid_logic = 4'd0;
 
-		 // Base: cara/dorso
-		 if (cs == CARD_DOWN) begin
-			r_pix = C_BACK_R; g_pix = C_BACK_G; b_pix = C_BACK_B;
-		 end else if (cs == CARD_MATCH) begin
-			r_pix = 8'd0; g_pix = 8'd160; b_pix = 8'd0;
-		 end else begin
-			r_pix = C_FACE_R; g_pix = C_FACE_G; b_pix = C_FACE_B;
-		 end
+    if (in_board) begin
+      // Estado de la carta actual
+      cs = state[idx];
 
-		 // Borde
-		 in_border = (lx < BORDER) || (lx >= (W - BORDER)) ||
-						 (ly < BORDER) || (ly >= (H - BORDER));
+      // Base: cara/dorso/match
+      if (cs == CARD_DOWN) begin
+        r_pix = C_BACK_R; g_pix = C_BACK_G; b_pix = C_BACK_B;
+      end else if (cs == CARD_MATCH) begin
+        r_pix = 8'd0; g_pix = 8'd160; b_pix = 8'd0;
+      end else begin
+        r_pix = C_FACE_R; g_pix = C_FACE_G; b_pix = C_FACE_B;
+      end
 
-		 if (in_border) begin
-			if (idx == highlight_idx)
-			  {r_pix, g_pix, b_pix} = {C_HIL_R, C_HIL_G, C_HIL_B};
-			else
-			  {r_pix, g_pix, b_pix} = {C_BOR_R, C_BOR_G, C_BOR_B};
-		 end
+      // Borde
+      in_border = (lx < BORDER) || (lx >= (W - BORDER)) ||
+                  (ly < BORDER) || (ly >= (H - BORDER));
 
-		 // Símbolo si no está boca abajo ni en borde
-		 if ((cs != CARD_DOWN) && !in_border) begin
-			sx  = int'(lx) - CX;
-			sy  = int'(ly) - CY;
-			sid = symbol_id[idx];   // 0..15 (usamos sid[1:0])
+      if (in_border) begin
+        if (idx == highlight_idx)
+          {r_pix, g_pix, b_pix} = {C_HIL_R, C_HIL_G, C_HIL_B};
+        else
+          {r_pix, g_pix, b_pix} = {C_BOR_R, C_BOR_G, C_BOR_B};
+      end
 
-			unique case (sid[1:0])
-			  2'd0: sym_on = (abs_i(sx) + abs_i(sy)) < KSYM;            // diamante
-			  2'd1: sym_on = (abs_i(sx) <= THIN) || (abs_i(sy) <= THIN); // cruz
-			  2'd2: sym_on = (abs_i(sx) <= THICK);                       // barra vertical
-			  default: sym_on = (abs_i(sy) <= THICK);                    // barra horizontal
-			endcase
+      // Símbolo si no está boca abajo ni en borde
+      if ((cs != CARD_DOWN) && !in_border) begin
+        sx        = int'(lx) - CX;
+        sy        = int'(ly) - CY;
+        sid_logic = symbol_id[idx];   // 0..7 (dos veces cada uno)
 
-			if (sym_on) begin
-			  r_pix = C_INK_R; g_pix = C_INK_G; b_pix = C_INK_B;
-			end
-		 end
-	  end
-	end
+        // Usa 3 bits → 8 símbolos únicos
+        unique case (sid_logic[2:0])
+          3'd0: sym_on = (abs_i(sx) + abs_i(sy)) < KSYM;                  // ♦ diamante (llenado)
+          3'd1: sym_on = (abs_i(sx) <= THIN) || (abs_i(sy) <= THIN);      // ✚ cruz
+          3'd2: sym_on = (abs_i(sx) <= (THICK/2));                        // | barra vertical
+          3'd3: sym_on = (abs_i(sy) <= (THICK/2));                        // — barra horizontal
+          3'd4: begin                                                     // ● círculo
+                   int rad2 = (KSYM*KSYM)/2;
+                   sym_on = (sq(sx) + sq(sy)) <= rad2;
+                 end
+          3'd5: sym_on = (abs_i(sx - sy) <= THIN) || (abs_i(sx + sy) <= THIN); // ✖ equis
+          3'd6: sym_on = (abs_i(sx) <= (KSYM/2)) && (abs_i(sy) <= (KSYM/2));   // ■ cuadrado
+          3'd7: sym_on = (abs_i(sx + sy) <= THIN);                         // / diagonal
+          default: sym_on = 1'b0;
+        endcase
 
-	assign R = r_pix;
-	assign G = g_pix;
-	assign B = b_pix;
+        if (sym_on) begin
+          r_pix = C_INK_R; g_pix = C_INK_G; b_pix = C_INK_B;
+        end
+      end
+    end
+  end
 
+  assign R = r_pix;
+  assign G = g_pix;
+  assign B = b_pix;
 
 endmodule

@@ -14,16 +14,19 @@ module videoGen(
   logic [3:0]  symbol_id [15:0];
   logic [3:0]  hi;
 
-  // Config demo: todas UP; símbolos en pares 0,0,1,1,...,7,7; highlight=0
+  // Mazo fijo: dos copias de 0..7, barajadas
+  // (cada número es un símbolo único)
+  localparam logic [3:0] LAYOUT [16] = '{
+    4, 0, 7, 3, 6, 2, 5, 1,
+    1, 5, 2, 6, 3, 7, 0, 4
+  };
+
   always_comb begin
     for (int i = 0; i < 16; i++) begin
-      state[i]     = CARD_UP;
-      symbol_id[i] = ((i >> 1) & 4'd15);
-      // Alternativas equivalentes:
-      // symbol_id[i] = logic [3:0]'(i >> 1);
-      // symbol_id[i] = (i >> 1) & 4'hF;
+      state[i]     = CARD_UP;     // demo: todas boca arriba
+      symbol_id[i] = LAYOUT[i];   // 0..7, dos veces cada uno
     end
-    hi = 4'd0;
+    hi = 4'd0; // highlight en carta 0 (demo)
   end
 
   // ÚNICO driver de r,g,b: la instancia de vga_cards
@@ -31,7 +34,7 @@ module videoGen(
     .clk          (1'b0),    // no usado internamente
     .x            (x),
     .y            (y),
-    .visible      (visible), // blank_b
+    .visible      (visible),
     .state        (state),
     .symbol_id    (symbol_id),
     .highlight_idx(hi),
