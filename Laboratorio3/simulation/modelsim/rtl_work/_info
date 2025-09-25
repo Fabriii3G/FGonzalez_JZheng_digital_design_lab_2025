@@ -1,0 +1,416 @@
+m255
+K4
+z2
+!s11f vlog 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dC:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/simulation/modelsim
+vcard_bank
+Z1 DXx6 sv_std 3 std 0 22 VYECXdT12H8WgbUP_5Y6:3
+Z2 DXx4 work 11 lab3_params 0 22 XHG21Va]Z1C6Ug:D4=3RH1
+DXx4 work 17 card_bank_sv_unit 0 22 bfYM4nM7mGJbbYaS65>;Q0
+Z3 !s110 1758835491
+Z4 VDg1SIo80bB@j0V0VzS_@n1
+r1
+!s85 0
+!i10b 1
+!s100 U@gm3?F`N`0Xf;Z1<0g5D3
+Ie_`;S2ozPmnEenO6iblk`1
+!s105 card_bank_sv_unit
+S1
+R0
+Z5 w1758834720
+Z6 8C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/card_bank.sv
+Z7 FC:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/card_bank.sv
+!i122 5
+L0 3 49
+Z8 OV;L;2020.1;71
+31
+Z9 !s108 1758835491.000000
+Z10 !s107 C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/card_bank.sv|
+Z11 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3|C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/card_bank.sv|
+!i113 1
+Z12 o-sv -work work
+Z13 !s92 -sv -work work +incdir+C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3
+Z14 tCvgOpt 0
+Xcard_bank_sv_unit
+R1
+R2
+R3
+VbfYM4nM7mGJbbYaS65>;Q0
+r1
+!s85 0
+!i10b 1
+!s100 4FJ[d<ZncPAVJ?nM7aL=N0
+IbfYM4nM7mGJbbYaS65>;Q0
+!i103 1
+S1
+R0
+R5
+R6
+R7
+!i122 5
+Z15 L0 1 0
+R8
+31
+R9
+R10
+R11
+!i113 1
+R12
+R13
+R14
+vcountdown_15s
+R1
+R3
+!i10b 1
+!s100 V7VW2CPGfOi5VTZ_i50>I2
+Z16 !s11b Dg1SIo80bB@j0V0VzS_@n1
+IKV`GH`5an8YzjY[7l>4a:1
+R4
+S1
+R0
+Z17 w1758834288
+Z18 8C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/tick_1hz.sv
+Z19 FC:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/tick_1hz.sv
+!i122 2
+L0 21 29
+R8
+r1
+!s85 0
+31
+R9
+Z20 !s107 C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/tick_1hz.sv|
+Z21 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3|C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/tick_1hz.sv|
+!i113 1
+R12
+R13
+R14
+vfsm_memoria
+R1
+R2
+DXx4 work 19 fsm_memoria_sv_unit 0 22 4GlROERP_W8G0[6BjYL881
+R3
+R4
+r1
+!s85 0
+!i10b 1
+!s100 oA5hL6<l]T>`eSn[W2Emm1
+I45IkYO8BRE8ndo3eQ^RRY2
+!s105 fsm_memoria_sv_unit
+S1
+R0
+Z22 w1758834855
+Z23 8C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/fsm_memoria.sv
+Z24 FC:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/fsm_memoria.sv
+!i122 3
+L0 4 110
+R8
+31
+R9
+Z25 !s107 C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/fsm_memoria.sv|
+Z26 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3|C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/fsm_memoria.sv|
+!i113 1
+R12
+R13
+R14
+Xfsm_memoria_sv_unit
+R1
+R2
+R3
+V4GlROERP_W8G0[6BjYL881
+r1
+!s85 0
+!i10b 1
+!s100 SgIDYY>m:W;7Z4i=:BK_Q1
+I4GlROERP_W8G0[6BjYL881
+!i103 1
+S1
+R0
+R22
+R23
+R24
+!i122 3
+Z27 L0 2 0
+R8
+31
+R9
+R25
+R26
+!i113 1
+R12
+R13
+R14
+Xlab3_params
+R1
+R3
+!i10b 1
+!s100 enoK@SafHf;FWJ82L_;>D3
+R16
+IXHG21Va]Z1C6Ug:D4=3RH1
+VXHG21Va]Z1C6Ug:D4=3RH1
+S1
+R0
+w1758834142
+8C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/lab3_params.sv
+FC:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/lab3_params.sv
+!i122 0
+R15
+R8
+r1
+!s85 0
+31
+R9
+!s107 C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/lab3_params.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3|C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/lab3_params.sv|
+!i113 1
+R12
+R13
+R14
+vpixclk_en
+R1
+R3
+!i10b 1
+!s100 22Ni_h^Ym8UIdP?Y5Mm7_2
+R16
+IG6^X;BzWR=7;ZdAMaGc]23
+R4
+S1
+R0
+w1758834168
+8C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/pixclk_en.sv
+FC:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/pixclk_en.sv
+!i122 1
+L0 1 25
+R8
+r1
+!s85 0
+31
+R9
+!s107 C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/pixclk_en.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3|C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/pixclk_en.sv|
+!i113 1
+R12
+R13
+R14
+vtb_fsm_memoria
+R1
+Z28 !s110 1758835492
+!i10b 1
+!s100 _ZIniWjkCg3H]7:K;g8FV0
+R16
+I]oSDOWDL_`F0SmebnBzBU3
+R4
+S1
+R0
+w1758834620
+8C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/tb_fsm_memoria.sv
+FC:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/tb_fsm_memoria.sv
+!i122 8
+L0 4 148
+R8
+r1
+!s85 0
+31
+Z29 !s108 1758835492.000000
+!s107 C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/tb_fsm_memoria.sv|
+!s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3|C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/tb_fsm_memoria.sv|
+!i113 1
+R12
+R13
+R14
+vtick_1hz
+R1
+R3
+!i10b 1
+!s100 9^1Hl^PW:DN8Qo]549z7C1
+R16
+I@0B;CQN37cRE29n[FHz1]1
+R4
+S1
+R0
+R17
+R18
+R19
+!i122 2
+L0 1 19
+R8
+r1
+!s85 0
+31
+R9
+R20
+R21
+!i113 1
+R12
+R13
+R14
+vtop_lab3_avance
+R1
+R2
+DXx4 work 23 top_lab3_avance_sv_unit 0 22 E1F`4;`K2FB4;E?CLzB8l2
+R28
+R4
+r1
+!s85 0
+!i10b 1
+!s100 5ZgTh_dBU@adRMcBRnTRc2
+Ic6GJlGg_heI[0WBEkjFW51
+!s105 top_lab3_avance_sv_unit
+S1
+R0
+Z30 w1758834358
+Z31 8C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/top_lab3_avance.sv
+Z32 FC:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/top_lab3_avance.sv
+!i122 7
+L0 3 65
+R8
+31
+R29
+Z33 !s107 C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/top_lab3_avance.sv|
+Z34 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3|C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/top_lab3_avance.sv|
+!i113 1
+R12
+R13
+R14
+Xtop_lab3_avance_sv_unit
+R1
+R2
+R28
+VE1F`4;`K2FB4;E?CLzB8l2
+r1
+!s85 0
+!i10b 1
+!s100 ]fYRXoHLh92118nDCK@YY0
+IE1F`4;`K2FB4;E?CLzB8l2
+!i103 1
+S1
+R0
+R30
+R31
+R32
+!i122 7
+R15
+R8
+31
+R29
+R33
+R34
+!i113 1
+R12
+R13
+R14
+vvga_cards
+R1
+R2
+DXx4 work 17 vga_cards_sv_unit 0 22 j[=075LGHXJG0RilnQfiU3
+R28
+R4
+r1
+!s85 0
+!i10b 1
+!s100 ec008nzWWOHYSJ9fC1g2J1
+ICaDL1T_QLmVkk>WWiaI1h3
+!s105 vga_cards_sv_unit
+S1
+R0
+Z35 w1758835477
+Z36 8C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/vga_cards.sv
+Z37 FC:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/vga_cards.sv
+!i122 6
+L0 4 94
+R8
+31
+R9
+Z38 !s107 C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/vga_cards.sv|
+Z39 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3|C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/vga_cards.sv|
+!i113 1
+R12
+R13
+R14
+Xvga_cards_sv_unit
+R1
+R2
+R28
+Vj[=075LGHXJG0RilnQfiU3
+r1
+!s85 0
+!i10b 1
+!s100 lbLGHUJ^5i:ib?N7C3Z[D3
+Ij[=075LGHXJG0RilnQfiU3
+!i103 1
+S1
+R0
+R35
+R36
+R37
+!i122 6
+R27
+R8
+31
+R9
+R38
+R39
+!i113 1
+R12
+R13
+R14
+vvga_timing_640x480
+R1
+R2
+DXx4 work 26 vga_timing_640x480_sv_unit 0 22 GOgWYl=J`Ck3S>[hHodk;0
+R3
+R4
+r1
+!s85 0
+!i10b 1
+!s100 d;9X=f^Dj_PS[SZcheP@f0
+I4`JANBg_W1nOY8523kCeI2
+!s105 vga_timing_640x480_sv_unit
+S1
+R0
+Z40 w1758834187
+Z41 8C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/vga_timing_640x480.sv
+Z42 FC:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/vga_timing_640x480.sv
+!i122 4
+L0 3 32
+R8
+31
+R9
+Z43 !s107 C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/vga_timing_640x480.sv|
+Z44 !s90 -reportprogress|300|-sv|-work|work|+incdir+C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3|C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/Laboratorio3/vga_timing_640x480.sv|
+!i113 1
+R12
+R13
+R14
+Xvga_timing_640x480_sv_unit
+R1
+R2
+R3
+VGOgWYl=J`Ck3S>[hHodk;0
+r1
+!s85 0
+!i10b 1
+!s100 F:;?:IlV0KYRa6[4RMhHK1
+IGOgWYl=J`Ck3S>[hHodk;0
+!i103 1
+S1
+R0
+R40
+R41
+R42
+!i122 4
+R15
+R8
+31
+R9
+R43
+R44
+!i113 1
+R12
+R13
+R14
