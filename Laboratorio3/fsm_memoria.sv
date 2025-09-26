@@ -1,113 +1,183 @@
-// fsm_memoria.sv (fix: sin inicializaciones en declaración para evitar constant drivers)
-import lab3_params::*;
+// fsm_memoria.sv — navegación con NEXT y selección con SEL (compatible Quartus 20.1)
+import lab3_params::*; // card_state_e: {CARD_DOWN, CARD_UP, CARD_MATCH}
 
-module fsm_memoria (
-  input  logic clk, rst,
-  input  logic btn_ok,
-  input  logic timeout_15s,
-  output logic timer_load, timer_en,
-  output logic open_en,
-  output logic [3:0] open_idx,
-  output logic [3:0] highlight_idx
+module fsm_memoria #(
+  parameter int N_CARDS = 16,
+  parameter int REVEAL_PAUSE_TICKS = 30,     // ~0.6s si tick_fast_i=20Hz
+  parameter bit EXTRA_TURN_ON_MATCH = 1'b1
+)(
+  input  logic                 clk,
+  input  logic                 rst_n,
+
+  // Botones ya “one-pulse”
+  input  logic                 btn_next_i,   // avanza highlight (salta MATCH)
+  input  logic                 btn_sel_i,    // selecciona carta
+
+  // Reloj de pausa (más rápido que 1Hz; p.ej. 20Hz)
+  input  logic                 tick_fast_i,
+
+  // Layout de símbolos (dos copias 0..7 barajadas)
+  input  logic [3:0]           layout   [N_CARDS-1:0],
+
+  // Salidas a video
+  output card_state_e          state    [N_CARDS-1:0],
+  output logic         [3:0]   symbol_id[N_CARDS-1:0],
+  output logic         [3:0]   highlight_idx
 );
-  typedef enum logic [3:0] {
-    S_RESET, S_TURN_START, S_WAIT_SEL1, S_REVEAL1,
-    S_WAIT_SEL2, S_REVEAL2, S_CHECK_PAIR, S_KEEP_TURN,
-    S_SWITCH_TURN, S_CHECK_WIN, S_TIMEOUT_AUTO, S_GAME_END
-  } state_e;
 
-  state_e st, nx;
+  // ------------------------------------------------------------
+  // Registros ( *_q ) y siguientes ( *_d )
+  // ------------------------------------------------------------
+  // Estado de cada carta
+  card_state_e st_q [N_CARDS];
+  card_state_e st_d [N_CARDS];
 
-  // ¡OJO! Sin "= 0" ni "= 1" aquí:
-  logic [3:0] sel1; 
-  logic [3:0] sel2;
-  logic       turn;
+  // Símbolo por carta (fijo desde layout)
+  logic [3:0] sid_q [N_CARDS];  // solo se carga al reset
 
-  // cursor demo para resaltar/seleccionar
-  logic [3:0] cursor;
+  // Highlight
+  logic [3:0] hi_q, hi_d;
 
-  // --- Cursor demo
-  always_ff @(posedge clk) begin
-    if (rst) cursor <= 4'd0;
-    else if (btn_ok) cursor <= cursor + 4'd1;
-  end
+  // Índices de selección
+  logic [3:0] a_idx_q, a_idx_d;   // primera carta levantada
+  logic [3:0] b_idx_q, b_idx_d;   // segunda carta levantada
 
-  // --- Registro de estado
-  always_ff @(posedge clk) begin
-    if (rst) begin
-      st   <= S_RESET;
-      sel1 <= 4'd0;     // asignaciones solo aquí (un único driver)
-      sel2 <= 4'd1;
-      turn <= 1'b0;
+  // FSM principal
+  typedef enum logic [1:0] {S_IDLE, S_ONE, S_PAUSE} fsm_e;
+  fsm_e ps_q, ps_d;
+
+  // Contador de pausa para mismatch
+  logic [7:0] pause_cnt_q, pause_cnt_d;
+
+  // ------------------------------------------------------------
+  // Funciones helper
+  // ------------------------------------------------------------
+  function automatic logic [3:0] next_alive(input logic [3:0] cur);
+    logic [3:0] k;
+    next_alive = cur;
+    for (int step=1; step<=N_CARDS; step++) begin
+      k = (cur + step[3:0]) & 4'hF; // mod 16
+      if (st_q[k] != CARD_MATCH) begin
+        next_alive = k;
+        break;
+      end
+    end
+  endfunction
+
+  // ------------------------------------------------------------
+  // Reset / Carga inicial
+  // ------------------------------------------------------------
+  integer j;
+  always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      for (j=0; j<N_CARDS; j++) begin
+        st_q[j]  <= CARD_DOWN;
+        sid_q[j] <= layout[j];
+      end
+      hi_q        <= 4'd0;
+      a_idx_q     <= 4'hF;
+      b_idx_q     <= 4'hF;
+      ps_q        <= S_IDLE;
+      pause_cnt_q <= '0;
     end else begin
-      st <= nx;
-      // captura de selecciones demo
-      if (st==S_WAIT_SEL1 && btn_ok) sel1 <= cursor;
-      if (st==S_WAIT_SEL2 && btn_ok) sel2 <= cursor;
-      if (st==S_SWITCH_TURN)         turn <= ~turn;
+      // avanzar registros
+      for (j=0; j<N_CARDS; j++) st_q[j] <= st_d[j];
+      hi_q        <= hi_d;
+      a_idx_q     <= a_idx_d;
+      b_idx_q     <= b_idx_d;
+      ps_q        <= ps_d;
+      pause_cnt_q <= pause_cnt_d;
     end
   end
 
-  // --- Salidas (Moore)
+  // ------------------------------------------------------------
+  // Combinacional: siguiente estado y acciones
+  // ------------------------------------------------------------
   always_comb begin
-    timer_load     = 1'b0;
-    timer_en       = 1'b0;
-    open_en        = 1'b0;
-    open_idx       = 4'd0;
-    highlight_idx  = cursor;
+    // defaults
+    for (int i=0; i<N_CARDS; i++) st_d[i] = st_q[i];
+    hi_d        = hi_q;
+    a_idx_d     = a_idx_q;
+    b_idx_d     = b_idx_q;
+    ps_d        = ps_q;
+    pause_cnt_d = pause_cnt_q;
 
-    unique case (st)
-      S_RESET: begin end
-      S_TURN_START: begin
-        timer_load = 1'b1;
-        timer_en   = 1'b1;
+    // mover highlight con NEXT
+    if (btn_next_i) hi_d = next_alive(hi_q);
+
+    unique case (ps_q)
+      // -----------------------
+      S_IDLE: begin
+        // si carta actual está en MATCH, salta a la siguiente viva
+        if (st_q[hi_q]==CARD_MATCH) hi_d = next_alive(hi_q);
+
+        if (btn_sel_i) begin
+          if (st_q[hi_q]==CARD_DOWN) begin
+            st_d[hi_q] = CARD_UP;
+            a_idx_d    = hi_q;
+            b_idx_d    = 4'hF;
+            ps_d       = S_ONE;
+          end
+          // si estaba UP o MATCH, ignoramos
+        end
       end
-      S_WAIT_SEL1: begin
-        timer_en   = 1'b1;
+
+      // -----------------------
+      S_ONE: begin
+        if (btn_sel_i) begin
+          if (st_q[hi_q]==CARD_DOWN) begin
+            st_d[hi_q] = CARD_UP;
+            b_idx_d    = hi_q;
+
+            // comparar símbolos
+            if (sid_q[a_idx_q] == sid_q[hi_q]) begin
+              st_d[a_idx_q] = CARD_MATCH;
+              st_d[hi_q]    = CARD_MATCH;
+              a_idx_d       = 4'hF;
+              b_idx_d       = 4'hF;
+              ps_d          = S_IDLE;
+              // EXTRA_TURN_ON_MATCH: nos quedamos en hi_d
+              // (si no quisieras extra turno, podrías mover hi_d = next_alive(hi_q);)
+            end else begin
+              // mismatch → mostrar un rato ambas y luego voltearlas
+              ps_d        = S_PAUSE;
+              pause_cnt_d = (REVEAL_PAUSE_TICKS==0) ? 8'd1 : REVEAL_PAUSE_TICKS[7:0];
+            end
+          end
+        end
       end
-      S_REVEAL1: begin
-        open_en  = 1'b1;
-        open_idx = sel1;
-        timer_en = 1'b1;
+
+      // -----------------------
+      S_PAUSE: begin
+        if (pause_cnt_q != 0 && tick_fast_i) begin
+          pause_cnt_d = pause_cnt_q - 8'd1;
+        end
+
+        // cuando termina la pausa, volteamos y regresamos a IDLE
+        if (pause_cnt_q == 8'd1 && tick_fast_i) begin
+          if (a_idx_q != 4'hF) st_d[a_idx_q] = CARD_DOWN;
+          if (b_idx_q != 4'hF) st_d[b_idx_q] = CARD_DOWN;
+          a_idx_d = 4'hF;
+          b_idx_d = 4'hF;
+
+          hi_d    = next_alive(hi_q);
+          ps_d    = S_IDLE;
+        end
       end
-      S_WAIT_SEL2: begin
-        timer_en = 1'b1;
-      end
-      S_REVEAL2: begin
-        open_en  = 1'b1;
-        open_idx = sel2;
-        timer_en = 1'b1;
-      end
-      default: begin end
     endcase
   end
 
-  // --- Próximo estado
-  always_comb begin
-    nx = st;
-    unique case (st)
-      S_RESET:        nx = S_TURN_START;
-      S_TURN_START:   nx = S_WAIT_SEL1;
+  // ------------------------------------------------------------
+  // Salidas
+  // ------------------------------------------------------------
+  generate
+    genvar g;
+    for (g=0; g<N_CARDS; g++) begin : G_OUTS
+      assign state[g]     = st_q[g];
+      assign symbol_id[g] = sid_q[g];
+    end
+  endgenerate
 
-      S_WAIT_SEL1: begin
-        if (btn_ok)           nx = S_REVEAL1;
-        else if (timeout_15s) nx = S_TIMEOUT_AUTO;
-      end
+  assign highlight_idx = hi_q;
 
-      S_REVEAL1:      nx = S_WAIT_SEL2;
-
-      S_WAIT_SEL2: begin
-        if (btn_ok)           nx = S_REVEAL2;
-        else if (timeout_15s) nx = S_TIMEOUT_AUTO;
-      end
-
-      S_REVEAL2:      nx = S_CHECK_PAIR;
-      S_CHECK_PAIR:   nx = S_SWITCH_TURN;   // simplificado para el avance
-      S_SWITCH_TURN:  nx = S_CHECK_WIN;
-      S_CHECK_WIN:    nx = S_TURN_START;
-      S_TIMEOUT_AUTO: nx = S_SWITCH_TURN;
-      S_GAME_END:     nx = S_GAME_END;
-      default:        nx = S_RESET;
-    endcase
-  end
 endmodule

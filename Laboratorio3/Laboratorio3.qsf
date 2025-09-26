@@ -60,7 +60,6 @@ set_global_assignment -name SYSTEMVERILOG_FILE vga_cards.sv
 set_global_assignment -name SYSTEMVERILOG_FILE tick_1hz.sv
 set_global_assignment -name SYSTEMVERILOG_FILE lfsr8.sv
 set_global_assignment -name SYSTEMVERILOG_FILE fsm_memoria.sv
-set_global_assignment -name SYSTEMVERILOG_FILE top_lab3_avance.sv
 set_global_assignment -name SYSTEMVERILOG_FILE tb_fsm_memoria.sv
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
@@ -104,14 +103,11 @@ set_location_assignment PIN_AJ22 -to vga_sync_n
 set_location_assignment PIN_AK22 -to vga_blank_n
 set_global_assignment -name SYSTEMVERILOG_FILE vgaController.sv
 set_global_assignment -name SYSTEMVERILOG_FILE gen_pixclk.sv
-set_location_assignment PIN_AJ4 -to rst
-set_location_assignment PIN_AK4 -to btn_ok
 set_global_assignment -name SYSTEMVERILOG_FILE vga_top_libro.sv
 set_global_assignment -name SYSTEMVERILOG_FILE videoGen.sv
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
-set_global_assignment -name TEXT_FILE charrom.txt
 set_global_assignment -name SYSTEMVERILOG_FILE vga_card.sv
 set_global_assignment -name SYSTEMVERILOG_FILE timer_15s.sv
 set_global_assignment -name SYSTEMVERILOG_FILE bcd7seg.sv
@@ -129,5 +125,9 @@ set_location_assignment PIN_AD17 -to seg_tens_o[3]
 set_location_assignment PIN_AE18 -to seg_tens_o[4]
 set_location_assignment PIN_AE17 -to seg_tens_o[5]
 set_location_assignment PIN_V17 -to seg_tens_o[6]
-set_global_assignment -name SYSTEMVERILOG_FILE sevseg_mux2.sv
+set_location_assignment PIN_AA15 -to rst_n
+set_global_assignment -name SYSTEMVERILOG_FILE btn_onepulse.sv
+set_global_assignment -name SYSTEMVERILOG_FILE tick_20hz.sv
+set_location_assignment PIN_AJ4 -to btn_next
+set_location_assignment PIN_AK4 -to btn_sel
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
