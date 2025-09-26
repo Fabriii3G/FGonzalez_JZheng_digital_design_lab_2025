@@ -35,5 +35,14 @@ package lab3_params;
 
   // Estados de carta
   typedef enum logic [1:0] {CARD_DOWN=2'b00, CARD_UP=2'b01, CARD_MATCH=2'b10} card_state_e;
+  
+  //Helpers
+  function automatic logic [3:0] tens5 (input logic [4:0] v); // 0..15
+    tens5 = (v >= 10) ? 4'd1 : 4'd0;
+  endfunction
+  function automatic logic [3:0] ones5 (input logic [4:0] v);
+    ones5 = (v >= 10) ? (v - 10) : v[3:0];
+  endfunction
+  
 
 endpackage
