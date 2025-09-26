@@ -105,9 +105,6 @@ set_global_assignment -name SYSTEMVERILOG_FILE vgaController.sv
 set_global_assignment -name SYSTEMVERILOG_FILE gen_pixclk.sv
 set_global_assignment -name SYSTEMVERILOG_FILE vga_top_libro.sv
 set_global_assignment -name SYSTEMVERILOG_FILE videoGen.sv
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_global_assignment -name SYSTEMVERILOG_FILE vga_card.sv
 set_global_assignment -name SYSTEMVERILOG_FILE timer_15s.sv
 set_global_assignment -name SYSTEMVERILOG_FILE bcd7seg.sv
@@ -132,4 +129,21 @@ set_location_assignment PIN_AJ4 -to btn_next
 set_location_assignment PIN_AK4 -to btn_sel
 set_location_assignment PIN_AA24 -to led_p1
 set_location_assignment PIN_AC22 -to led_p2
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_location_assignment PIN_Y19 -to seg_p1_o[0]
+set_location_assignment PIN_W19 -to seg_p1_o[1]
+set_location_assignment PIN_AD19 -to seg_p1_o[2]
+set_location_assignment PIN_AA20 -to seg_p1_o[3]
+set_location_assignment PIN_AC20 -to seg_p1_o[4]
+set_location_assignment PIN_AA19 -to seg_p1_o[5]
+set_location_assignment PIN_AD20 -to seg_p1_o[6]
+set_location_assignment PIN_AD21 -to seg_p2_o[0]
+set_location_assignment PIN_AG22 -to seg_p2_o[1]
+set_location_assignment PIN_AE22 -to seg_p2_o[2]
+set_location_assignment PIN_AE23 -to seg_p2_o[3]
+set_location_assignment PIN_AG23 -to seg_p2_o[4]
+set_location_assignment PIN_AF23 -to seg_p2_o[5]
+set_location_assignment PIN_AH22 -to seg_p2_o[6]
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
