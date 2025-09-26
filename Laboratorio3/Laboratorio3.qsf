@@ -130,4 +130,6 @@ set_global_assignment -name SYSTEMVERILOG_FILE btn_onepulse.sv
 set_global_assignment -name SYSTEMVERILOG_FILE tick_20hz.sv
 set_location_assignment PIN_AJ4 -to btn_next
 set_location_assignment PIN_AK4 -to btn_sel
+set_location_assignment PIN_AA24 -to led_p1
+set_location_assignment PIN_AC22 -to led_p2
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
