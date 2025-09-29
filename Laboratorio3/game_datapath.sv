@@ -77,7 +77,7 @@ module game_datapath #(
     end
     
     // Si no encontró ninguna carta disponible, mantener la actual
-    // (esto no debería pasar en un juego normal)
+    
   endfunction
 
   function automatic logic [3:0] pick_down_excl(

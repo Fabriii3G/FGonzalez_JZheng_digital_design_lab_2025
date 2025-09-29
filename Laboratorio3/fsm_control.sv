@@ -1,4 +1,3 @@
-// fsm_control.sv - FSM limpia solo para control de estados
 module fsm_control(
   input  logic        clk,
   input  logic        rst_n,
@@ -10,7 +9,7 @@ module fsm_control(
   input  logic        pause_done_i,       // desde datapath
   input  logic        auto_pick1_valid_i, // desde datapath
   input  logic        auto_pick2_valid_i, // desde datapath
-  input  logic        match_happened_i,   // nueva: indica que ocurrió un match
+  input  logic        match_happened_i,   // indica que ocurrió un match
   
   // Salidas de control
   output logic        select_first_card_o,

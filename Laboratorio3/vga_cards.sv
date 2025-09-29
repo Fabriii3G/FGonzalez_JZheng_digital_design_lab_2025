@@ -167,10 +167,11 @@ module vga_cards(
           3'd1: sym_on = (abs_i(sx) <= THIN) || (abs_i(sy) <= THIN);      // ✚ cruz
           3'd2: sym_on = (abs_i(sx) <= (THICK/2));                        // | barra vertical
           3'd3: sym_on = (abs_i(sy) <= (THICK/2));                        // — barra horizontal
-          3'd4: begin                                                     // ● círculo
-                   int rad2 = (KSYM*KSYM)/2;
-                   sym_on = (sq(sx) + sq(sy)) <= rad2;
-                 end
+			 3'd4: begin
+						 int rad2;                 // declarar sin inicializar
+						 rad2 = (KSYM*KSYM)/2;     // asignar en la siguiente línea
+						 sym_on = (sq(sx) + sq(sy)) <= rad2;
+					  end
           3'd5: sym_on = (abs_i(sx - sy) <= THIN) || (abs_i(sx + sy) <= THIN); // ✖ equis
           3'd6: sym_on = (abs_i(sx) <= (KSYM/2)) && (abs_i(sy) <= (KSYM/2));   // ■ cuadrado
           3'd7: sym_on = (abs_i(sx + sy) <= THIN);                         // / diagonal
