@@ -5,11 +5,12 @@ module fsm_control(
   // Entradas de control
   input  logic        btn_sel_i,
   input  logic        time_up_i,
-  input  logic        cards_match_i,       // desde datapath
-  input  logic        pause_done_i,       // desde datapath
-  input  logic        auto_pick1_valid_i, // desde datapath
-  input  logic        auto_pick2_valid_i, // desde datapath
-  input  logic        match_happened_i,   // indica que ocurrió un match
+  input  logic        cards_match_i,       // desde datapath (anticipado)
+  input  logic        pause_done_i,        // desde datapath
+  input  logic        auto_pick1_valid_i,  // desde datapath
+  input  logic        auto_pick2_valid_i,  // desde datapath
+  input  logic        match_happened_i,    // desde datapath (match confirmado)
+  input  logic        game_over_i,         // <<< NUEVA: fin de juego (desde datapath)
   
   // Salidas de control
   output logic        select_first_card_o,
@@ -26,12 +27,12 @@ module fsm_control(
   output logic [1:0]  current_state_o
 );
 
-  // Estados simples
-  localparam [1:0] S_IDLE  = 2'b00;
-  localparam [1:0] S_ONE   = 2'b01; 
-  localparam [1:0] S_PAUSE = 2'b10;
+  // 4 estados (2 bits)
+  localparam logic [1:0] S_IDLE  = 2'd0;
+  localparam logic [1:0] S_ONE   = 2'd1; 
+  localparam logic [1:0] S_PAUSE = 2'd2;
+  localparam logic [1:0] S_OVER  = 2'd3;
 
-  // Registro de estado
   logic [1:0] state, next_state;
 
   // ================ ESTADO ACTUAL ================
@@ -44,40 +45,41 @@ module fsm_control(
 
   // ================ PRÓXIMO ESTADO ================
   always_comb begin
-    // Defaults
     next_state = state;
     
-    case(state)
+    unique case (state)
       S_IDLE: begin
-        if (time_up_i && auto_pick1_valid_i) begin
-          next_state = S_ONE;  // auto-selección primera carta
+        if (game_over_i) begin
+          next_state = S_OVER;
+        end else if (time_up_i && auto_pick1_valid_i) begin
+          next_state = S_ONE;  // auto primera carta
         end else if (btn_sel_i) begin
-          next_state = S_ONE;  // selección manual primera carta
+          next_state = S_ONE;  // manual primera carta
         end
       end
       
       S_ONE: begin
-        if (time_up_i && auto_pick2_valid_i) begin
-          if (cards_match_i) 
-            next_state = S_IDLE;  // acierto directo
-          else 
-            next_state = S_PAUSE; // fallo, mostrar cartas
+        if (game_over_i) begin
+          next_state = S_OVER;
+        end else if (time_up_i && auto_pick2_valid_i) begin
+          next_state = (cards_match_i) ? S_IDLE : S_PAUSE;
         end else if (btn_sel_i) begin
-          if (cards_match_i)
-            next_state = S_IDLE;  // acierto directo  
-          else
-            next_state = S_PAUSE; // fallo, mostrar cartas
-        end
-        // Si hubo match por otra lógica, también ir a IDLE
-        else if (match_happened_i) begin
-          next_state = S_IDLE;
+          next_state = (cards_match_i) ? S_IDLE : S_PAUSE;
+        end else if (match_happened_i) begin
+          next_state = S_IDLE; // por seguridad si el datapath confirmó match
         end
       end
       
       S_PAUSE: begin
-        if (pause_done_i) begin
+        if (game_over_i) begin
+          next_state = S_OVER;
+        end else if (pause_done_i) begin
           next_state = S_IDLE;
         end
+      end
+
+      S_OVER: begin
+        next_state = S_OVER; // quedarse congelado
       end
       
       default: next_state = S_IDLE;
@@ -96,54 +98,50 @@ module fsm_control(
     end_turn_o           = 1'b0;
     extra_turn_o         = 1'b0;
     restart_timer_o      = 1'b0;
-    
-    case(state)
-      S_IDLE: begin
-        if (time_up_i && auto_pick1_valid_i) begin
-          auto_select_first_o = 1'b1;
-          restart_timer_o     = 1'b1;
-        end else if (btn_sel_i) begin
-          select_first_card_o = 1'b1;
-        end
-      end
-      
-      S_ONE: begin
-        if (time_up_i && auto_pick2_valid_i) begin
-          auto_select_second_o = 1'b1;
-          // La lógica de match se maneja en las transiciones de estado
-        end else if (btn_sel_i) begin
-          select_second_card_o = 1'b1;
-          // La lógica de match se maneja en las transiciones de estado
-        end
-      end
-      
-      default: ;
-    endcase
 
-    // Salidas basadas en transiciones (no estados)
-    if (state == S_ONE) begin
-      if ((time_up_i && auto_pick2_valid_i) || btn_sel_i) begin
-        if (cards_match_i) begin
-          match_found_o   = 1'b1;
-          extra_turn_o    = 1'b1;
-          restart_timer_o = 1'b1;  // Reiniciar timer por acierto
-        end else begin
-          start_pause_o = 1'b1;
+    if (state != S_OVER) begin
+      case(state)
+        S_IDLE: begin
+          if (time_up_i && auto_pick1_valid_i) begin
+            auto_select_first_o = 1'b1;
+            restart_timer_o     = 1'b1;   // reinicia por auto pick
+          end else if (btn_sel_i) begin
+            select_first_card_o = 1'b1;
+          end
         end
-      end
-    end
 
-    // También reiniciar timer si hubo match por la lógica inmediata del datapath
-    if (match_happened_i) begin
-      restart_timer_o = 1'b1;
-    end
+        S_ONE: begin
+          if (time_up_i && auto_pick2_valid_i) begin
+            auto_select_second_o = 1'b1;
+          end else if (btn_sel_i) begin
+            select_second_card_o = 1'b1;
+          end
 
-    if (state == S_PAUSE && pause_done_i) begin
-      end_turn_o = 1'b1;  // cambio de jugador
+          // Transición por segunda carta: decide match/fallo
+          if ((time_up_i && auto_pick2_valid_i) || btn_sel_i) begin
+            if (cards_match_i) begin
+              match_found_o   = 1'b1;
+              extra_turn_o    = 1'b1;   // regla: turno extra por acierto
+              restart_timer_o = 1'b1;   // reinicia por acierto
+            end else begin
+              start_pause_o = 1'b1;     // mostrar cartas en pausa
+            end
+          end
+        end
+
+        S_PAUSE: begin
+          if (pause_done_i) begin
+            end_turn_o = 1'b1;          // cambio de jugador por fallo
+          end
+        end
+
+        default: ;
+      endcase
     end
+    // En S_OVER todo queda en 0 (congelado)
   end
 
   // Estado para debug
   assign current_state_o = state;
 
-endmodule 
+endmodule

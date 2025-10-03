@@ -104,12 +104,10 @@ module vga_top_libro(
     if (!rst_n) begin
       prbs_q <= 8'hA5; // semilla no nula
     end else begin
-      // Polinomio: x^8 + x^6 + x^5 + x^4 + 1 (taps 7,5,4,3)
       prbs_q <= {prbs_q[6:0], prbs_q[7]^prbs_q[5]^prbs_q[4]^prbs_q[3]};
     end
   end
-  logic [3:0] rnd4;
-  assign rnd4 = prbs_q[3:0];
+  logic [3:0] rnd4; assign rnd4 = prbs_q[3:0];
 
   // ===== 6) FSM del juego =====
   localparam logic [3:0] LAYOUT [16] = '{
@@ -143,7 +141,7 @@ module vga_top_libro(
     .btn_next_i      (p_next_ok),
     .btn_sel_i       (p_sel_ok),
     .tick_fast_i     (t20hz),
-    .tick_blink_i    (t1hz),
+    .tick_blink_i    (t1hz),           // blink 1 Hz para displays P1/P2
     .time_up_i       (time_up),
     .rnd4_i          (rnd4),
     .layout          (LAYOUT),
@@ -158,7 +156,6 @@ module vga_top_libro(
     .p2_score_o      (p2_score),
     .seg_p1_o        (seg_p1_o),
     .seg_p2_o        (seg_p2_o),
-    // nuevas
     .game_over_o     (game_over),
     .winner_p2_o     (winner_p2),
     .tie_o           (tie)
@@ -181,14 +178,11 @@ module vga_top_libro(
   );
 
   // ===== 8) Temporizador 15→0 s por turno =====
-  logic start15_boot;
-  logic [1:0] start_cnt;
-
+  logic start15_boot; logic [1:0] start_cnt;
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) start_cnt <= 2'd0;
     else if (start_cnt != 2'd3) start_cnt <= start_cnt + 2'd1;
   end
-
   assign start15_boot = (start_cnt == 2'd1);
 
   logic start15_any;
@@ -205,15 +199,32 @@ module vga_top_libro(
     .expired (time_up)
   );
 
-  // 7-seg tiempo del turno
+  // 7-seg tiempo (HEX0..HEX1)
   logic [3:0] d_tens, d_ones;
   assign d_tens = (sec_left >= 10) ? 4'd1 : 4'd0;
   assign d_ones = (sec_left >= 10) ? (sec_left - 10) : sec_left[3:0];
 
-  bcd7seg #(.ACTIVE_LOW(1), .M0(6), .M1(5), .M2(4), .M3(3), .M4(2), .M5(1), .M6(0))
-  u7_ones (.bcd(d_ones), .seg(seg_ones_o));
+  // Salidas de los conversores (antes de override)
+  logic [6:0] seg_ones_w, seg_tens_w;
 
   bcd7seg #(.ACTIVE_LOW(1), .M0(6), .M1(5), .M2(4), .M3(3), .M4(2), .M5(1), .M6(0))
-  u7_tens (.bcd(d_tens), .seg(seg_tens_o));
+  u7_ones (.bcd(d_ones), .seg(seg_ones_w));
+  bcd7seg #(.ACTIVE_LOW(1), .M0(6), .M1(5), .M2(4), .M3(3), .M4(2), .M5(1), .M6(0))
+  u7_tens (.bcd(d_tens), .seg(seg_tens_w));
+
+  // Guion y apagado (activo en bajo)
+  localparam logic [6:0] SEG_DASH_TIME = 7'b111_1110; // solo 'g'
+  localparam logic [6:0] SEG_OFF_TIME  = 7'b111_1111; // todo apagado
+
+  // Override: si game_over, “– –” PARPADEANTE a 1 Hz; si no, el valor normal
+  always_comb begin
+    if (game_over) begin
+      seg_ones_o = t1hz ? SEG_DASH_TIME : SEG_OFF_TIME;
+      seg_tens_o = t1hz ? SEG_DASH_TIME : SEG_OFF_TIME;
+    end else begin
+      seg_ones_o = seg_ones_w;
+      seg_tens_o = seg_tens_w;
+    end
+  end
 
 endmodule
