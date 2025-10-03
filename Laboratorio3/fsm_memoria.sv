@@ -26,7 +26,6 @@ module fsm_memoria #(
   output logic [3:0]           p2_score_o,
   output logic [6:0]           seg_p1_o,
   output logic [6:0]           seg_p2_o,
-  // ===== nuevas: señales de fin de juego =====
   output logic                 game_over_o,
   output logic                 winner_p2_o,
   output logic                 tie_o
@@ -45,10 +44,11 @@ module fsm_memoria #(
   logic pause_done;
   logic auto_pick1_valid;
   logic auto_pick2_valid;
+  logic manual_pick2_valid;  // <<< NUEVA
   logic match_happened;
   logic [1:0] fsm_state;
 
-  // Datapath (calcula game_over/winner/tie y también maneja displays)
+  // Datapath
   game_datapath #(
     .N_CARDS            (N_CARDS),
     .REVEAL_PAUSE_TICKS (REVEAL_PAUSE_TICKS),
@@ -75,6 +75,7 @@ module fsm_memoria #(
     .auto_pick1_valid_o (auto_pick1_valid),
     .auto_pick2_valid_o (auto_pick2_valid),
     .match_happened_o   (match_happened),
+    .manual_pick2_valid_o (manual_pick2_valid), // <<<
     .state              (state),
     .symbol_id          (symbol_id),
     .highlight_idx      (highlight_idx),
@@ -90,7 +91,7 @@ module fsm_memoria #(
     .tie_o              (tie_o)
   );
 
-  // FSM de control: ahora recibe game_over
+  // FSM de control
   fsm_control u_fsm_ctrl (
     .clk                 (clk),
     .rst_n               (rst_n),
@@ -101,7 +102,8 @@ module fsm_memoria #(
     .auto_pick1_valid_i  (auto_pick1_valid),
     .auto_pick2_valid_i  (auto_pick2_valid),
     .match_happened_i    (match_happened),
-    .game_over_i         (game_over_o),  // <<<
+    .game_over_i         (game_over_o),
+    .manual_pick2_valid_i(manual_pick2_valid), // <<<
     .select_first_card_o (select_first_card),
     .select_second_card_o(select_second_card),
     .auto_select_first_o (auto_select_first),

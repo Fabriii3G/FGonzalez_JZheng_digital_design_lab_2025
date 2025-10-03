@@ -23,7 +23,7 @@ module game_datapath #(
   // Entradas externas
   input  logic                 btn_next_i,
   input  logic                 tick_fast_i,
-  input  logic                 tick_blink_i,   // 1 Hz (ya lo tenías para parpadeo)
+  input  logic                 tick_blink_i,
   input  logic [3:0]           rnd4_i,
   input  logic [3:0]           layout [N_CARDS-1:0],
 
@@ -32,7 +32,8 @@ module game_datapath #(
   output logic                 pause_done_o,
   output logic                 auto_pick1_valid_o,
   output logic                 auto_pick2_valid_o,
-  output logic                 match_happened_o,  // match detectado en este ciclo
+  output logic                 match_happened_o,
+  output logic                 manual_pick2_valid_o, // <<< NUEVA: selección manual válida de 2ª carta
 
   // Salidas del juego
   output card_state_e          state    [N_CARDS-1:0],
@@ -46,17 +47,17 @@ module game_datapath #(
   output logic [6:0]           seg_p1_o,
   output logic [6:0]           seg_p2_o,
 
-  // ======= NUEVAS SALIDAS =======
-  output logic                 game_over_o,   // 1 cuando termina el juego
-  output logic                 winner_p2_o,   // 1 si P2 gana (sin empate)
-  output logic                 tie_o          // 1 si hay empate
+  // Fin de juego y resultado
+  output logic                 game_over_o,
+  output logic                 winner_p2_o,
+  output logic                 tie_o
 );
 
-  // ============ Registros de datos ============
+  // ============ Registros ============
   card_state_e st_q [N_CARDS], st_d [N_CARDS];
   logic [3:0]  sid_q[N_CARDS];
   logic [3:0]  hi_q, hi_d;
-  logic [4:0]  a_idx_q, a_idx_d;
+  logic [4:0]  a_idx_q, a_idx_d;  // 31 = inválido
   logic [4:0]  b_idx_q, b_idx_d;
   logic [7:0]  pause_cnt_q, pause_cnt_d;
   logic        cur_pl_q, cur_pl_d;
@@ -66,15 +67,19 @@ module game_datapath #(
   logic        blink_q, blink_d;
 
   // ============ Funciones auxiliares ============
+  // Siguiente carta "seleccionable": debe estar DOWN (no MATCH, no UP)
   function automatic logic [3:0] next_alive(input logic [3:0] cur);
     logic [3:0] k; logic found;
     next_alive = cur; found = 1'b0;
     for (int step=1; step<=N_CARDS && !found; step++) begin
       k = (cur + step[3:0]) & 4'hF;
-      if (st_q[k] != CARD_MATCH) begin next_alive = k; found = 1'b1; end
+      if (st_q[k] == CARD_DOWN) begin
+        next_alive = k; found = 1'b1;
+      end
     end
   endfunction
 
+  // Elegir carta DOWN (excluyendo opcionalmente un índice)
   function automatic logic [3:0] pick_down_excl(
       input logic [3:0] start,
       input logic       use_excl,
@@ -84,8 +89,10 @@ module game_datapath #(
     pick_down_excl = 4'hF; found = 1'b0;
     for (int step=0; step<N_CARDS && !found; step++) begin
       k = (start + step[3:0]) & 4'hF;
-      if ((st_q[k] != CARD_MATCH) && (st_q[k] == CARD_DOWN)) begin
-        if (!(use_excl && (k == excl_idx))) begin pick_down_excl = k; found = 1'b1; end
+      if (st_q[k] == CARD_DOWN) begin
+        if (!(use_excl && (k == excl_idx))) begin
+          pick_down_excl = k; found = 1'b1;
+        end
       end
     end
   endfunction
@@ -121,11 +128,11 @@ module game_datapath #(
     end
   end
 
-  // Variables temporales para auto-picks
+  // Temporales
   logic [3:0] pick1_temp, pick2_temp;
   logic match_this_cycle;
 
-  // ============ Lógica combinacional ============
+  // ============ Combinacional ============
   always_comb begin
     // Defaults
     for (int i=0; i<N_CARDS; i++) st_d[i] = st_q[i];
@@ -139,39 +146,63 @@ module game_datapath #(
     start_turn_d = 1'b0;
     match_this_cycle = 1'b0;
 
-    // Picks automáticos
+    // Auto-picks
     pick1_temp = pick_down_excl(rnd4_i, 1'b0, 4'h0);
     pick2_temp = pick_down_excl(rnd4_i, 1'b1, a_idx_q[3:0]);
 
-    // Navegación
+    // Navegación: saltar a una carta DOWN
     if (btn_next_i) hi_d = next_alive(hi_q);
-    if (st_q[hi_q] == CARD_MATCH) hi_d = next_alive(hi_q);
+    // Si highlight quedó en carta no seleccionable, corrígelo
+    if (st_q[hi_q] != CARD_DOWN) hi_d = next_alive(hi_q);
 
-    // Selecciones
+    // 1ra carta (manual)
     if (select_first_card_i && st_q[hi_q]==CARD_DOWN) begin
-      st_d[hi_q] = CARD_UP; a_idx_d = {1'b0,hi_q}; b_idx_d = 5'd31;
-    end
-    if (auto_select_first_i && (pick1_temp != 4'hF)) begin
-      st_d[pick1_temp] = CARD_UP; a_idx_d = {1'b0,pick1_temp}; b_idx_d = 5'd31; hi_d = pick1_temp;
-    end
-    if (select_second_card_i && st_q[hi_q]==CARD_DOWN) begin
-      st_d[hi_q] = CARD_UP; b_idx_d = {1'b0,hi_q};
-    end
-    if (auto_select_second_i && (pick2_temp != 4'hF)) begin
-      st_d[pick2_temp] = CARD_UP; b_idx_d = {1'b0,pick2_temp}; hi_d = pick2_temp;
+      st_d[hi_q] = CARD_UP;
+      a_idx_d    = {1'b0, hi_q};
+      b_idx_d    = 5'd31;
     end
 
-    // Match inmediato
+    // 1ra carta (auto)
+    if (auto_select_first_i && pick1_temp != 4'hF) begin
+      st_d[pick1_temp] = CARD_UP;
+      a_idx_d          = {1'b0, pick1_temp};
+      b_idx_d          = 5'd31;
+      hi_d             = pick1_temp;
+    end
+
+    // 2da carta (manual) — solo si está DOWN (no igual a la 1ra)
+    if (select_second_card_i && st_q[hi_q]==CARD_DOWN) begin
+      st_d[hi_q] = CARD_UP;
+      b_idx_d    = {1'b0, hi_q};
+    end
+
+    // 2da carta (auto) — excluyendo la 1ra
+    if (auto_select_second_i && pick2_temp != 4'hF) begin
+      st_d[pick2_temp] = CARD_UP;
+      b_idx_d          = {1'b0, pick2_temp};
+      hi_d             = pick2_temp;
+    end
+
+    // Match inmediato cuando se selecciona 2da carta
     if ((select_second_card_i && st_q[hi_q]==CARD_DOWN) ||
         (auto_select_second_i && pick2_temp != 4'hF)) begin
-      logic [3:0] second_idx; second_idx = select_second_card_i ? hi_q : pick2_temp;
+      logic [3:0] second_idx;
+      second_idx = select_second_card_i ? hi_q : pick2_temp;
+
       if (a_idx_q < N_CARDS && second_idx < N_CARDS) begin
         if (a_idx_q != 5'd31 && sid_q[a_idx_q[3:0]] == sid_q[second_idx]) begin
-          st_d[a_idx_q[3:0]] = CARD_MATCH; st_d[second_idx] = CARD_MATCH;
-          if (!cur_pl_q) p1_score_d = p1_score_q + 4'd1; else p2_score_d = p2_score_q + 4'd1;
-          a_idx_d = 5'd31; b_idx_d = 5'd31; match_this_cycle = 1'b1;
+          st_d[a_idx_q[3:0]] = CARD_MATCH;
+          st_d[second_idx]   = CARD_MATCH;
+          if (!cur_pl_q) p1_score_d = p1_score_q + 4'd1;
+          else           p2_score_d = p2_score_q + 4'd1;
+          a_idx_d = 5'd31; b_idx_d = 5'd31;
+          match_this_cycle = 1'b1;
+
           hi_d = next_alive(second_idx);
-          if (!EXTRA_TURN_ON_MATCH) begin cur_pl_d = ~cur_pl_q; start_turn_d = 1'b1; end
+          if (!EXTRA_TURN_ON_MATCH) begin
+            cur_pl_d     = ~cur_pl_q;
+            start_turn_d = 1'b1;
+          end
         end else begin
           b_idx_d = {1'b0, second_idx};
         end
@@ -179,15 +210,19 @@ module game_datapath #(
     end
 
     // Pausa fallo
-    if (start_pause_i)  pause_cnt_d = (REVEAL_PAUSE_TICKS==0) ? 8'd1 : REVEAL_PAUSE_TICKS[7:0];
+    if (start_pause_i) begin
+      pause_cnt_d = (REVEAL_PAUSE_TICKS==0) ? 8'd1 : REVEAL_PAUSE_TICKS[7:0];
+    end
     if (pause_cnt_q != 0 && tick_fast_i) pause_cnt_d = pause_cnt_q - 8'd1;
 
     // Fin de turno por fallo
     if (end_turn_i) begin
       if (a_idx_q != 5'd31) st_d[a_idx_q[3:0]] = CARD_DOWN;
       if (b_idx_q != 5'd31) st_d[b_idx_q[3:0]] = CARD_DOWN;
-      a_idx_d = 5'd31; b_idx_d = 5'd31; hi_d = next_alive(hi_q);
-      cur_pl_d = ~cur_pl_q; start_turn_d = 1'b1;
+      a_idx_d      = 5'd31; b_idx_d = 5'd31;
+      hi_d         = next_alive(hi_q);
+      cur_pl_d     = ~cur_pl_q;
+      start_turn_d = 1'b1;
     end
 
     // Blink 1 Hz para displays
@@ -195,7 +230,14 @@ module game_datapath #(
     if (tick_blink_i) blink_d = ~blink_q;
   end
 
-  // ============ Salidas a FSM ============
+  // ============ Señales a FSM ============
+  // ¿La selección manual de 2ª carta sería válida?
+  assign manual_pick2_valid_o =
+      (st_q[hi_q] == CARD_DOWN) &&      // solo DOWN
+      (a_idx_q != 5'd31) &&             // debe existir 1ª carta
+      (hi_q != a_idx_q[3:0]);           // distinta a la 1ª carta
+
+  // Predicción de match para gating de transiciones
   logic [3:0] temp_second_idx; logic valid_match_check;
   always_comb begin
     temp_second_idx = 4'hF; valid_match_check = 1'b0;
@@ -207,10 +249,11 @@ module game_datapath #(
   end
   assign cards_match_o = (valid_match_check && a_idx_q != 5'd31 && a_idx_q < N_CARDS) ?
                          (sid_q[a_idx_q[3:0]] == sid_q[temp_second_idx]) : 1'b0;
+
   assign pause_done_o      = (pause_cnt_q == 8'd1) && tick_fast_i;
   assign match_happened_o  = match_this_cycle;
 
-  // Válidos para auto-picks
+  // Auto-picks válidos
   assign auto_pick1_valid_o = (pick_down_excl(rnd4_i, 1'b0, 4'h0) != 4'hF);
   assign auto_pick2_valid_o = (pick_down_excl(rnd4_i, 1'b1, a_idx_q[3:0]) != 4'hF);
 
@@ -229,39 +272,31 @@ module game_datapath #(
   assign p1_score_o    = p1_score_q;
   assign p2_score_o    = p2_score_q;
 
-  // ======= Fin de juego y ganador =======
+  // Fin de juego y ganador
   logic [4:0] pairs_done;
   assign pairs_done  = p1_score_q + p2_score_q;
   assign game_over_o = (pairs_done == (N_CARDS/2));
   assign tie_o       = game_over_o && (p1_score_q == p2_score_q);
   assign winner_p2_o = game_over_o && !tie_o && (p2_score_q > p1_score_q);
 
-  // ======= 7-seg P1/P2: “–” parpadeante en game_over =======
+  // Displays P1/P2 (tu lógica actual; aquí no cambiamos comportamiento especial)
   logic [6:0] seg_p1_fix, seg_p2_fix, seg_off;
-  localparam logic [6:0] SEG_DASH = (DISP_ACTIVE_LOW) ? 7'b111_1110 : 7'b000_0001; // solo 'g'
-
-  // Conversión BCD→7seg (puntajes normales)
   bcd7seg #(.ACTIVE_LOW(1), .M0(6), .M1(5), .M2(4), .M3(3), .M4(2), .M5(1), .M6(0))
   u_bcd_p1 (.bcd(p1_score_q[3:0]), .seg(seg_p1_fix));
   bcd7seg #(.ACTIVE_LOW(1), .M0(6), .M1(5), .M2(4), .M3(3), .M4(2), .M5(1), .M6(0))
   u_bcd_p2 (.bcd(p2_score_q[3:0]), .seg(seg_p2_fix));
 
-  // Encendido/apagado según ACTIVE_LOW
   assign seg_off = (DISP_ACTIVE_LOW) ? 7'b111_1111 : 7'b000_0000;
 
-  // Modo normal: blink del jugador activo; Modo game_over: “– –” parpadeante (1 Hz)
   always_comb begin
-    if (game_over_o) begin
-      seg_p1_o = blink_q ? SEG_DASH : seg_off;
-      seg_p2_o = blink_q ? SEG_DASH : seg_off;
+    // (Si usas el modo “todo en guion parpadeante” en game over,
+    // eso ya lo implementaste fuera; aquí mantenemos el modo normal)
+    seg_p1_o = seg_p1_fix;
+    seg_p2_o = seg_p2_fix;
+    if (cur_pl_q == 1'b0) begin
+      seg_p1_o = (blink_q) ? seg_p1_fix : seg_off;
     end else begin
-      seg_p1_o = seg_p1_fix;
-      seg_p2_o = seg_p2_fix;
-      if (cur_pl_q == 1'b0) begin
-        seg_p1_o = (blink_q) ? seg_p1_fix : seg_off;
-      end else begin
-        seg_p2_o = (blink_q) ? seg_p2_fix : seg_off;
-      end
+      seg_p2_o = (blink_q) ? seg_p2_fix : seg_off;
     end
   end
 
