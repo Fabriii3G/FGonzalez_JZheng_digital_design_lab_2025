@@ -1,6 +1,4 @@
-// vga_top_libro.sv — ÚNICO TOP: 2 jugadores, NEXT/SEL, LEDs de turno,
-// displays de tiempo y de marcador por jugador, timeout con auto-jugada,
-// y reinicios del temporizador según reglas del juego.
+// vga_top_libro.sv — TOP: 2 jugadores, NEXT/SEL, displays y overlay de ganador
 import lab3_params::*;
 
 module vga_top_libro(
@@ -70,7 +68,7 @@ module vga_top_libro(
   // ADV7123: BLANK_N activo bajo → 1 = visible
   assign vga_blank_n = blank_b;
 
-  // ===== 3) Ticks: 1 Hz (timer/blink) y ~20 Hz (pausas mismatch) =====
+  // ===== 3) Ticks: 1 Hz y ~20 Hz =====
   logic t1hz, t20hz;
 
   tick_1hz  #(.SYS_CLK_HZ(50_000_000)) u_div1hz (.clk(clk), .rst_n(rst_n), .tick_1hz(t1hz));
@@ -100,7 +98,7 @@ module vga_top_libro(
   assign p_next_ok = p_next & inputs_en;
   assign p_sel_ok  = p_sel  & inputs_en;
 
-  // ===== 5) PRBS/LFSR de 8 bits para azar (usamos 4 LSB) =====
+  // ===== 5) PRBS/LFSR de 8 bits para azar =====
   logic [7:0] prbs_q;
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) begin
@@ -113,8 +111,7 @@ module vga_top_libro(
   logic [3:0] rnd4;
   assign rnd4 = prbs_q[3:0];
 
-  // ===== 6) FSM del juego (única FSM: juego + displays de marcador) =====
-  // Layout fijo (dos copias 0..7 barajadas); cambia si quieres
+  // ===== 6) FSM del juego =====
   localparam logic [3:0] LAYOUT [16] = '{
     4, 0, 7, 3, 6, 2, 5, 1,
     1, 5, 2, 6, 3, 7, 0, 4
@@ -124,28 +121,31 @@ module vga_top_libro(
   logic [3:0]  sid [15:0];
   logic [3:0]  hi;
 
-  logic        start_turn_pulse;     // para reiniciar timer en cambios de turno
-  logic        restart_timer_pulse;  // para reiniciar timer en acierto/auto
+  logic        start_turn_pulse;
+  logic        restart_timer_pulse;
   logic [3:0]  p1_score, p2_score;
 
-  // Señales del timer (definidas más abajo) usadas como entrada a la FSM
+  // Señales del timer
   logic [4:0] sec_left;
   logic       time_up;
+
+  // ======== NUEVAS: fin de juego ========
+  logic game_over, winner_p2, tie;
 
   fsm_memoria #(
     .N_CARDS(16),
     .REVEAL_PAUSE_TICKS(12),
     .EXTRA_TURN_ON_MATCH(1'b1),
-    .DISP_ACTIVE_LOW(1'b1)      // 7seg activos en bajo
+    .DISP_ACTIVE_LOW(1'b1)
   ) u_game (
     .clk             (clk),
     .rst_n           (rst_n),
     .btn_next_i      (p_next_ok),
     .btn_sel_i       (p_sel_ok),
     .tick_fast_i     (t20hz),
-    .tick_blink_i    (t1hz),          // blink 1 Hz para displays de marcador
-    .time_up_i       (time_up),       // timeout del turno
-    .rnd4_i          (rnd4),          // fuente de azar
+    .tick_blink_i    (t1hz),
+    .time_up_i       (time_up),
+    .rnd4_i          (rnd4),
     .layout          (LAYOUT),
     .state           (st),
     .symbol_id       (sid),
@@ -156,8 +156,12 @@ module vga_top_libro(
     .restart_timer_o (restart_timer_pulse),
     .p1_score_o      (p1_score),
     .p2_score_o      (p2_score),
-    .seg_p1_o        (seg_p1_o),      // display P1 desde la FSM
-    .seg_p2_o        (seg_p2_o)       // display P2 desde la FSM
+    .seg_p1_o        (seg_p1_o),
+    .seg_p2_o        (seg_p2_o),
+    // nuevas
+    .game_over_o     (game_over),
+    .winner_p2_o     (winner_p2),
+    .tie_o           (tie)
   );
 
   // ===== 7) Video =====
@@ -168,13 +172,15 @@ module vga_top_libro(
     .state(st),
     .symbol_id(sid),
     .hi(hi),
+    .game_over(game_over),
+    .winner_p2(winner_p2),
+    .tie(tie),
     .r(vga_r),
     .g(vga_g),
     .b(vga_b)
   );
 
   // ===== 8) Temporizador 15→0 s por turno =====
-  // Arranque inicial + reinicios en: cambio de turno, acierto y auto-selección
   logic start15_boot;
   logic [1:0] start_cnt;
 
@@ -185,7 +191,6 @@ module vga_top_libro(
 
   assign start15_boot = (start_cnt == 2'd1);
 
-  // Pulso total de recarga para el timer
   logic start15_any;
   assign start15_any = start15_boot | start_turn_pulse | restart_timer_pulse;
 
@@ -193,14 +198,14 @@ module vga_top_libro(
     .clk     (clk),
     .rst_n   (rst_n),
     .tick_1hz(t1hz),
-    .start   (start15_any),  // recarga en inicio/cambio/acierto/auto
+    .start   (start15_any),
     .pause   (1'b0),
     .reload  (1'b0),
     .sec     (sec_left),
     .expired (time_up)
   );
 
-  // 7-seg para el tiempo del turno (HEX0..HEX1)
+  // 7-seg tiempo del turno
   logic [3:0] d_tens, d_ones;
   assign d_tens = (sec_left >= 10) ? 4'd1 : 4'd0;
   assign d_ones = (sec_left >= 10) ? (sec_left - 10) : sec_left[3:0];

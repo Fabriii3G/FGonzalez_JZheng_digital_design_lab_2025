@@ -88,7 +88,7 @@ module vga_cards(
   localparam logic [7:0] C_BACK_R= 8'd32,  C_BACK_G= 8'd64,  C_BACK_B= 8'd120; // dorso
   localparam logic [7:0] C_FACE_R= 8'd240, C_FACE_G= 8'd240, C_FACE_B= 8'd240; // cara
   localparam logic [7:0] C_BOR_R = 8'd200, C_BOR_G = 8'd200, C_BOR_B = 8'd200; // borde
-  localparam logic [7:0] C_HIL_R = 8'd255, C_HIL_G = 8'd255, C_HIL_B = 8'd0;   // highlight
+  localparam logic [7:0] C_HIL_R = 8'd255, C_HIL_G = 8'd0, C_HIL_B = 8'd0;   // highlight
   localparam logic [7:0] C_INK_R = 8'd0,   C_INK_G = 8'd0,   C_INK_B = 8'd0;   // tinta
 
   // Bordes y tamaño símbolo (constantes de carta)

@@ -55,7 +55,6 @@ set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_
 set_global_assignment -name SYSTEMVERILOG_FILE lab3_params.sv
 set_global_assignment -name SYSTEMVERILOG_FILE pixclk_en.sv
 set_global_assignment -name SYSTEMVERILOG_FILE vga_timing_640x480.sv
-set_global_assignment -name SYSTEMVERILOG_FILE card_bank.sv
 set_global_assignment -name SYSTEMVERILOG_FILE vga_cards.sv
 set_global_assignment -name SYSTEMVERILOG_FILE tick_1hz.sv
 set_global_assignment -name SYSTEMVERILOG_FILE lfsr8.sv
@@ -100,7 +99,6 @@ set_global_assignment -name SYSTEMVERILOG_FILE vgaController.sv
 set_global_assignment -name SYSTEMVERILOG_FILE gen_pixclk.sv
 set_global_assignment -name SYSTEMVERILOG_FILE vga_top_libro.sv
 set_global_assignment -name SYSTEMVERILOG_FILE videoGen.sv
-set_global_assignment -name SYSTEMVERILOG_FILE vga_card.sv
 set_global_assignment -name SYSTEMVERILOG_FILE timer_15s.sv
 set_global_assignment -name SYSTEMVERILOG_FILE bcd7seg.sv
 set_location_assignment PIN_W17 -to seg_ones_o[0]
