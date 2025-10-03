@@ -1,4 +1,5 @@
 // game_datapath.sv - Manejo de datos del juego (cartas, puntajes, etc.)
+// *** FIX: Captura de random para evitar bug en auto-selección de 2da carta ***
 import lab3_params::*;
 
 module game_datapath #(
@@ -33,7 +34,7 @@ module game_datapath #(
   output logic                 auto_pick1_valid_o,
   output logic                 auto_pick2_valid_o,
   output logic                 match_happened_o,
-  output logic                 manual_pick2_valid_o, // <<< NUEVA: selección manual válida de 2ª carta
+  output logic                 manual_pick2_valid_o,
 
   // Salidas del juego
   output card_state_e          state    [N_CARDS-1:0],
@@ -65,6 +66,7 @@ module game_datapath #(
   logic [3:0]  p2_score_q, p2_score_d;
   logic        start_turn_q, start_turn_d;
   logic        blink_q, blink_d;
+  logic [3:0]  rnd_captured_q, rnd_captured_d;  // *** NUEVO: capturar random ***
 
   // ============ Funciones auxiliares ============
   // Siguiente carta "seleccionable": debe estar DOWN (no MATCH, no UP)
@@ -114,6 +116,7 @@ module game_datapath #(
       p2_score_q   <= 4'd0;
       start_turn_q <= 1'b1;
       blink_q      <= 1'b0;
+      rnd_captured_q <= 4'd0;  // *** NUEVO ***
     end else begin
       for (j=0; j<N_CARDS; j++) st_q[j] <= st_d[j];
       hi_q         <= hi_d;
@@ -125,6 +128,7 @@ module game_datapath #(
       p2_score_q   <= p2_score_d;
       start_turn_q <= start_turn_d;
       blink_q      <= blink_d;
+      rnd_captured_q <= rnd_captured_d;  // *** NUEVO ***
     end
   end
 
@@ -145,10 +149,11 @@ module game_datapath #(
     p2_score_d   = p2_score_q;
     start_turn_d = 1'b0;
     match_this_cycle = 1'b0;
+    rnd_captured_d = rnd_captured_q;  // *** NUEVO ***
 
-    // Auto-picks
+    // Auto-picks: usar rnd_captured SOLO para pick2
     pick1_temp = pick_down_excl(rnd4_i, 1'b0, 4'h0);
-    pick2_temp = pick_down_excl(rnd4_i, 1'b1, a_idx_q[3:0]);
+    pick2_temp = pick_down_excl(rnd_captured_q, 1'b1, a_idx_q[3:0]);  // *** CAMBIO: usa rnd_captured_q ***
 
     // Navegación: saltar a una carta DOWN
     if (btn_next_i) hi_d = next_alive(hi_q);
@@ -160,6 +165,7 @@ module game_datapath #(
       st_d[hi_q] = CARD_UP;
       a_idx_d    = {1'b0, hi_q};
       b_idx_d    = 5'd31;
+      rnd_captured_d = rnd4_i;  // *** CAPTURAR random cuando se selecciona 1ra ***
     end
 
     // 1ra carta (auto)
@@ -168,6 +174,7 @@ module game_datapath #(
       a_idx_d          = {1'b0, pick1_temp};
       b_idx_d          = 5'd31;
       hi_d             = pick1_temp;
+      rnd_captured_d   = rnd4_i;  // *** CAPTURAR random cuando se selecciona 1ra ***
     end
 
     // 2da carta (manual) — solo si está DOWN (no igual a la 1ra)
@@ -255,7 +262,7 @@ module game_datapath #(
 
   // Auto-picks válidos
   assign auto_pick1_valid_o = (pick_down_excl(rnd4_i, 1'b0, 4'h0) != 4'hF);
-  assign auto_pick2_valid_o = (pick_down_excl(rnd4_i, 1'b1, a_idx_q[3:0]) != 4'hF);
+  assign auto_pick2_valid_o = (pick_down_excl(rnd_captured_q, 1'b1, a_idx_q[3:0]) != 4'hF);  // *** CAMBIO: usa rnd_captured_q ***
 
   // ============ Salidas del juego ============
   generate genvar g;
@@ -279,7 +286,7 @@ module game_datapath #(
   assign tie_o       = game_over_o && (p1_score_q == p2_score_q);
   assign winner_p2_o = game_over_o && !tie_o && (p2_score_q > p1_score_q);
 
-  // Displays P1/P2 (tu lógica actual; aquí no cambiamos comportamiento especial)
+  // Displays P1/P2
   logic [6:0] seg_p1_fix, seg_p2_fix, seg_off;
   bcd7seg #(.ACTIVE_LOW(1), .M0(6), .M1(5), .M2(4), .M3(3), .M4(2), .M5(1), .M6(0))
   u_bcd_p1 (.bcd(p1_score_q[3:0]), .seg(seg_p1_fix));
@@ -289,8 +296,6 @@ module game_datapath #(
   assign seg_off = (DISP_ACTIVE_LOW) ? 7'b111_1111 : 7'b000_0000;
 
   always_comb begin
-    // (Si usas el modo “todo en guion parpadeante” en game over,
-    // eso ya lo implementaste fuera; aquí mantenemos el modo normal)
     seg_p1_o = seg_p1_fix;
     seg_p2_o = seg_p2_fix;
     if (cur_pl_q == 1'b0) begin
