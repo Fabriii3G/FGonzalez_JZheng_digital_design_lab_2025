@@ -146,4 +146,6 @@ set_global_assignment -name EDA_TEST_BENCH_NAME tb_fsm_control -section_id eda_s
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id tb_fsm_control
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME tb_fsm_control -section_id tb_fsm_control
 set_global_assignment -name EDA_TEST_BENCH_FILE tb_fsm_control.sv -section_id tb_fsm_control
+set_global_assignment -name SYSTEMVERILOG_FILE deck_shuffle16.sv
+set_location_assignment PIN_AA14 -to btn_rst_game
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
