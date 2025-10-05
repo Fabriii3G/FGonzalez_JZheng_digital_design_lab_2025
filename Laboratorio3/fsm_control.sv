@@ -11,7 +11,7 @@ module fsm_control(
   input  logic        auto_pick2_valid_i,
   input  logic        match_happened_i,
   input  logic        game_over_i,
-  input  logic        manual_pick2_valid_i,   // <<< NUEVA: 2ª manual válida
+  input  logic        manual_pick2_valid_i,   // 2ª manual válida
   
   // Salidas de control
   output logic        select_first_card_o,
@@ -35,33 +35,40 @@ module fsm_control(
 
   logic [1:0] state, next_state;
 
+  // --- NEW: detectar flanco de subida de time_up_i ---
+  logic time_up_q, time_up_edge;
+  always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n) time_up_q <= 1'b0;
+    else        time_up_q <= time_up_i;
+  end
+  assign time_up_edge = time_up_i & ~time_up_q;
+
   // Estado
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) state <= S_IDLE;
     else        state <= next_state;
   end
 
-  // Próximo estado
+  // Próximo estado (usar time_up_edge)
   always_comb begin
     next_state = state;
     unique case (state)
       S_IDLE: begin
         if (game_over_i) begin
           next_state = S_OVER;
-        end else if (time_up_i && auto_pick1_valid_i) begin
-          next_state = S_ONE;
+        end else if (time_up_edge && auto_pick1_valid_i) begin
+          next_state = S_ONE;  // 1ª auto
         end else if (btn_sel_i) begin
-          next_state = S_ONE; // 1ª manual (datapath valida DOWN)
+          next_state = S_ONE;  // 1ª manual (datapath valida DOWN)
         end
       end
 
       S_ONE: begin
         if (game_over_i) begin
           next_state = S_OVER;
-        end else if (time_up_i && auto_pick2_valid_i) begin
+        end else if (time_up_edge && auto_pick2_valid_i) begin
           next_state = (cards_match_i) ? S_IDLE : S_PAUSE;
         end else if (btn_sel_i && manual_pick2_valid_i) begin
-          // SOLO si la 2ª manual es válida (DOWN y distinta)
           next_state = (cards_match_i) ? S_IDLE : S_PAUSE;
         end else if (match_happened_i) begin
           next_state = S_IDLE; // seguridad
@@ -82,7 +89,7 @@ module fsm_control(
     endcase
   end
 
-  // Salidas
+  // Salidas (usar time_up_edge)
   always_comb begin
     select_first_card_o  = 1'b0;
     select_second_card_o = 1'b0;
@@ -97,23 +104,22 @@ module fsm_control(
     if (state != S_OVER) begin
       case (state)
         S_IDLE: begin
-          if (time_up_i && auto_pick1_valid_i) begin
+          if (time_up_edge && auto_pick1_valid_i) begin
             auto_select_first_o = 1'b1;
-            restart_timer_o     = 1'b1;
+            restart_timer_o     = 1'b1;  // nuevo periodo para la 2ª auto
           end else if (btn_sel_i) begin
             select_first_card_o = 1'b1;
           end
         end
 
         S_ONE: begin
-          if (time_up_i && auto_pick2_valid_i) begin
+          if (time_up_edge && auto_pick2_valid_i) begin
             auto_select_second_o = 1'b1;
-            // La transición decide match/fallo
           end else if (btn_sel_i && manual_pick2_valid_i) begin
             select_second_card_o = 1'b1;
           end
 
-          if ((time_up_i && auto_pick2_valid_i) || (btn_sel_i && manual_pick2_valid_i)) begin
+          if ((time_up_edge && auto_pick2_valid_i) || (btn_sel_i && manual_pick2_valid_i)) begin
             if (cards_match_i) begin
               match_found_o   = 1'b1;
               extra_turn_o    = 1'b1;

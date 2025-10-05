@@ -1,4 +1,3 @@
-// vga_top_libro.sv — agrega barajado y "Nuevo Juego"
 import lab3_params::*;
 
 module vga_top_libro(
@@ -8,7 +7,7 @@ module vga_top_libro(
   // Botones (nivel crudo del pin, activo en 1)
   input  logic        btn_next,
   input  logic        btn_sel,
-  input  logic        btn_rst_game,  // <<< NUEVO: botón "Nuevo Juego" (soft reset)
+  input  logic        btn_rst_game,  // botón "Nuevo Juego" (soft reset)
 
   // VGA
   output logic        hsync,
@@ -100,10 +99,9 @@ module vga_top_libro(
   assign p_newgame_ok = p_newgame & inputs_en;
 
   // ===== 5) PRBS libre (NO se resetea con "nuevo juego") =====
-  // Se resetea solo con rst_n global -> perfecto para tomar "semillas" distintas
   logic [7:0] prbs_q;
   always_ff @(posedge clk or negedge rst_n) begin
-    if (!rst_n) prbs_q <= 8'hA5;                         // semilla de arranque
+    if (!rst_n) prbs_q <= 8'hA5;
     else        prbs_q <= {prbs_q[6:0], prbs_q[7]^prbs_q[5]^prbs_q[4]^prbs_q[3]};
   end
   logic [3:0] rnd4; assign rnd4 = prbs_q[3:0];
@@ -116,15 +114,13 @@ module vga_top_libro(
     .clk     (clk),
     .rst_n   (rst_n),
     .start_i (shuf_start),
-    .seed_i  (prbs_q),     // semilla tomada del PRBS libre
+    .seed_i  (prbs_q),
     .busy_o  (shuf_busy),
     .done_o  (shuf_done),
     .layout_o(layout_dyn)
   );
 
-  // Disparos de barajado:
-  // - Al boot (una sola vez)
-  // - Cada p_newgame_ok
+  // Disparos de barajado: boot y "nuevo juego"
   logic [1:0] boot_cnt;
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) boot_cnt <= 2'd0;
@@ -132,11 +128,10 @@ module vga_top_libro(
   end
   wire boot_pulse = (boot_cnt == 2'd1);
 
-  // FSM para "Nuevo Juego": BARAJAR -> PULSO DE RESET SUAVE -> IDLE
   typedef enum logic [1:0] {NG_IDLE, NG_SHUF, NG_RST, NG_WAIT} ng_e;
   ng_e ng_q, ng_d;
 
-  logic        rst_game_n;      // reset "suave" hacia el juego
+  logic        rst_game_n;      // reset “suave” hacia el juego
   logic [3:0]  rst_cnt_q, rst_cnt_d;
 
   always_ff @(posedge clk or negedge rst_n) begin
@@ -163,28 +158,23 @@ module vga_top_libro(
       end
 
       NG_SHUF: begin
-        // esperar a que el barajador termine
         if (shuf_done) begin
-          // pasar a reset suave 2..3 ciclos para cargar layout en reset
           rst_cnt_d = 4'd3;
           ng_d      = NG_RST;
         end
       end
 
       NG_RST: begin
-        // mientras rst_cnt>0 mantenemos reset bajo
         if (rst_cnt_q != 0) rst_cnt_d = rst_cnt_q - 4'd1;
         else                ng_d      = NG_WAIT;
       end
 
       NG_WAIT: begin
-        // colchón de 1-2 ciclos luego del reset suave
         ng_d = NG_IDLE;
       end
     endcase
   end
 
-  // reset suave activo en bajo cuando NG_RST
   assign rst_game_n = (ng_q == NG_RST) ? 1'b0 : 1'b1;
 
   // ===== 7) Señales del juego =====
@@ -200,8 +190,9 @@ module vga_top_libro(
   logic        time_up;
 
   logic game_over, winner_p2, tie;
+  logic pause_timer_w; // <<< NEW
 
-  // NOTA: rst hacia el juego = rst_n (global) Y rst_game_n (suave)
+  // Reset hacia el juego = global AND suave
   wire rst_game_total_n = rst_n & rst_game_n;
 
   fsm_memoria #(
@@ -210,29 +201,30 @@ module vga_top_libro(
     .EXTRA_TURN_ON_MATCH(1'b1),
     .DISP_ACTIVE_LOW(1'b1)
   ) u_game (
-    .clk             (clk),
-    .rst_n           (rst_game_total_n),   // <<< reset suave integrado
-    .btn_next_i      (p_next_ok),
-    .btn_sel_i       (p_sel_ok),
-    .tick_fast_i     (t20hz),
-    .tick_blink_i    (t1hz),
-    .time_up_i       (time_up),
-    .rnd4_i          (rnd4),
-    .layout          (layout_dyn),         // <<< layout barajado dinámico
-    .state           (st),
-    .symbol_id       (sid),
-    .highlight_idx   (hi),
-    .led_p1_o        (led_p1),
-    .led_p2_o        (led_p2),
-    .start_turn_o    (start_turn_pulse),
-    .restart_timer_o (restart_timer_pulse),
-    .p1_score_o      (p1_score),
-    .p2_score_o      (p2_score),
-    .seg_p1_o        (seg_p1_o),
-    .seg_p2_o        (seg_p2_o),
-    .game_over_o     (game_over),
-    .winner_p2_o     (winner_p2),
-    .tie_o           (tie)
+    .clk               (clk),
+    .rst_n             (rst_game_total_n),
+    .btn_next_i        (p_next_ok),
+    .btn_sel_i         (p_sel_ok),
+    .tick_fast_i       (t20hz),
+    .tick_blink_i      (t1hz),
+    .time_up_i         (time_up),
+    .rnd4_i            (rnd4),
+    .layout            (layout_dyn),
+    .state             (st),
+    .symbol_id         (sid),
+    .highlight_idx     (hi),
+    .led_p1_o          (led_p1),
+    .led_p2_o          (led_p2),
+    .start_turn_o      (start_turn_pulse),
+    .restart_timer_o   (restart_timer_pulse),
+    .p1_score_o        (p1_score),
+    .p2_score_o        (p2_score),
+    .seg_p1_o          (seg_p1_o),
+    .seg_p2_o          (seg_p2_o),
+    .game_over_o       (game_over),
+    .winner_p2_o       (winner_p2),
+    .tie_o             (tie),
+    .pause_timer_o     (pause_timer_w)   // <<< NEW
   );
 
   // ===== 8) Video =====
@@ -252,7 +244,6 @@ module vga_top_libro(
   );
 
   // ===== 9) Temporizador por turno =====
-  // Arranque y restart ya vienen de la FSM; añadimos un pulso al boot
   logic start15_boot; logic [1:0] start_cnt;
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) start_cnt <= 2'd0;
@@ -265,17 +256,17 @@ module vga_top_libro(
 
   timer_15s #(.START_VAL(15)) u_tmr (
     .clk     (clk),
-    .rst_n   (rst_game_total_n),  // si reinicias juego, reinicia timer también
+    .rst_n   (rst_game_total_n),
     .tick_1hz(t1hz),
     .start   (start15_any),
-    .pause   (1'b0),
+    .pause   (pause_timer_w),   // <<< NEW: pausar en S_PAUSE / S_OVER
     .reload  (1'b0),
     .sec     (sec_left),
     .expired (time_up)
   );
 
-  // 7-seg del tiempo (igual que ya tenías), con override “– –” al terminar
-  logic [3:0] d_tens, d_ones;
+  // 7-seg del tiempo (con “– –” al terminar)
+  logic [4:0] d_t; logic [3:0] d_ones, d_tens;
   assign d_tens = (sec_left >= 10) ? 4'd1 : 4'd0;
   assign d_ones = (sec_left >= 10) ? (sec_left - 10) : sec_left[3:0];
 
