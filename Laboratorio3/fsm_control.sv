@@ -11,13 +11,14 @@ module fsm_control(
   input  logic        auto_pick2_valid_i,
   input  logic        match_happened_i,
   input  logic        game_over_i,
-  input  logic        manual_pick2_valid_i,   // 2ª manual válida
-  
+  input  logic        manual_pick2_valid_i,
+
   // Salidas de control
   output logic        select_first_card_o,
   output logic        select_second_card_o,
-  output logic        auto_select_first_o,
-  output logic        auto_select_second_o,
+  output logic        auto_select_first_o,    // (se mantiene para flujo manual S_ONE)
+  output logic        auto_select_second_o,   // (se mantiene para flujo manual S_ONE)
+  output logic        auto_select_pair_o,     // <<< NUEVO: auto–par en el mismo ciclo
   output logic        match_found_o,
   output logic        start_pause_o,
   output logic        end_turn_o,
@@ -35,7 +36,7 @@ module fsm_control(
 
   logic [1:0] state, next_state;
 
-  // --- NEW: detectar flanco de subida de time_up_i ---
+  // --- Flanco de subida de time_up para no perder eventos ---
   logic time_up_q, time_up_edge;
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) time_up_q <= 1'b0;
@@ -49,17 +50,18 @@ module fsm_control(
     else        state <= next_state;
   end
 
-  // Próximo estado (usar time_up_edge)
+  // Próximo estado
   always_comb begin
     next_state = state;
     unique case (state)
       S_IDLE: begin
         if (game_over_i) begin
           next_state = S_OVER;
-        end else if (time_up_edge && auto_pick1_valid_i) begin
-          next_state = S_ONE;  // 1ª auto
+        end else if (time_up_edge) begin
+          // Se ordena el auto–par; el datapath calculará cards_match_i
+          next_state = (cards_match_i) ? S_IDLE : S_PAUSE;
         end else if (btn_sel_i) begin
-          next_state = S_ONE;  // 1ª manual (datapath valida DOWN)
+          next_state = S_ONE; // 1ª manual (datapath valida DOWN)
         end
       end
 
@@ -67,6 +69,7 @@ module fsm_control(
         if (game_over_i) begin
           next_state = S_OVER;
         end else if (time_up_edge && auto_pick2_valid_i) begin
+          // Flujo manual: si se acaba el tiempo en S_ONE, auto 2ª como antes
           next_state = (cards_match_i) ? S_IDLE : S_PAUSE;
         end else if (btn_sel_i && manual_pick2_valid_i) begin
           next_state = (cards_match_i) ? S_IDLE : S_PAUSE;
@@ -89,12 +92,13 @@ module fsm_control(
     endcase
   end
 
-  // Salidas (usar time_up_edge)
+  // Salidas
   always_comb begin
     select_first_card_o  = 1'b0;
     select_second_card_o = 1'b0;
     auto_select_first_o  = 1'b0;
     auto_select_second_o = 1'b0;
+    auto_select_pair_o   = 1'b0;   // <<< NUEVO
     match_found_o        = 1'b0;
     start_pause_o        = 1'b0;
     end_turn_o           = 1'b0;
@@ -102,17 +106,26 @@ module fsm_control(
     restart_timer_o      = 1'b0;
 
     if (state != S_OVER) begin
-      case (state)
+      unique case (state)
         S_IDLE: begin
-          if (time_up_edge && auto_pick1_valid_i) begin
-            auto_select_first_o = 1'b1;
-            restart_timer_o     = 1'b1;  // nuevo periodo para la 2ª auto
+          if (time_up_edge) begin
+            // Ordena seleccionar 2 cartas en el mismo ciclo
+            auto_select_pair_o = 1'b1;
+            // Decisión según cards_match_i (combinacional desde datapath)
+            if (cards_match_i) begin
+              match_found_o   = 1'b1;
+              extra_turn_o    = 1'b1; // mismo jugador continúa
+              restart_timer_o = 1'b1; // nuevo conteo para el mismo jugador
+            end else begin
+              start_pause_o = 1'b1;   // se mostrarán 2 cartas y luego se esconderán
+            end
           end else if (btn_sel_i) begin
             select_first_card_o = 1'b1;
           end
         end
 
         S_ONE: begin
+          // Flujo manual intacto
           if (time_up_edge && auto_pick2_valid_i) begin
             auto_select_second_o = 1'b1;
           end else if (btn_sel_i && manual_pick2_valid_i) begin
@@ -135,8 +148,6 @@ module fsm_control(
             end_turn_o = 1'b1;
           end
         end
-
-        default: ;
       endcase
     end
   end

@@ -13,7 +13,7 @@ module fsm_memoria #(
   input  logic                 tick_fast_i,
   input  logic                 tick_blink_i,
   input  logic                 time_up_i,
-  input  logic [3:0]           rnd4_i,
+  input  logic [7:0]           rnd8_i,            // <<< NUEVO (antes rnd4_i)
   input  logic [3:0]           layout [N_CARDS-1:0],
   output card_state_e          state [N_CARDS-1:0],
   output logic [3:0]           symbol_id[N_CARDS-1:0],
@@ -29,7 +29,6 @@ module fsm_memoria #(
   output logic                 game_over_o,
   output logic                 winner_p2_o,
   output logic                 tie_o,
-  // --- NEW: pausa del timer cuando la FSM está en PAUSE/OVER
   output logic                 pause_timer_o
 );
 
@@ -38,6 +37,7 @@ module fsm_memoria #(
   logic select_second_card;
   logic auto_select_first;
   logic auto_select_second;
+  logic auto_select_pair;      // <<< NUEVO
   logic match_found;
   logic start_pause;
   logic end_turn;
@@ -63,6 +63,7 @@ module fsm_memoria #(
     .select_second_card_i (select_second_card),
     .auto_select_first_i  (auto_select_first),
     .auto_select_second_i (auto_select_second),
+    .auto_select_pair_i   (auto_select_pair),   // <<< NUEVO
     .match_found_i        (match_found),
     .start_pause_i        (start_pause),
     .end_turn_i           (end_turn),
@@ -70,7 +71,7 @@ module fsm_memoria #(
     .btn_next_i           (btn_next_i),
     .tick_fast_i          (tick_fast_i),
     .tick_blink_i         (tick_blink_i),
-    .rnd4_i               (rnd4_i),
+    .rnd8_i               (rnd8_i),             // <<< NUEVO
     .layout               (layout),
     .cards_match_o        (cards_match),
     .pause_done_o         (pause_done),
@@ -93,7 +94,7 @@ module fsm_memoria #(
     .tie_o                (tie_o)
   );
 
-  // FSM de control (ya expone current_state_o=fsm_state)
+  // FSM de control
   fsm_control u_fsm_ctrl (
     .clk                   (clk),
     .rst_n                 (rst_n),
@@ -110,6 +111,7 @@ module fsm_memoria #(
     .select_second_card_o  (select_second_card),
     .auto_select_first_o   (auto_select_first),
     .auto_select_second_o  (auto_select_second),
+    .auto_select_pair_o    (auto_select_pair), // <<< NUEVO
     .match_found_o         (match_found),
     .start_pause_o         (start_pause),
     .end_turn_o            (end_turn),
@@ -124,7 +126,7 @@ module fsm_memoria #(
   localparam logic [1:0] S_PAUSE = 2'd2;
   localparam logic [1:0] S_OVER  = 2'd3;
 
-  // --- NEW: pausar timer en PAUSE y OVER ---
+  // Pausar timer en PAUSE y OVER
   assign pause_timer_o = (fsm_state == S_PAUSE) || (fsm_state == S_OVER);
 
 endmodule

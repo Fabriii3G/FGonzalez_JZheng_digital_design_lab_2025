@@ -101,10 +101,10 @@ module vga_top_libro(
   // ===== 5) PRBS libre (NO se resetea con "nuevo juego") =====
   logic [7:0] prbs_q;
   always_ff @(posedge clk or negedge rst_n) begin
-    if (!rst_n) prbs_q <= 8'hA5;
+    if (!rst_n) prbs_q <= 8'hA5; // semilla inicial
     else        prbs_q <= {prbs_q[6:0], prbs_q[7]^prbs_q[5]^prbs_q[4]^prbs_q[3]};
   end
-  logic [3:0] rnd4; assign rnd4 = prbs_q[3:0];
+  logic [7:0] rnd8; assign rnd8 = prbs_q;  // <<< ahora pasamos 8 bits
 
   // ===== 6) BARAJADOR =====
   logic                       shuf_start, shuf_busy, shuf_done;
@@ -156,19 +156,16 @@ module vga_top_libro(
           ng_d       = NG_SHUF;
         end
       end
-
       NG_SHUF: begin
         if (shuf_done) begin
           rst_cnt_d = 4'd3;
           ng_d      = NG_RST;
         end
       end
-
       NG_RST: begin
         if (rst_cnt_q != 0) rst_cnt_d = rst_cnt_q - 4'd1;
         else                ng_d      = NG_WAIT;
       end
-
       NG_WAIT: begin
         ng_d = NG_IDLE;
       end
@@ -190,7 +187,7 @@ module vga_top_libro(
   logic        time_up;
 
   logic game_over, winner_p2, tie;
-  logic pause_timer_w; // <<< NEW
+  logic pause_timer_w;
 
   // Reset hacia el juego = global AND suave
   wire rst_game_total_n = rst_n & rst_game_n;
@@ -208,7 +205,7 @@ module vga_top_libro(
     .tick_fast_i       (t20hz),
     .tick_blink_i      (t1hz),
     .time_up_i         (time_up),
-    .rnd4_i            (rnd4),
+    .rnd8_i            (rnd8),        // <<< NUEVO
     .layout            (layout_dyn),
     .state             (st),
     .symbol_id         (sid),
@@ -224,7 +221,7 @@ module vga_top_libro(
     .game_over_o       (game_over),
     .winner_p2_o       (winner_p2),
     .tie_o             (tie),
-    .pause_timer_o     (pause_timer_w)   // <<< NEW
+    .pause_timer_o     (pause_timer_w)
   );
 
   // ===== 8) Video =====
@@ -259,14 +256,14 @@ module vga_top_libro(
     .rst_n   (rst_game_total_n),
     .tick_1hz(t1hz),
     .start   (start15_any),
-    .pause   (pause_timer_w),   // <<< NEW: pausar en S_PAUSE / S_OVER
+    .pause   (pause_timer_w),   // se pausa en S_PAUSE / S_OVER
     .reload  (1'b0),
     .sec     (sec_left),
     .expired (time_up)
   );
 
   // 7-seg del tiempo (con “– –” al terminar)
-  logic [4:0] d_t; logic [3:0] d_ones, d_tens;
+  logic [3:0] d_ones, d_tens;
   assign d_tens = (sec_left >= 10) ? 4'd1 : 4'd0;
   assign d_ones = (sec_left >= 10) ? (sec_left - 10) : sec_left[3:0];
 

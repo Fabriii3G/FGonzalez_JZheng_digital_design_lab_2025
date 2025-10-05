@@ -1,5 +1,5 @@
 // game_datapath.sv - Manejo de datos del juego (cartas, puntajes, etc.)
-// *** FIX: Captura de random para evitar bug en auto-selección de 2da carta ***
+// Variante: auto–selección de PAR en el mismo ciclo usando dos nibbles de rnd8_i
 import lab3_params::*;
 
 module game_datapath #(
@@ -14,18 +14,19 @@ module game_datapath #(
   // Control desde FSM
   input  logic                 select_first_card_i,
   input  logic                 select_second_card_i,
-  input  logic                 auto_select_first_i,
-  input  logic                 auto_select_second_i,
-  input  logic                 match_found_i,
+  input  logic                 auto_select_first_i,   // usado solo en flujo manual S_ONE
+  input  logic                 auto_select_second_i,  // usado solo en flujo manual S_ONE
+  input  logic                 auto_select_pair_i,    // <<< NUEVO: auto–par en S_IDLE
+  input  logic                 match_found_i,         // no usado internamente (telemetría)
   input  logic                 start_pause_i,
   input  logic                 end_turn_i,
-  input  logic                 extra_turn_i,
+  input  logic                 extra_turn_i,          // no usado internamente (telemetría)
 
   // Entradas externas
   input  logic                 btn_next_i,
   input  logic                 tick_fast_i,
   input  logic                 tick_blink_i,
-  input  logic [3:0]           rnd4_i,
+  input  logic [7:0]           rnd8_i,                // <<< NUEVO (antes rnd4_i)
   input  logic [3:0]           layout [N_CARDS-1:0],
 
   // Salidas a FSM
@@ -66,10 +67,9 @@ module game_datapath #(
   logic [3:0]  p2_score_q, p2_score_d;
   logic        start_turn_q, start_turn_d;
   logic        blink_q, blink_d;
-  logic [3:0]  rnd_captured_q, rnd_captured_d;  // *** NUEVO: capturar random ***
+  logic [3:0]  rnd_captured_q, rnd_captured_d;  // captura para flujo manual
 
   // ============ Funciones auxiliares ============
-  // Siguiente carta "seleccionable": debe estar DOWN (no MATCH, no UP)
   function automatic logic [3:0] next_alive(input logic [3:0] cur);
     logic [3:0] k; logic found;
     next_alive = cur; found = 1'b0;
@@ -81,7 +81,6 @@ module game_datapath #(
     end
   endfunction
 
-  // Elegir carta DOWN (excluyendo opcionalmente un índice)
   function automatic logic [3:0] pick_down_excl(
       input logic [3:0] start,
       input logic       use_excl,
@@ -107,90 +106,126 @@ module game_datapath #(
         st_q[j]  <= CARD_DOWN;
         sid_q[j] <= layout[j];
       end
-      hi_q         <= 4'd0;
-      a_idx_q      <= 5'd31;
-      b_idx_q      <= 5'd31;
-      pause_cnt_q  <= '0;
-      cur_pl_q     <= 1'b0;
-      p1_score_q   <= 4'd0;
-      p2_score_q   <= 4'd0;
-      start_turn_q <= 1'b1;
-      blink_q      <= 1'b0;
-      rnd_captured_q <= 4'd0;  // *** NUEVO ***
+      hi_q           <= 4'd0;
+      a_idx_q        <= 5'd31;
+      b_idx_q        <= 5'd31;
+      pause_cnt_q    <= '0;
+      cur_pl_q       <= 1'b0;
+      p1_score_q     <= 4'd0;
+      p2_score_q     <= 4'd0;
+      start_turn_q   <= 1'b1;
+      blink_q        <= 1'b0;
+      rnd_captured_q <= 4'd0;
     end else begin
       for (j=0; j<N_CARDS; j++) st_q[j] <= st_d[j];
-      hi_q         <= hi_d;
-      a_idx_q      <= a_idx_d;
-      b_idx_q      <= b_idx_d;
-      pause_cnt_q  <= pause_cnt_d;
-      cur_pl_q     <= cur_pl_d;
-      p1_score_q   <= p1_score_d;
-      p2_score_q   <= p2_score_d;
-      start_turn_q <= start_turn_d;
-      blink_q      <= blink_d;
-      rnd_captured_q <= rnd_captured_d;  // *** NUEVO ***
+      hi_q           <= hi_d;
+      a_idx_q        <= a_idx_d;
+      b_idx_q        <= b_idx_d;
+      pause_cnt_q    <= pause_cnt_d;
+      cur_pl_q       <= cur_pl_d;
+      p1_score_q     <= p1_score_d;
+      p2_score_q     <= p2_score_d;
+      start_turn_q   <= start_turn_d;
+      blink_q        <= blink_d;
+      rnd_captured_q <= rnd_captured_d;
     end
   end
 
   // Temporales
+  logic [3:0] rnda, rndb;        // dos nibbles aleatorios del rnd8_i
   logic [3:0] pick1_temp, pick2_temp;
-  logic match_this_cycle;
+  logic [3:0] pair_p1, pair_p2;  // picks del auto–par
+  logic       pair_valid;
+  logic       match_this_cycle;
+
+  assign rnda = rnd8_i[3:0];
+  assign rndb = rnd8_i[7:4];
 
   // ============ Combinacional ============
   always_comb begin
     // Defaults
     for (int i=0; i<N_CARDS; i++) st_d[i] = st_q[i];
-    hi_d         = hi_q;
-    a_idx_d      = a_idx_q;
-    b_idx_d      = b_idx_q;
-    pause_cnt_d  = pause_cnt_q;
-    cur_pl_d     = cur_pl_q;
-    p1_score_d   = p1_score_q;
-    p2_score_d   = p2_score_q;
-    start_turn_d = 1'b0;
+    hi_d           = hi_q;
+    a_idx_d        = a_idx_q;
+    b_idx_d        = b_idx_q;
+    pause_cnt_d    = pause_cnt_q;
+    cur_pl_d       = cur_pl_q;
+    p1_score_d     = p1_score_q;
+    p2_score_d     = p2_score_q;
+    start_turn_d   = 1'b0;
+    blink_d        = blink_q;
+    rnd_captured_d = rnd_captured_q;
     match_this_cycle = 1'b0;
-    rnd_captured_d = rnd_captured_q;  // *** NUEVO ***
 
-    // Auto-picks: usar rnd_captured SOLO para pick2
-    pick1_temp = pick_down_excl(rnd4_i, 1'b0, 4'h0);
-    pick2_temp = pick_down_excl(rnd_captured_q, 1'b1, a_idx_q[3:0]);  // *** CAMBIO: usa rnd_captured_q ***
+    // Picks para flujos:
+    // - Manual/auto escalonado (anteriores): usan rnda (1ª) y rnd_captured_q (2ª)
+    pick1_temp = pick_down_excl(rnda, 1'b0, 4'h0);
+    pick2_temp = pick_down_excl(rnd_captured_q, 1'b1, a_idx_q[3:0]);
 
-    // Navegación: saltar a una carta DOWN
+    // - Auto–par simultáneo: usa dos nibbles independientes
+    pair_p1    = pick_down_excl(rnda, 1'b0, 4'h0);
+    pair_p2    = pick_down_excl(rndb, 1'b1, pair_p1);
+    pair_valid = (pair_p1 != 4'hF) && (pair_p2 != 4'hF);
+
+    // Navegación con NEXT: saltar a una carta DOWN
     if (btn_next_i) hi_d = next_alive(hi_q);
-    // Si highlight quedó en carta no seleccionable, corrígelo
     if (st_q[hi_q] != CARD_DOWN) hi_d = next_alive(hi_q);
 
-    // 1ra carta (manual)
+    // --- 1ª carta (manual)
     if (select_first_card_i && st_q[hi_q]==CARD_DOWN) begin
       st_d[hi_q] = CARD_UP;
       a_idx_d    = {1'b0, hi_q};
       b_idx_d    = 5'd31;
-      rnd_captured_d = rnd4_i;  // *** CAPTURAR random cuando se selecciona 1ra ***
+      rnd_captured_d = rnda; // captura random para 2ª en flujo manual
     end
 
-    // 1ra carta (auto)
+    // --- 1ª carta (auto, flujo manual en S_ONE)
     if (auto_select_first_i && pick1_temp != 4'hF) begin
       st_d[pick1_temp] = CARD_UP;
       a_idx_d          = {1'b0, pick1_temp};
       b_idx_d          = 5'd31;
       hi_d             = pick1_temp;
-      rnd_captured_d   = rnd4_i;  // *** CAPTURAR random cuando se selecciona 1ra ***
+      rnd_captured_d   = rnda; // captura random para 2ª
     end
 
-    // 2da carta (manual) — solo si está DOWN (no igual a la 1ra)
+    // --- 2ª carta (manual)
     if (select_second_card_i && st_q[hi_q]==CARD_DOWN) begin
       st_d[hi_q] = CARD_UP;
       b_idx_d    = {1'b0, hi_q};
     end
 
-    // 2da carta (auto) — excluyendo la 1ra
+    // --- 2ª carta (auto, flujo manual en S_ONE)
     if (auto_select_second_i && pick2_temp != 4'hF) begin
       st_d[pick2_temp] = CARD_UP;
       b_idx_d          = {1'b0, pick2_temp};
       hi_d             = pick2_temp;
     end
 
-    // Match inmediato cuando se selecciona 2da carta
+    // --- Auto–PAR (ambas en el mismo ciclo)
+    if (auto_select_pair_i && pair_valid) begin
+      // Levantar 1ª y 2ª
+      st_d[pair_p1] = CARD_UP;
+      st_d[pair_p2] = CARD_UP;
+      a_idx_d       = {1'b0, pair_p1};
+      b_idx_d       = {1'b0, pair_p2};
+      hi_d          = pair_p2;
+      // Evaluar match inmediato
+      if (sid_q[pair_p1] == sid_q[pair_p2]) begin
+        st_d[pair_p1] = CARD_MATCH;
+        st_d[pair_p2] = CARD_MATCH;
+        if (!cur_pl_q) p1_score_d = p1_score_q + 4'd1;
+        else           p2_score_d = p2_score_q + 4'd1;
+        a_idx_d = 5'd31; b_idx_d = 5'd31;
+        match_this_cycle = 1'b1;
+
+        if (!EXTRA_TURN_ON_MATCH) begin
+          cur_pl_d     = ~cur_pl_q;
+          start_turn_d = 1'b1;
+        end
+      end
+    end
+
+    // --- Match inmediato (rutas escalonadas)
     if ((select_second_card_i && st_q[hi_q]==CARD_DOWN) ||
         (auto_select_second_i && pick2_temp != 4'hF)) begin
       logic [3:0] second_idx;
@@ -216,7 +251,7 @@ module game_datapath #(
       end
     end
 
-    // Pausa fallo
+    // Pausa por fallo
     if (start_pause_i) begin
       pause_cnt_d = (REVEAL_PAUSE_TICKS==0) ? 8'd1 : REVEAL_PAUSE_TICKS[7:0];
     end
@@ -233,36 +268,47 @@ module game_datapath #(
     end
 
     // Blink 1 Hz para displays
-    blink_d = blink_q;
     if (tick_blink_i) blink_d = ~blink_q;
   end
 
   // ============ Señales a FSM ============
-  // ¿La selección manual de 2ª carta sería válida?
+
+  // ¿2ª manual válida?
   assign manual_pick2_valid_o =
       (st_q[hi_q] == CARD_DOWN) &&      // solo DOWN
       (a_idx_q != 5'd31) &&             // debe existir 1ª carta
-      (hi_q != a_idx_q[3:0]);           // distinta a la 1ª carta
+      (hi_q != a_idx_q[3:0]);           // distinta a la 1ª
 
-  // Predicción de match para gating de transiciones
+  // Predicción de match para gating/transiciones (incluye auto–PAR)
   logic [3:0] temp_second_idx; logic valid_match_check;
   always_comb begin
-    temp_second_idx = 4'hF; valid_match_check = 1'b0;
+    temp_second_idx   = 4'hF; 
+    valid_match_check = 1'b0;
+
     if (select_second_card_i && st_q[hi_q]==CARD_DOWN && hi_q < N_CARDS) begin
-      temp_second_idx = hi_q; valid_match_check = 1'b1;
+      temp_second_idx   = hi_q; 
+      valid_match_check = 1'b1;
     end else if (auto_select_second_i && pick2_temp != 4'hF && pick2_temp < N_CARDS) begin
-      temp_second_idx = pick2_temp; valid_match_check = 1'b1;
+      temp_second_idx   = pick2_temp; 
+      valid_match_check = 1'b1;
+    end else if (auto_select_pair_i && pair_valid) begin
+      temp_second_idx   = pair_p2;     // 2ª del par
+      valid_match_check = 1'b1;
     end
   end
+
   assign cards_match_o = (valid_match_check && a_idx_q != 5'd31 && a_idx_q < N_CARDS) ?
-                         (sid_q[a_idx_q[3:0]] == sid_q[temp_second_idx]) : 1'b0;
+                         (sid_q[a_idx_q[3:0]] == sid_q[temp_second_idx]) :
+                         // Para el caso de auto–PAR, a_idx_q aún podría ser 31 al comienzo del ciclo;
+                         // entonces comparamos directamente pair_p1 vs pair_p2.
+                         (auto_select_pair_i && pair_valid ? (sid_q[pair_p1] == sid_q[pair_p2]) : 1'b0);
 
   assign pause_done_o      = (pause_cnt_q == 8'd1) && tick_fast_i;
   assign match_happened_o  = match_this_cycle;
 
-  // Auto-picks válidos
-  assign auto_pick1_valid_o = (pick_down_excl(rnd4_i, 1'b0, 4'h0) != 4'hF);
-  assign auto_pick2_valid_o = (pick_down_excl(rnd_captured_q, 1'b1, a_idx_q[3:0]) != 4'hF);  // *** CAMBIO: usa rnd_captured_q ***
+  // Auto-picks válidos (flujos escalonados)
+  assign auto_pick1_valid_o = (pick_down_excl(rnda, 1'b0, 4'h0) != 4'hF);
+  assign auto_pick2_valid_o = (pick_down_excl(rnd_captured_q, 1'b1, a_idx_q[3:0]) != 4'hF);
 
   // ============ Salidas del juego ============
   generate genvar g;
