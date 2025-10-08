@@ -1,0 +1,17 @@
+transcript on
+if {[file exists rtl_work]} {
+	vdel -lib rtl_work -all
+}
+vlib rtl_work
+vmap work rtl_work
+
+vlog -sv -work work +incdir+C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025 {C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/contador_parametrizable.sv}
+
+vlog -sv -work work +incdir+C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025 {C:/Users/snipe/OneDrive/Desktop/FGonzalez_JZheng_digital_design_lab_2025/testbench_contador_parametrizable.sv}
+
+vsim -t 1ps -L altera_ver -L lpm_ver -L sgate_ver -L altera_mf_ver -L altera_lnsim_ver -L cyclonev_ver -L cyclonev_hssi_ver -L cyclonev_pcie_hip_ver -L rtl_work -L work -voptargs="+acc"  testbench_contador_parametrizable
+
+add wave *
+view structure
+view signals
+run -all
