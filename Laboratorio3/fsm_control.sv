@@ -18,7 +18,7 @@ module fsm_control(
   output logic        select_second_card_o,
   output logic        auto_select_first_o,    // (se mantiene para flujo manual S_ONE)
   output logic        auto_select_second_o,   // (se mantiene para flujo manual S_ONE)
-  output logic        auto_select_pair_o,     // <<< NUEVO: auto–par en el mismo ciclo
+  output logic        auto_select_pair_o,     
   output logic        match_found_o,
   output logic        start_pause_o,
   output logic        end_turn_o,
@@ -98,7 +98,7 @@ module fsm_control(
     select_second_card_o = 1'b0;
     auto_select_first_o  = 1'b0;
     auto_select_second_o = 1'b0;
-    auto_select_pair_o   = 1'b0;   // <<< NUEVO
+    auto_select_pair_o   = 1'b0; 
     match_found_o        = 1'b0;
     start_pause_o        = 1'b0;
     end_turn_o           = 1'b0;

@@ -26,7 +26,7 @@ module game_datapath #(
   input  logic                 btn_next_i,
   input  logic                 tick_fast_i,
   input  logic                 tick_blink_i,
-  input  logic [7:0]           rnd8_i,                // <<< NUEVO (antes rnd4_i)
+  input  logic [7:0]           rnd8_i,                
   input  logic [3:0]           layout [N_CARDS-1:0],
 
   // Salidas a FSM
