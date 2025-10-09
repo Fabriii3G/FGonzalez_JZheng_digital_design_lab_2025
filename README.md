@@ -1,3 +1,3 @@
-# Laboratorio 1. Taller de diseño digital
+# Laboratorios: Taller de diseño digital
 1. Fabricio González Cerdas
 2. Jian Zheng Wu
